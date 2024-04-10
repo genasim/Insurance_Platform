@@ -1,0 +1,38 @@
+#===========================================
+#       Copy this file in utils/.conf
+#===========================================
+
+# Absolute path to the project
+BASE=
+# Name of the project
+PROJECT=
+
+# the application OS user in the containers
+APPUSR=appusr
+# the application OS group in the containers
+APPGRP=appgrp
+
+
+# Path to the PROJECT
+PROJECT_DIR=${BASE}/${PROJECT}
+
+# Docker user's home directory
+HOME_DIR=/home/${APPUSR}
+# Path for the PROJECT within the Docker container
+HOME_PROJECT_DIR=${HOME_DIR}/${PROJECT}
+
+
+# Port on which the ins_platform service should be exposed
+WUI_PORT=4000
+# Container image name of the web UI docker container
+WUI_CONTAINER_IMAGE=ins_platform-wui
+# Container instance name of the web UI docker container
+WUI_CONTAINER_NAME=ins_platform-wui-con
+
+
+# Port on which the gmk-wui service should be exposed
+BACKEND_PORT=4000
+# Container image name of the web UI docker container
+BACKEND_CONTAINER_IMAGE=ins_platform-backend
+# Container instance name of the web UI docker container
+BACKEND_CONTAINER_NAME=ins_platform-backend-con

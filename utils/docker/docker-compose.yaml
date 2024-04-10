@@ -1,0 +1,43 @@
+services:
+  wui:
+    env_file:
+      - ../.conf
+    image: ${WUI_CONTAINER_IMAGE}
+    container_name: ${WUI_CONTAINER_NAME}
+    ports:
+      - ${WUI_PORT}:5173  # Default Vite port
+    build:
+      context: ../..
+      dockerfile: ./utils/docker/Dockerfile-frontend
+      args:
+        - UID=${UID}
+        - GID=${GID}
+        - APPUSR=${APPUSR}
+        - APPGRP=${APPGRP}
+        - HOME_DIR=${HOME_DIR}
+        - HOME_PROJECT_DIR=${HOME_PROJECT_DIR}
+    volumes:
+      - ${WUI_DIR}:${HOME_PROJECT_DIR}
+    command: ["bash", "${HOME_PROJECT_DIR}/scripts/start.sh"]
+    networks:
+      - local_dev_network
+
+  # backend:
+  #   env_file:
+  #     - ../.conf
+  #   image: ${BACKEND_CONTAINER_IMAGE}
+  #   container_name: ${BACKEND_CONTAINER_NAME}
+  #   ports:
+  #     - ${BACKEND_PORT}:${BACKEND_PORT}
+  #   build:
+  #     context: ../..
+  #     dockerfile: ./utils/docker/Dockerfile-backend
+  #   volumes:
+  #     - ${BACKEND_DIR}:${HOME_PROJECT_DIR}
+  #   command: ["bash", "${HOME_PROJECT_DIR}/scripts/start.sh"]
+  #   networks:
+  #     - local_dev_network
+
+networks:
+  local_dev_network:
+    driver: bridge
