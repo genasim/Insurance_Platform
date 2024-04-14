@@ -1,43 +1,40 @@
-import React from 'react'
-import Home from './Home'
-import ClientDashboard from './client/Dashboard'
-import Auth from './Auth'
-import ExpertDashboard from './backoffice/Dashboard'
-import ClaimSubmission from './client/ClaimSubmission'
-import PoliciesPayment from './backoffice/PoliciesPayment'
-import Claims from './backoffice/Claims'
-import ClaimsPayment from './backoffice/ClaimsPayment'
-import Policies from './backoffice/Policies'
-import UserManager from './admin/UserManager'
-import DocManager from './admin/DocManager'
+import { RouteObject } from "react-router-dom";
+import Auth from "./Auth";
+import Home from "./Home";
+import DocManager from "./admin/DocManager";
+import UserManager from "./admin/UserManager";
+import Claims from "./backoffice/Claims";
+import ClaimsPayment from "./backoffice/ClaimsPayment";
+import ExpertDashboard from "./backoffice/Dashboard";
+import Policies from "./backoffice/Policies";
+import PoliciesPayment from "./backoffice/PoliciesPayment";
+import ClaimSubmission from "./client/ClaimSubmission";
+import ClientDashboard from "./client/Dashboard";
 
-interface Page {
-  element: React.FC
-  path: string
+interface Page extends Required<Pick<RouteObject, "Component" | "path">> {
   title: string
 }
 
 export const unprotected = [
-  { element: Home, path: '/', title: 'Home' },
-  { element: Auth, path: '/auth', title: 'Auth' },
-] as readonly Page[]
+  { Component: Home, path: "/", title: "Home" },
+  { Component: Auth, path: "/auth", title: "Auth" },
+] as readonly Page[];
 
 export const client = [
-  { element: ClientDashboard, path: '/dashboard', title: 'Dashboard' },
-  { element: PoliciesPayment, path: '/policies', title: 'Notifications' },
-  { element: ClaimSubmission, path: '/claims', title: 'Claims' },
-] as readonly Page[]
+  { Component: ClientDashboard, path: "", title: "Dashboard" },
+  { Component: PoliciesPayment, path: "policies", title: "Buy Policy" },
+  { Component: ClaimSubmission, path: "claims", title: "Submit Claim" },
+] as readonly Page[];
 
-export const expert = [
-  { element: ExpertDashboard, path: '/dashboard', title: 'Dashboard' },
-  { element: Policies, path: '/policies', title: 'Policies' },
-  { element: PoliciesPayment, path: '/policies/payments', title: 'Policy Payments' },
-  { element: Claims, path: '/claims', title: 'Claims' },
-  { element: ClaimsPayment, path: '/claims/payments', title: 'Claim Payments' },
-] as readonly Page[]
+export const backoffice = [
+  { Component: ExpertDashboard, path: "", title: "Dashboard" },
+  { Component: Policies, path: "policies", title: "Policies" },
+  { Component: PoliciesPayment, path: "policies/payments", title: "Policy Payments" },
+  { Component: Claims, path: "claims", title: "Claims" },
+  { Component: ClaimsPayment, path: "claims/payments", title: "Claim Payments" },
+] as readonly Page[];
 
 export const admin = [
-  { element: UserManager, path: '/user-management', title: 'Manage Users' },
-  { element: DocManager, path: '/document-management', title: 'Manage Documents' },
-  
-] as readonly Page[]
+  { Component: UserManager, path: "user-management", title: "Manage users" },
+  { Component: DocManager, path: "document-management", title: "Manage docs" },
+] as readonly Page[];
