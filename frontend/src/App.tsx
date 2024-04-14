@@ -1,27 +1,12 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import { admin, backoffice, client, unprotected } from "./pages";
-
-const router = createBrowserRouter([
-  ...unprotected,
-  {
-    path: "/client",
-    children: [...client],
-  },
-  {
-    path: "/backoffice",
-    children: [...backoffice],
-  },
-  {
-    path: "/admin",
-    children: [...admin],
-  },
-]);
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <Navbar />
+      <Outlet />
     </>
   );
 }
