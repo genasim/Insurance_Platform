@@ -11,30 +11,47 @@ import PoliciesPayment from "./backoffice/PoliciesPayment";
 import ClaimSubmission from "./client/ClaimSubmission";
 import ClientDashboard from "./client/Dashboard";
 
-interface Page extends Required<Pick<RouteObject, "Component" | "path">> {
-  title: string
-}
+type PageGroups = "unprotected" | "client" | "backoffice" | "admin";
 
-export const unprotected = [
-  { Component: Home, path: "/", title: "Home" },
-  { Component: Auth, path: "/auth", title: "Auth" },
-] as readonly Page[];
+type Page = Required<Pick<RouteObject, "Component" | "path">> & {
+  title: string;
+};
 
-export const client = [
-  { Component: ClientDashboard, path: "", title: "Dashboard" },
-  { Component: PoliciesPayment, path: "policies", title: "Buy Policy" },
-  { Component: ClaimSubmission, path: "claims", title: "Submit Claim" },
-] as readonly Page[];
+type Pages = { [key in PageGroups]: readonly Page[] };
 
-export const backoffice = [
-  { Component: ExpertDashboard, path: "", title: "Dashboard" },
-  { Component: Policies, path: "policies", title: "Policies" },
-  { Component: PoliciesPayment, path: "policies/payments", title: "Policy Payments" },
-  { Component: Claims, path: "claims", title: "Claims" },
-  { Component: ClaimsPayment, path: "claims/payments", title: "Claim Payments" },
-] as readonly Page[];
+export const pages: Pages = {
+  unprotected: [
+    { Component: Home, path: "/", title: "Home" },
+    { Component: Auth, path: "/auth", title: "Auth" },
+  ],
+  client: [
+    { Component: ClientDashboard, path: "", title: "Dashboard" },
+    { Component: PoliciesPayment, path: "policies", title: "Buy Policy" },
+    { Component: ClaimSubmission, path: "claims", title: "Submit Claim" },
+  ],
+  backoffice: [
+    { Component: ExpertDashboard, path: "", title: "Dashboard" },
+    { Component: Policies, path: "policies", title: "Policies" },
+    {
+      Component: PoliciesPayment,
+      path: "policies/payments",
+      title: "Policy Payments",
+    },
+    { Component: Claims, path: "claims", title: "Claims" },
+    {
+      Component: ClaimsPayment,
+      path: "claims/payments",
+      title: "Claim Payments",
+    },
+  ],
+  admin: [
+    { Component: UserManager, path: "user-management", title: "Manage users" },
+    {
+      Component: DocManager,
+      path: "document-management",
+      title: "Manage docs",
+    },
+  ],
+};
 
-export const admin = [
-  { Component: UserManager, path: "user-management", title: "Manage users" },
-  { Component: DocManager, path: "document-management", title: "Manage docs" },
-] as readonly Page[];
+export default pages

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { admin, backoffice, client, unprotected } from "../pages";
+import pages from "../pages";
 
 interface NavbarProps extends React.HTMLAttributes<HTMLElement> {}
 
@@ -23,27 +23,27 @@ const Navbar: React.FC<NavbarProps> = (props) => {
       }}
       {...rest}
     >
-      {unprotected.map((page) => (
+      {pages.unprotected.map((page) => (
         <Link  key={page.path} to={page.path}>
           {page.title}
         </Link>
       ))}
       <ul>
-        {client.map((page) => (
+        {pages.client.map((page) => (
           <li key={page.path}>
             <Link to={`/client/${page.path}`}>{page.title}</Link>
           </li>
         ))}
       </ul>
       <ul>
-        {backoffice.map((page) => (
+        {pages.backoffice.map((page) => (
           <li key={page.path}>
             <Link to={`/backoffice/${page.path}`}>{page.title}</Link>
           </li>
         ))}
       </ul>{" "}
       <ul>
-        {admin.map((page) => (
+        {pages.admin.map((page) => (
           <li key={page.path}>
             <Link to={`/admin/${page.path}`}>{page.title}</Link>
           </li>

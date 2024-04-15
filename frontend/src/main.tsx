@@ -3,25 +3,28 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
-import { admin, backoffice, client, unprotected } from "./pages/index.ts";
+import pages from "./pages/index.ts";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      ...unprotected,
+      {
+        path: "/",
+        children: [...pages.unprotected]
+      },
       {
         path: "/client",
-        children: [...client],
+        children: [...pages.client],
       },
       {
         path: "/backoffice",
-        children: [...backoffice],
+        children: [...pages.backoffice],
       },
       {
         path: "/admin",
-        children: [...admin],
+        children: [...pages.admin],
       },
     ],
   },
