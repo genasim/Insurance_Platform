@@ -1,55 +1,40 @@
-import { Link } from "react-router-dom";
-import pages from "../pages";
+import { useNavigate } from "react-router-dom";
+import { Dropdown, Menu } from "semantic-ui-react";
+import pages, { PageGroups } from "../pages";
 
-interface NavbarProps extends React.HTMLAttributes<HTMLElement> {}
+const Navbar: React.FC = () => {
+  const navigate = useNavigate();
 
-const Navbar: React.FC<NavbarProps> = (props) => {
-  const { ...rest } = props;
+  const handleItemClick = (
+    group: PageGroups,
+    path: string
+  ): void => {
+    const to: string =
+      group !== "unprotected" ? `/${group}/${path}` : `${path}`;
+    navigate(to);
+  };
 
   return (
-    <nav
-      style={{
-        width: "100vw",
-        position: "fixed",
-        top: "0",
-        left: "0",
-        height: "auto",
-        background: "white",
-        display: "flex",
-        gap: "2rem",
-        padding: "0 1rem",
-        alignItems: "start",
-        justifyContent: "center",
-      }}
-      {...rest}
-    >
-      {pages.unprotected.map((page) => (
-        <Link  key={page.path} to={page.path}>
-          {page.title}
-        </Link>
+    <Menu>
+      {Object.entries(pages).map(([key, value]) => (
+        <Dropdown
+          item
+          text={key.charAt(0).toUpperCase() + key.slice(1)}
+          key={key}
+        >
+          <Dropdown.Menu>
+            {value.map((page) => (
+              <Dropdown.Item
+                key={page.path}
+                onClick={_ => handleItemClick(key as PageGroups, page.path)}
+              >
+                {page.title}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       ))}
-      <ul>
-        {pages.client.map((page) => (
-          <li key={page.path}>
-            <Link to={`/client/${page.path}`}>{page.title}</Link>
-          </li>
-        ))}
-      </ul>
-      <ul>
-        {pages.backoffice.map((page) => (
-          <li key={page.path}>
-            <Link to={`/backoffice/${page.path}`}>{page.title}</Link>
-          </li>
-        ))}
-      </ul>{" "}
-      <ul>
-        {pages.admin.map((page) => (
-          <li key={page.path}>
-            <Link to={`/admin/${page.path}`}>{page.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    </Menu>
   );
 };
 

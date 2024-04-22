@@ -11,7 +11,7 @@ import PoliciesPayment from "./backoffice/PoliciesPayment";
 import ClaimSubmission from "./client/ClaimSubmission";
 import ClientDashboard from "./client/Dashboard";
 
-type PageGroups = "unprotected" | "client" | "backoffice" | "admin";
+export type PageGroups = "unprotected" | "client" | "backoffice" | "admin";
 
 type Page = Required<Pick<RouteObject, "Component" | "path">> & {
   title: string;
