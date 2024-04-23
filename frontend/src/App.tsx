@@ -2,11 +2,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "fomantic-ui-css/semantic.css";
 import pages from "./pages/index.ts";
 import PageLayout from "./layout/index.tsx";
+import NotFoundPage from "./pages/404.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <PageLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
