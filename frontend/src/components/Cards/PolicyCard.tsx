@@ -8,7 +8,7 @@ import {
   Image,
   Segment,
 } from "semantic-ui-react";
-import { Policy } from "../models/policy";
+import { Policy } from "../../models/policy";
 
 export interface PolicyCardProps {
   policy: Policy

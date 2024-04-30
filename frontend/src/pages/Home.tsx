@@ -6,7 +6,7 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import PolicyCard from "../components/PolicyCard";
+import PolicyCard from "../components/Cards/PolicyCard";
 import { mock_policies } from "../models/policy";
 
 interface HomeProps extends React.HTMLAttributes<HTMLDivElement> {}
