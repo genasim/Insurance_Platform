@@ -18,13 +18,13 @@ export const mock_policies = [
     imgSrc: "/car-insurance.svg",
   },
   {
-    id: "1",
+    id: "2",
     desctiption: ["Buy policy", "Fast delivery"],
     header: "Car insurance",
     imgSrc: "/medical-insurance.svg",
   },
   {
-    id: "1",
+    id: "3",
     desctiption: ["Buy policy", "Fast delivery"],
     header: "Car insurance",
     imgSrc: "/medical-insurance.svg",
