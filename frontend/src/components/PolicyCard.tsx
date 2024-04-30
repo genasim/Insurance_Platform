@@ -8,25 +8,22 @@ import {
   Image,
   Segment,
 } from "semantic-ui-react";
+import { Policy } from "../models/policy";
 
-interface PolicyCardProps {
-  imgSrc: string;
-  header: string;
-  desctiption: string[];
+export interface PolicyCardProps {
+  policy: Policy
   onButtonClick?: () => void;
 }
 
 const PolicyCard: FC<PolicyCardProps> = ({
-  header,
-  desctiption,
-  imgSrc,
+  policy,
   onButtonClick,
 }) => {
   return (
     <Card raised style={{ borderRadius: "2rem" }}>
       <Grid>
         <Grid.Column width={8}>
-          <Image src={imgSrc} style={{ borderRadius: "2rem 0 0 2rem" }} />
+          <Image className="container segment basic very padded" src={policy.imgSrc} style={{ borderRadius: "2rem 0 0 2rem" }} />
         </Grid.Column>
         <Grid.Column stretched width={8}>
           <Segment
@@ -35,20 +32,22 @@ const PolicyCard: FC<PolicyCardProps> = ({
             style={{ display: "flex", flexDirection: "column" }}
           >
             <Header color="blue" size="large">
-              {header}
+              {policy.header}
             </Header>
             <div
               className="container segment basic very padded"
               style={{ flexGrow: 1 }}
             >
-              {desctiption.map((descr) => (
+              {policy.desctiption.map((descr) => (
                 <div key={descr}>
+                  <span className="ui large sub margin text">
                   <i className="check circle outline icon"></i>
                   {descr}
+                  </span>
                 </div>
               ))}
             </div>
-            <Button compact circular fluid primary onClick={onButtonClick}>
+            <Button size="medium" compact circular fluid primary onClick={onButtonClick}>
               <Icon name="shopping cart" />
               Buy policy
             </Button>
