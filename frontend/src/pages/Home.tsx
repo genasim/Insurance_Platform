@@ -1,47 +1,29 @@
 import React from "react";
-import {
-  CardGroup,
-  Container,
-  Divider,
-  Header,
-  Segment,
-} from "semantic-ui-react";
-import PolicyCard from "../components/Cards/PolicyCard";
-import { mock_policies } from "../models/policy";
+import { Container } from "react-bootstrap";
 import HomeCard from "../components/Cards/HomeCard";
+import Policy from "../components/Policy";
+import Title from "../components/Title";
 import { homeCards } from "../models/home-card";
+import { mock_policies } from "../models/policy";
 
 interface HomeProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const Home: React.FC<HomeProps> = () => {
   return (
     <Container>
-      <Container fluid textAlign="center">
-        <Segment basic padded="very">
-          <Header as="span" className="ui huge text">
-            BUY AN ONLINE INSURENCE TODAY!
-          </Header>
-          <Divider hidden />
-          <Header.Subheader as="span" className="ui center massive text">
-            Reliable premium insurance experience
-          </Header.Subheader>
-        </Segment>
-      </Container>
-      <Divider section hidden />
-      <CardGroup centered stackable itemsPerRow={2}>
-        {mock_policies.map((policy) => (
-          <PolicyCard key={policy.id} policy={policy} />
+      <Title
+        title="buy an online insurence today!"
+        meta="Reliable premium insurance experience"
+      />
+      <div className="p-5 mt-5">
+        <Policy.List policies={mock_policies} />
+      </div>
+      <Title title="why us" />
+      <div className="my-5 d-flex flex-row flex-wrap gap-5 justify-content-center">
+        {homeCards.map((card) => (
+          <HomeCard key={card.id} card={card} />
         ))}
-      </CardGroup>
-      <Divider hidden section />
-      <Divider hidden section />
-      <Header textAlign="center">
-        <span className="ui huge text">Why us</span>
-      </Header>
-      <Divider hidden />
-      <CardGroup centered stackable >
-        {homeCards.map(card => <HomeCard key={card.id} card={card} />)}
-      </CardGroup>
+      </div>
     </Container>
   );
 };
