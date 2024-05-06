@@ -1,10 +1,10 @@
 import React from "react";
-import { CardGroup, Container } from "react-bootstrap";
-import Policy from "../components/Policy";
-import { mock_policies } from "../models/policy";
-import Title from "../components/Title";
+import { Container } from "react-bootstrap";
 import HomeCard from "../components/Cards/HomeCard";
+import Policy from "../components/Policy";
+import Title from "../components/Title";
 import { homeCards } from "../models/home-card";
+import { mock_policies } from "../models/policy";
 
 interface HomeProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -19,11 +19,11 @@ const Home: React.FC<HomeProps> = () => {
         <Policy.List policies={mock_policies} />
       </div>
       <Title title="why us" />
-      <CardGroup className="my-5 d-flex flex-row flex-wrap gap-5 justify-content-center">
+      <div className="my-5 d-flex flex-row flex-wrap gap-5 justify-content-center">
         {homeCards.map((card) => (
           <HomeCard key={card.id} card={card} />
         ))}
-      </CardGroup>
+      </div>
     </Container>
   );
 };
