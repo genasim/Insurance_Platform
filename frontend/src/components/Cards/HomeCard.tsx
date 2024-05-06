@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, Image } from "semantic-ui-react";
+import { Card } from "react-bootstrap";
 import { HomeCard as Type } from "../../models/home-card";
 
 interface HomeCardProps {
@@ -8,17 +8,15 @@ interface HomeCardProps {
 
 const HomeCard: FC<HomeCardProps> = ({ card }) => {
   return (
-    <Card raised style={{ borderRadius: "2rem" }}>
-      <Card.Content textAlign="center">
-        <Image rounded size="small" src={card.imageUrl} />
-      </Card.Content>
-      <Card.Header
-        textAlign="center"
-        as="span"
-        className="ui segment basic big text"
-      >
-        {card.title}
-      </Card.Header>
+    <Card className="rounded-5 shadow border">
+      <Card.Body className="d-flex flex-column justify-content-center align-items-center">
+        <Card.Img
+          src={card.imageUrl}
+          style={{ width: "15rem" }}
+          className="m-1"
+        />
+        <Card.Text className="fs-1 my-4">{card.title}</Card.Text>
+      </Card.Body>
     </Card>
   );
 };
