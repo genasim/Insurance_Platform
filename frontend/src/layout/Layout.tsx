@@ -1,12 +1,14 @@
-import { FC } from "react";
-import { Outlet } from "react-router-dom";
+import {FC} from "react";
+import {Outlet} from "react-router-dom";
+import Navbar from "./Navbar";
 
 const PageLayout: FC = () => {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+    return (
+        <>
+            <Navbar/>
+            <Outlet/>
+        </>
+    );
 };
 
 export default PageLayout;
