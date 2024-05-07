@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import Logo from '../shared/components/Logo';
 
 
 const Navbar = () => {
@@ -7,10 +8,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar navbar-expand-md navbar-light">
                 <div className="container-xxl">
-                    <a href="#" className="navbar-brand">
-                        <span className="fw-bold text-secondary">
-                            <i className="bi bi-car-front mx-2"></i>Safe Insure</span>
-                    </a>
+                    <Logo />
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#main-nav"
                             aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
