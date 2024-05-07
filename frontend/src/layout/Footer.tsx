@@ -17,7 +17,10 @@ const insuranceItems = [
 
 const Footer: FC = () => {
   return (
-    <footer className="mt-2 bg-primary-subtle text-secondary pt-5 pb-2 rounded-top-pill">
+    <footer
+      style={{ borderRadius: "8em 8em 0 0" }}
+      className="d-none d-lg-block w-100 mt-2 bg-primary-subtle text-secondary pt-5 pb-2"
+    >
       <Container>
         <Row>
           <Col xs lg="3">
@@ -39,7 +42,7 @@ const Footer: FC = () => {
           </Col>
           <Col>
             <h3 className="fs-3 mb-4">Insurances</h3>
-            <InsurancesGrid items={insuranceItems} itemsPerCol={3} />
+            <InsurancesGrid items={insuranceItems} cols={3} />
           </Col>
         </Row>
       </Container>

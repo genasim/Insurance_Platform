@@ -1,19 +1,21 @@
 import { FC } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 
 interface InsuranceGridProps {
   items: string[];
-  itemsPerCol: number;
+  cols: number;
 }
 
-const InsurancesGrid: FC<InsuranceGridProps> = ({ items, itemsPerCol }) => {
+const InsurancesGrid: FC<InsuranceGridProps> = ({ items, cols }) => {
+  const itemsPerColumn = Math.ceil(items.length / cols);
+
   const chunk = (arr: string[], size: number) =>
     Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
       arr.slice(i * size, i * size + size)
     );
 
-  const itemGroups = chunk(items, itemsPerCol);
+  const itemGroups = chunk(items, itemsPerColumn);
 
   return (
     <Row>
