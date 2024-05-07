@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Policy from ".";
+import Policy from "./PolicyFacade";
 import { Policy as PolicyModel } from "../../models/policy";
 
 export interface PolicyListProps {

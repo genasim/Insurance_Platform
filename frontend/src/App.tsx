@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import pages from "./pages/index.ts";
-import PageLayout from "./layout/index.tsx";
-import NotFoundPage from "./pages/404.tsx";
+import pages from "./pages/index";
+import PageLayout from "./layout/Layout";
+import NotFoundPage from "./pages/404";
 
 const router = createBrowserRouter([
   {

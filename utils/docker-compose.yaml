@@ -1,0 +1,32 @@
+services:
+  wui:
+    image: node:20-alpine3.19
+    container_name: safeinsure-wui
+    ports:
+      - 4000:5173  # Default Vite port
+    volumes:
+      - ../frontend:/opt/safeins-frontend
+      - ../utils/scripts/frontend:/opt/safeins-utils/scripts
+    command: ["sh", "/opt/safeins-utils/scripts/start.sh"]
+    networks:
+      - local_dev_network
+
+  # backend:
+  #   env_file:
+  #     - ../.conf
+  #   image: ${BACKEND_CONTAINER_IMAGE}
+  #   container_name: ${BACKEND_CONTAINER_NAME}
+  #   ports:
+  #     - ${BACKEND_PORT}:${BACKEND_PORT}
+  #   build:
+  #     context: ../..
+  #     dockerfile: ./utils/docker/Dockerfile-backend
+  #   volumes:
+  #     - ${BACKEND_DIR}:${HOME_PROJECT_DIR}
+  #   command: ["bash", "${HOME_PROJECT_DIR}/scripts/start.sh"]
+  #   networks:
+  #     - local_dev_network
+
+networks:
+  local_dev_network:
+    driver: bridge
