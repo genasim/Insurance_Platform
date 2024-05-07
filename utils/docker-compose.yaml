@@ -5,8 +5,9 @@ services:
     ports:
       - 4000:5173  # Default Vite port
     volumes:
-      - ../../frontend:/opt/safeins-frontend
-    command: ["sh", "/opt/safeins-frontend/scripts/start.sh"]
+      - ../frontend:/opt/safeins-frontend
+      - ../utils/scripts/frontend:/opt/safeins-utils/scripts
+    command: ["sh", "/opt/safeins-utils/scripts/start.sh"]
     networks:
       - local_dev_network
 
