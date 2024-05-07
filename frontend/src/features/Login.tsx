@@ -1,7 +1,45 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 
-const Login = () => {
+interface LoginProps {
+
+}
+
+interface LoginState {
+    loginEmail: string | undefined,
+    loginPassword: string | undefined,
+    registerEmail: string | undefined,
+    password: string | undefined,
+    confirmPassword: string | undefined,
+    fullName: string | undefined,
+    idNumber: string | undefined,
+}
+
+const Login: React.FC<LoginProps> = () => {
+    const [state, setState] = useState<LoginState>({
+        loginEmail: undefined,
+        loginPassword: undefined,
+        registerEmail: undefined,
+        password: undefined,
+        confirmPassword: undefined,
+        fullName: undefined,
+        idNumber: undefined,
+    });
+
+    const onLogin = () => {
+        //ToDo login api
+        //ToDo validate credentials
+        //ToDo find user
+        sessionStorage.setItem('token', "");
+    }
+
+    const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value
+        });
+    }
+
     return (
         <div className="container-md align-content-center mt-5">
             <div className="row justify-content-center">
@@ -27,17 +65,20 @@ const Login = () => {
                                 <div className="mb-4 input-group">
                                              <span className="input-group-text">
                                                  <i className="bi bi-envelope"></i></span>
-                                    <input type="email" className="form-control" id="login-email"
+                                    <input type="email" className="form-control" id="login-email" name="loginEmail"
+                                           onChange={handleOnChange}
                                            placeholder="e.g. mario@example.com"/>
                                 </div>
                                 <label htmlFor="login-password" className="form-label">Password: </label>
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-lock"></i></span>
                                     <input type="password" className="form-control" id="login-password"
+                                           name="loginPassword"
+                                           onChange={handleOnChange}
                                            placeholder="****"/>
                                 </div>
                                 <div className="mb-4 text-center">
-                                    <button type="submit" className="btn btn-primary">Login</button>
+                                    <button type="submit" className="btn btn-primary" onClick={onLogin}>Login</button>
                                 </div>
                             </form>
                         </div>
@@ -48,12 +89,16 @@ const Login = () => {
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-envelope"></i></span>
                                     <input type="email" className="form-control" id="register-email"
+                                           name="registerEmail"
+                                           onChange={handleOnChange}
                                            placeholder="e.g. mario@example.com"/>
                                 </div>
                                 <label htmlFor="register-password" className="form-label">Password: </label>
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-lock"></i></span>
                                     <input type="password" className="form-control" id="register-password"
+                                           name="registerPassword"
+                                           onChange={handleOnChange}
                                            placeholder="****"/>
                                 </div>
                                 <label htmlFor="register-password-confirm" className="form-label">Confirm
@@ -61,18 +106,24 @@ const Login = () => {
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-lock"></i></span>
                                     <input type="password" className="form-control" id="register-password-confirm"
+                                           name="registerPasswordConfirm"
+                                           onChange={handleOnChange}
                                            placeholder="****"/>
                                 </div>
                                 <label htmlFor="register-full-name" className="form-label">Full name: </label>
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-person"></i></span>
                                     <input type="text" className="form-control" id="register-full-name"
+                                           name="registerFullName"
+                                           onChange={handleOnChange}
                                            placeholder="Mario Galileo"/>
                                 </div>
                                 <label htmlFor="register-id-number" className="form-label">Id number: </label>
                                 <div className="mb-4 input-group">
                                     <span className="input-group-text"><i className="bi bi-person"></i></span>
                                     <input type="text" className="form-control" id="register-id-number"
+                                           name="registerIdNumber"
+                                           onChange={handleOnChange}
                                            placeholder="7585951025"/>
                                 </div>
                                 <div className="mb-4 text-center">
