@@ -1,13 +1,15 @@
-#!/bin/bash
+#!bin/sh
 
+echo "Node version:"
 node -v
+echo "NPM version:"
 npm -v
+echo ""
 
-cd ${HOME_PROJECT_DIR} || exit 1
-git config --global --add safe.directory $HOME_PROJECT_DIR
+cd /opt/safeins-frontend || exit 1
 
-echo "  -> Running: npm install"
+echo "-> Running: npm install"
 npm install
 
-echo "  -> Running: npm start"
+echo "-> Running: npm start"
 npm run dev

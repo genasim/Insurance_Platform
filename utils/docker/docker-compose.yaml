@@ -1,24 +1,12 @@
 services:
   wui:
-    env_file:
-      - ../.conf
-    image: ${WUI_CONTAINER_IMAGE}
-    container_name: ${WUI_CONTAINER_NAME}
+    image: node:20-alpine3.19
+    container_name: safeinsure-wui
     ports:
-      - ${WUI_PORT}:5173  # Default Vite port
-    build:
-      context: ../..
-      dockerfile: ./utils/docker/Dockerfile-frontend
-      args:
-        - UID=${UID}
-        - GID=${GID}
-        - APPUSR=${APPUSR}
-        - APPGRP=${APPGRP}
-        - HOME_DIR=${HOME_DIR}
-        - HOME_PROJECT_DIR=${HOME_PROJECT_DIR}
+      - 4000:5173  # Default Vite port
     volumes:
-      - ${WUI_DIR}:${HOME_PROJECT_DIR}
-    command: ["bash", "${HOME_PROJECT_DIR}/scripts/start.sh"]
+      - ../../frontend:/opt/safeins-frontend
+    command: ["sh", "/opt/safeins-frontend/scripts/start.sh"]
     networks:
       - local_dev_network
 
