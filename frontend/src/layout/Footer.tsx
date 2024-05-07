@@ -1,8 +1,19 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import Logo from "../shared/components/Logo";
 import { Link } from "react-router-dom";
-import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import Logo from "../shared/components/Logo";
+import InsurancesGrid from "./InsuransesGrid";
+
+const insuranceItems = [
+  "Car insurance",
+  "Health insurance",
+  "Life insurance",
+  "Travel insurance",
+  "Home insurance",
+  "Home insurance",
+  "Home insurance",
+  "Home insurance",
+];
 
 const Footer: FC = () => {
   return (
@@ -28,15 +39,7 @@ const Footer: FC = () => {
           </Col>
           <Col>
             <h3 className="fs-3 mb-4">Insurances</h3>
-            <p className="fs-5">
-              <MdOutlineKeyboardDoubleArrowRight /> Car insurance
-            </p>
-            <p className="fs-5">
-              <MdOutlineKeyboardDoubleArrowRight /> Health insurance
-            </p>
-            <p className="fs-5">
-              <MdOutlineKeyboardDoubleArrowRight /> Health insurance
-            </p>
+            <InsurancesGrid items={insuranceItems} itemsPerCol={3} />
           </Col>
         </Row>
       </Container>
