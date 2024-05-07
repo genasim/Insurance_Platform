@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import HomeCard from "../components/Cards/HomeCard";
-import Policy from "../components/Policy";
+import Policy from "../components/Policy/PolicyFacade";
 import Title from "../components/Title";
 import { homeCards } from "../models/home-card";
 import { mock_policies } from "../models/policy";
