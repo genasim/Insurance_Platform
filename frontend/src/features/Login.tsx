@@ -1,5 +1,7 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
+import API from "./ApiClient";
+import {User} from "./User";
 
 interface LoginProps {
 
@@ -26,11 +28,30 @@ const Login: React.FC<LoginProps> = () => {
         idNumber: undefined,
     });
 
-    const onLogin = () => {
-        //ToDo login api
-        //ToDo validate credentials
-        //ToDo find user
-        sessionStorage.setItem('token', "");
+    const handleLogin = (event: FormEvent) => {
+        event.preventDefault();
+        if (!state.loginEmail) {
+            throw new Error("Invalid username or password");
+        }
+
+        API.findByName("users", state.loginEmail)
+            .then((x) => {
+                const user = x.find(x => x.email === state.loginEmail);
+                if (!user) {
+                    throw new Error("Invalid username or password");
+                }
+
+                return user;
+            })
+            .then(user => {
+                if (user.password !== state.loginPassword) {
+                    throw new Error("Invalid username or password");
+                }
+                debugger;
+                sessionStorage.setItem('token', "IM IN");
+            }).catch(err => {
+            alert(err.message);
+        })
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -78,7 +99,9 @@ const Login: React.FC<LoginProps> = () => {
                                            placeholder="****"/>
                                 </div>
                                 <div className="mb-4 text-center">
-                                    <button type="submit" className="btn btn-primary" onClick={onLogin}>Login</button>
+                                    <button type="submit" className="btn btn-primary"
+                                            onClick={handleLogin}>Login
+                                    </button>
                                 </div>
                             </form>
                         </div>
