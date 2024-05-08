@@ -27,21 +27,21 @@ const Footer: FC = () => {
             <div className="mb-4">
               <Logo />
             </div>
-            <p className="fs-5">
+            <p className="fs-6">
               <i className="bi bi-phone-vibrate"></i> +359 88 762 1020
             </p>
-            <p className="fs-5">
+            <p className="fs-6">
               <i className="bi bi-patch-question"></i> inquire@safeinsure.org
             </p>
           </Col>
           <Col xs lg="2">
-            <h3 className="fs-3 mb-4">Site map</h3>
-            <Link to="/" className="text-secondary fs-5 text-decoration-none">
+            <h3 className="fs-4 mb-4">Site map</h3>
+            <Link to="/" className="text-secondary fs-6 text-decoration-none">
               <p>HOME</p>
             </Link>
           </Col>
           <Col>
-            <h3 className="fs-3 mb-4">Insurances</h3>
+            <h3 className="fs-4 mb-4">Insurances</h3>
             <InsurancesGrid items={insuranceItems} cols={3} />
           </Col>
         </Row>
