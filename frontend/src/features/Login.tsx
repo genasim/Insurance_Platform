@@ -15,6 +15,7 @@ interface LoginState {
     confirmPassword: string | undefined,
     fullName: string | undefined,
     idNumber: string | undefined,
+    hasLoginError: boolean
 }
 
 const Login: React.FC<LoginProps> = () => {
@@ -26,12 +27,17 @@ const Login: React.FC<LoginProps> = () => {
         confirmPassword: undefined,
         fullName: undefined,
         idNumber: undefined,
+        hasLoginError: false,
     });
 
     const handleLogin = (event: FormEvent) => {
         event.preventDefault();
-        if (!state.loginEmail) {
-            throw new Error("Invalid username or password");
+        if (!state.loginEmail || !state.loginPassword) {
+            setState({
+                ...state,
+                hasLoginError: true
+            });
+            return;
         }
 
         API.findByName("users", state.loginEmail)
@@ -47,11 +53,18 @@ const Login: React.FC<LoginProps> = () => {
                 if (user.password !== state.loginPassword) {
                     throw new Error("Invalid username or password");
                 }
-                debugger;
+
                 sessionStorage.setItem('token', "IM IN");
-            }).catch(err => {
-            alert(err.message);
-        })
+                setState({
+                    ...state,
+                    hasLoginError: false
+                });
+            }).catch(_ => {
+            setState({
+                ...state,
+                hasLoginError: true
+            });
+        });
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -98,6 +111,8 @@ const Login: React.FC<LoginProps> = () => {
                                            onChange={handleOnChange}
                                            placeholder="****"/>
                                 </div>
+                                {state.hasLoginError &&
+                                    <div className="mb-4 text-center text-danger">Invalid username or password</div>}
                                 <div className="mb-4 text-center">
                                     <button type="submit" className="btn btn-primary"
                                             onClick={handleLogin}>Login
