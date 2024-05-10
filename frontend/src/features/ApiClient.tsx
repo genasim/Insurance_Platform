@@ -4,12 +4,22 @@ import {User} from "./User";
 export class ApiClient {
     constructor(private baseUrl: string) { }
 
-    findById<V extends Identifiable<IdType>>(entity: string, id: IdType): Promise<V>  {
-        return this.fetchData(`${this.baseUrl}/${entity.toLocaleLowerCase()}/${id}`);
+    create<V extends Identifiable<IdType>>(table: string, entity: Omit<V, 'id'>): Promise<V>  {
+        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(entity)
+        });
     }
 
-    findByName(entity: string, name: string): Promise<Array<User>>  {
-        return this.fetchData(`${this.baseUrl}/${entity}`)
+    findById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V>  {
+        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`);
+    }
+
+    findAll(table: string): Promise<Array<User>>  {
+        return this.fetchData(`${this.baseUrl}/${table}`)
     }
 
     private async fetchData<D>(uri: string, options?: RequestInit): Promise<D> {

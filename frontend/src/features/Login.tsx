@@ -1,10 +1,7 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import API from "./ApiClient";
-
-interface LoginProps {
-
-}
+import {UserDto} from "./User";
 
 interface LoginState {
     loginEmail: string | undefined,
@@ -12,23 +9,31 @@ interface LoginState {
     registerEmail: string | undefined,
     registerPassword: string | undefined,
     registerPasswordConfirm: string | undefined,
-    fullName: string | undefined,
-    idNumber: string | undefined,
+    registerFullName: string | undefined,
+    registerIdNumber: string | undefined,
     loginError: string | undefined,
-    registerErrors: string[]
+    registerEmailErrors: string[],
+    registerPasswordErrors: string[],
+    registerFullNameErrors: string[],
+    registerIdNumberErrors: string[],
+    registerError: string | undefined,
 }
 
-const Login: React.FC<LoginProps> = () => {
+const Login: React.FC = () => {
         const [state, setState] = useState<LoginState>({
             loginEmail: undefined,
             loginPassword: undefined,
             registerEmail: undefined,
             registerPassword: undefined,
             registerPasswordConfirm: undefined,
-            fullName: undefined,
-            idNumber: undefined,
+            registerFullName: undefined,
+            registerIdNumber: undefined,
             loginError: undefined,
-            registerErrors: []
+            registerEmailErrors: [],
+            registerPasswordErrors: [],
+            registerFullNameErrors: [],
+            registerIdNumberErrors: [],
+            registerError: undefined
         });
 
         const handleLogin = (event: FormEvent) => {
@@ -41,16 +46,13 @@ const Login: React.FC<LoginProps> = () => {
                 return;
             }
 
-            API.findByName("users", state.loginEmail)
-                .then((x) => {
+            API.findAll("users")
+                .then(x => {
                     const user = x.find(x => x.email === state.loginEmail);
                     if (!user) {
                         throw new Error("Invalid username or password");
                     }
 
-                    return user;
-                })
-                .then(user => {
                     if (user.password !== state.loginPassword) {
                         throw new Error("Invalid username or password");
                     }
@@ -70,82 +72,126 @@ const Login: React.FC<LoginProps> = () => {
 
         const handleRegister = (event: FormEvent) => {
             event.preventDefault();
+            const {
+                emailErrors,
+                fullNameErrors,
+                idNumberErrors,
+                isValid,
+                passwordErrors
+            } = validateRegisterData();
 
+            if (!isValid) {
+                setState({
+                    ...state,
+                    registerEmailErrors: emailErrors,
+                    registerPasswordErrors: passwordErrors,
+                    registerFullNameErrors: fullNameErrors,
+                    registerIdNumberErrors: idNumberErrors,
+                })
+                return;
+            }
 
-            // if (!state.loginEmail || !state.loginPassword) {
-            //     setState({
-            //         ...state,
-            //         // hasLoginError: true
-            //     });
-            //     return;
-            // }
-            //
-            // API.findByName("users", state.loginEmail)
-            //     .then((x) => {
-            //         const user = x.find(x => x.email === state.loginEmail);
-            //         if (!user) {
-            //             throw new Error("Invalid username or password");
-            //         }
-            //
-            //         return user;
-            //     })
-            //     .then(user => {
-            //         if (user.password !== state.loginPassword) {
-            //             throw new Error("Invalid username or password");
-            //         }
-            //
-            //         sessionStorage.setItem('token', "IM IN");
-            //         setState({
-            //             ...state,
-            //             // hasLoginError: false
-            //         });
-            //     }).catch(_ => {
-            //     setState({
-            //         ...state,
-            //         // hasLoginError: true
-            //     });
-            // });
+            API.findAll("users")
+                .then((x) => {
+                    const user = x.find(x => x.email === state.registerEmail);
+                    if (user) {
+                        throw new Error(`User with email ${state.registerEmail} already exists`);
+                    }
+                })
+                .then(() => {
+                    const user: UserDto = {
+                        email: state.registerEmail!,
+                        password: state.registerEmail!,
+                        fullName: state.registerFullName!,
+                        idNumber: state.registerIdNumber!,
+                    }
+                    //ToDo all table names in a single place
+                    return API.create("users", user);
+                }).catch(err => {
+                setState({
+                    ...state,
+                    registerError: err.message
+                });
+            });
         }
 
         useEffect(() => {
-            const currentErrors: string[] = [];
+            const {
+                passwordErrors,
+                emailErrors,
+                idNumberErrors,
+                fullNameErrors
+            } = validateRegisterData();
+
+            setState({
+                ...state,
+                registerEmailErrors: emailErrors,
+                registerPasswordErrors: passwordErrors,
+                registerFullNameErrors: fullNameErrors,
+                registerIdNumberErrors: idNumberErrors,
+            })
+
+        }, [state.registerEmail, state.registerPassword, state.registerPasswordConfirm, state.registerFullName, state.registerIdNumber]);
+
+        function validateRegisterData() {
+            let isValid = true;
+            const emailErrors: string[] = [];
             if (!state.registerEmail) {
-                currentErrors.push("Invalid email address");
+                emailErrors.push("Invalid email address");
+                isValid = false;
             }
 
+            const passwordErrors: string[] = [];
+
             if (state.registerPassword !== state.registerPasswordConfirm) {
-                currentErrors.push("Passwords do not match");
+                passwordErrors.push("Passwords do not match");
+                isValid = false;
             }
 
             if (!state.registerPassword || state.registerPassword.length < 8) {
-                currentErrors.push("Password must be at least 8 characters");
+                passwordErrors.push("Password must be at least 8 characters");
+                isValid = false;
             }
 
-            if (!state.registerPassword || !state.registerPassword.match(/\d+/g)) {
-                currentErrors.push("Password must contain a number");
+            if (!!state.registerPassword && !state.registerPassword.match(/\d+/g)) {
+                passwordErrors.push("Password must contain a number");
+                isValid = false;
             }
 
-            if (!state.registerPassword || state.registerPassword === state.registerPassword.toUpperCase()) {
-                console.error("Password must be at least 8 characters");
-                currentErrors.push("The password must contain a lower case character");
+            if (!!state.registerPassword && state.registerPassword === state.registerPassword.toUpperCase()) {
+                passwordErrors.push("The password must contain a lower case character");
+                isValid = false;
             }
 
-            if (!state.registerPassword || state.registerPassword === state.registerPassword.toLowerCase()) {
-                currentErrors.push("The password must contain an upper case character");
+            if (!!state.registerPassword && state.registerPassword === state.registerPassword.toLowerCase()) {
+                passwordErrors.push("The password must contain an upper case character");
+                isValid = false;
             }
 
-            setState(prevState => ({
-                ...prevState,
-                registerErrors: currentErrors
-            }));
+            if (!!state.registerPassword && !state.registerPassword.match(/[!@#$%^&]/g)) {
+                passwordErrors.push("Password must contain !, @, #, $, %, ^ or &");
+                isValid = false;
+            }
 
-            // hasNoNumberInPassword: false,
-            // hasNoLowercaseCharacterInPassword: false,
-            // hasNoUppercaseCharacterInPassword: false,
-            // hasNoSpecialCharacterInPassword: false,
-            // hasInvalidFullName: false,
-            // hasInvalidIdNumber: false,
-        }, [state.registerEmail, state.registerPassword, state.registerPasswordConfirm, state.fullName, state.idNumber]);
+            const fullNameErrors: string[] = [];
+            if (!state.registerFullName) {
+                fullNameErrors.push("Full name must not be empty");
+                isValid = false;
+            }
+
+            const idNumberErrors: string[] = [];
+            if (!state.registerIdNumber || state.registerIdNumber.length !== 10) {
+                idNumberErrors.push("Id number must be 10 symbols");
+                isValid = false;
+            }
+
+            if (!!state.registerIdNumber && !state.registerIdNumber.match(/\d{10}/g)) {
+                idNumberErrors.push("Id number must be only digits");
+                isValid = false;
+            }
+
+            return {isValid, emailErrors, passwordErrors, fullNameErrors, idNumberErrors};
+        }
 
         const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
             setState(prevState => ({
@@ -211,6 +257,9 @@ const Login: React.FC<LoginProps> = () => {
                                                onChange={handleOnChange}
                                                placeholder="e.g. mario@example.com"/>
                                     </div>
+                                    {state.registerEmailErrors && <ul className="mb-4 text-danger">
+                                        {state.registerEmailErrors.map(e => <li key={e}>{e}</li>)}
+                                    </ul>}
                                     <label htmlFor="register-password" className="form-label">Password: </label>
                                     <div className="mb-4 input-group">
                                         <span className="input-group-text"><i className="bi bi-lock"></i></span>
@@ -228,6 +277,9 @@ const Login: React.FC<LoginProps> = () => {
                                                onChange={handleOnChange}
                                                placeholder="****"/>
                                     </div>
+                                    {state.registerPasswordErrors && <ul className="mb-4 text-danger">
+                                        {state.registerPasswordErrors.map(e => <li key={e}>{e}</li>)}
+                                    </ul>}
                                     <label htmlFor="register-full-name" className="form-label">Full name: </label>
                                     <div className="mb-4 input-group">
                                         <span className="input-group-text"><i className="bi bi-person"></i></span>
@@ -236,6 +288,9 @@ const Login: React.FC<LoginProps> = () => {
                                                onChange={handleOnChange}
                                                placeholder="Mario Galileo"/>
                                     </div>
+                                    {state.registerFullNameErrors && <ul className="mb-4 text-danger">
+                                        {state.registerFullNameErrors.map(e => <li key={e}>{e}</li>)}
+                                    </ul>}
                                     <label htmlFor="register-id-number" className="form-label">Id number: </label>
                                     <div className="mb-4 input-group">
                                         <span className="input-group-text"><i className="bi bi-person"></i></span>
@@ -244,9 +299,10 @@ const Login: React.FC<LoginProps> = () => {
                                                onChange={handleOnChange}
                                                placeholder="7585951025"/>
                                     </div>
-                                    {state.registerErrors && <ul className="mb-4 text-danger">
-                                        {state.registerErrors.map(e => <li key={e}>{e}</li>)}
+                                    {state.registerIdNumberErrors && <ul className="mb-4 text-danger">
+                                        {state.registerIdNumberErrors.map(e => <li key={e}>{e}</li>)}
                                     </ul>}
+                                    {state.registerError && <div className="mb-4 text-danger">{state.registerError}</div>}
                                     <div className="mb-4 text-center">
                                         <button type="submit" className="btn btn-primary"
                                                 onClick={handleRegister}>Register
