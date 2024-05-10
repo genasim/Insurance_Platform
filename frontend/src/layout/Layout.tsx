@@ -16,16 +16,16 @@ const PageLayout: FC = () => {
             ...prevState,
             isLoggedIn: !prevState
         }));
-
-        return (
-            <div className="d-flex flex-column min-vh-100">
-                <Navbar toggleIsLoggedIn={toggleIsLoggedIn}/>
-                <div className="flex-grow-1">
-                    <Outlet/>
-                </div>
-                <Footer/>
-            </div>
-        );
     };
+    return (
+        <div className="d-flex flex-column min-vh-100">
+            <Navbar toggleIsLoggedIn={toggleIsLoggedIn}/>
+            <div className="flex-grow-1">
+                <Outlet/>
+            </div>
+            <Footer/>
+        </div>
+    );
+};
 
-    export default PageLayout;
+export default PageLayout;
