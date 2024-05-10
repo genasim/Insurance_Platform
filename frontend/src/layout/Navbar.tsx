@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
+import Logo from "../shared/components/Logo";
 
 
 interface NavbarProps {
@@ -21,55 +22,64 @@ const Navbar = ({toggleIsLoggedIn}: NavbarProps) => {
 
     if (!item) {
         login =
-            <li className="nav-item">
+            <li className="nav-item fs-5">
                 <Link className="nav-link" to="/login">Login</Link>
             </li>;
         register =
-            <li className="nav-item">
+            <li className="nav-item fs-5">
                 <Link className="nav-link" to="/register">Register</Link>
             </li>;
     } else {
         logout =
-            <li className="nav-item">
+            <li className="nav-item fs-5">
                 <Link className="nav-link" to="/" onClick={handleLogout}>Logout</Link>
             </li>
     }
 
     return (
-        <div>
-            <nav className="navbar navbar-expand-md navbar-light">
-                <div className="container-xxl">
-                    <a href="#" className="navbar-brand">
-                        <span className="fw-bold text-secondary">
-                            <i className="bi bi-car-front mx-2"></i>Safe Insure</span>
-                    </a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#main-nav"
-                            aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div id="main-nav" className="collapse navbar-collapse justify-content-end align-center">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/home">Home</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/policies">Policies</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/claims">Claims</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/backoffice">Backoffice</Link>
-                            </li>
-                            {login}
-                            {register}
-                            {logout}
-                        </ul>
-                    </div>
+        <nav
+            style={{borderRadius: "0 0 8em 8em"}}
+            className="navbar navbar-expand-md bg-primary-subtle py-4 px-5">
+            <div className="container-xxl">
+                <div className="d-none d-sm-block">
+                    <Logo/>
                 </div>
-            </nav>
-        </div>
+                <button
+                    className="navbar-toggler float-end"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#main-nav"
+                    aria-controls="main-nav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div id="main-nav" className="collapse navbar-collapse justify-content-end align-center">
+                    <ul className="navbar-nav">
+                        <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/home">Home</Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link to="/client/policies" className="nav-link">
+                                Policies
+                            </Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link to="/client/claims" className="nav-link">
+                                Claims
+                            </Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/backoffice">Backoffice</Link>
+                        </li>
+                        {login}
+                        {register}
+                        {logout}
+                    </ul>
+                </div>
+            </div>
+        </nav>
     );
 };
 
