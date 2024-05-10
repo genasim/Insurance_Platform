@@ -163,7 +163,7 @@ const Login: React.FC = () => {
                 [event.target.name]: event.target.value
             }));
         }
-s
+
         return (
             <div className="container-md align-content-center mt-5">
                 <div className="row justify-content-center">
