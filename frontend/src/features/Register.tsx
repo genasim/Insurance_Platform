@@ -168,7 +168,7 @@ const Login: React.FC = () => {
             <div className="container-md align-content-center mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-4 bg-light-subtle rounded border border-2">
-                        <h3 className="h3 text-center my-4">Register</h3>
+                        <h4 className="h4 text-center my-4">Register an account with us!</h4>
                         <form>
                             <label htmlFor="register-email" className="form-label">Email: </label>
                             <div className="mb-4 input-group">
