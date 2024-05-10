@@ -5,6 +5,7 @@ import PageLayout from "./layout/Layout";
 import NotFoundPage from "./pages/404";
 import ClientDashboard from "./pages/client/Dashboard";
 import Login from "./features/Login";
+import Register from "./features/Register";
 
 const router = createBrowserRouter([
   {
@@ -30,9 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        children: [
-          { Component: Login, path: ""},
-        ]
+        element: <Login/>
+      },
+      {
+        path: "/register",
+        element: <Register/>
       }
     ],
   },

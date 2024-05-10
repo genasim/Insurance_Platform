@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import {Link} from "react-router-dom";
 
 
 const Navbar = () => {
@@ -19,16 +20,22 @@ const Navbar = () => {
                     <div id="main-nav" className="collapse navbar-collapse justify-content-end align-center">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a href="#home" className="nav-link">Home</a>
+                                <Link className="nav-link" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <a href="#policies" className="nav-link">Policies</a>
+                                <Link className="nav-link" to="/policies">Policies</Link>
                             </li>
                             <li className="nav-item">
-                                <a href="#claims" className="nav-link">Claims</a>
+                                <Link className="nav-link" to="/claims">Claims</Link>
                             </li>
                             <li className="nav-item">
-                                <a href="#backoffice" className="nav-link">BackOffice</a>
+                                <Link className="nav-link" to="/backoffice">Backoffice</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">Login</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/register">Register</Link>
                             </li>
                         </ul>
                     </div>
