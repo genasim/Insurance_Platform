@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import API from "./ApiClient";
 import {UserDto} from "./User";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 interface LoginState {
     registerEmail: string | undefined,
@@ -225,6 +225,8 @@ const Login: React.FC = () => {
                             </ul>}
                             {state.registerError &&
                                 <div className="mb-4 text-danger">{state.registerError}</div>}
+                            <Link to="/login" className="text-center d-block text-decoration-none mb-4">Already have an
+                                account? Login now!</Link>
                             <div className="mb-4 text-center">
                                 <button type="submit" className="btn btn-primary"
                                         onClick={handleRegister}>Register

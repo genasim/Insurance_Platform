@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import API from "./ApiClient";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 interface LoginState {
     email: string | undefined,
@@ -82,6 +82,8 @@ const Login: React.FC = () => {
                         </div>
                         {state.error &&
                             <div className="mb-4 text-center text-danger">{state.error}</div>}
+                        <Link to="/register" className="text-center d-block text-decoration-none mb-4">Dont have an
+                            account? Register now!</Link>
                         <div className="mb-4 text-center">
                             <button type="submit" className="btn btn-primary"
                                     onClick={handleLogin}>Login
