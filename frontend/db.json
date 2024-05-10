@@ -19,6 +19,34 @@
       "password": "ve1@gmail.com",
       "fullName": "Vasil Egov",
       "idNumber": "1234567890"
+    },
+    {
+      "id": "82a9",
+      "email": "test@abv.bg",
+      "password": "test@abv.bg",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "3f55",
+      "email": "test2@abv.bg",
+      "password": "test2@abv.bg",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "31ac",
+      "email": "test3@abv.bg",
+      "password": "test3@abv.bg",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "8afb",
+      "email": "test4@abv.bg",
+      "password": "test4@abv.bg",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
     }
   ]
 }

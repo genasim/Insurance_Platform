@@ -2,6 +2,7 @@ import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import API from "./ApiClient";
 import {UserDto} from "./User";
+import {useNavigate} from "react-router-dom";
 
 interface LoginState {
     loginEmail: string | undefined,
@@ -36,6 +37,8 @@ const Login: React.FC = () => {
             registerError: undefined
         });
 
+        const navigate = useNavigate();
+
         const handleLogin = (event: FormEvent) => {
             event.preventDefault();
             if (!state.loginEmail || !state.loginPassword) {
@@ -58,10 +61,7 @@ const Login: React.FC = () => {
                     }
 
                     sessionStorage.setItem('token', "IM IN");
-                    setState({
-                        ...state,
-                        loginError: undefined
-                    });
+                    navigate("/home");
                 }).catch(_ => {
                 setState({
                     ...state,
@@ -106,7 +106,7 @@ const Login: React.FC = () => {
                         idNumber: state.registerIdNumber!,
                     }
                     //ToDo all table names in a single place
-                    return API.create("users", user);
+                    return API.create("users", user).then(() => navigate("/login"));
                 }).catch(err => {
                 setState({
                     ...state,
