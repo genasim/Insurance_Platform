@@ -64,7 +64,7 @@ const Login: React.FC = () => {
             .then(() => {
                 const user: UserDto = {
                     email: state.registerEmail!,
-                    password: state.registerEmail!,
+                    password: state.registerPassword!,
                     fullName: state.registerFullName!,
                     idNumber: state.registerIdNumber!,
                 }

@@ -3,7 +3,38 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
 
 
-const Navbar = () => {
+interface NavbarProps {
+    toggleIsLoggedIn: () => void
+}
+
+const Navbar = ({toggleIsLoggedIn}: NavbarProps) => {
+    const item = sessionStorage.getItem("token");
+    //ToDo fix rights
+    let login = null;
+    let register = null;
+    let logout = null;
+
+    let handleLogout = () => {
+        sessionStorage.removeItem("token");
+        toggleIsLoggedIn();
+    };
+
+    if (!item) {
+        login =
+            <li className="nav-item">
+                <Link className="nav-link" to="/login">Login</Link>
+            </li>;
+        register =
+            <li className="nav-item">
+                <Link className="nav-link" to="/register">Register</Link>
+            </li>;
+    } else {
+        logout =
+            <li className="nav-item">
+                <Link className="nav-link" to="/" onClick={handleLogout}>Logout</Link>
+            </li>
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-md navbar-light">
@@ -31,12 +62,9 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/backoffice">Backoffice</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/register">Register</Link>
-                            </li>
+                            {login}
+                            {register}
+                            {logout}
                         </ul>
                     </div>
                 </div>
