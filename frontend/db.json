@@ -154,6 +154,26 @@
         "Damages due to leaks",
         "Glass cracking"
       ]
+    },
+    {
+      "id": "6af4",
+      "policyType": "HEALTH_INSURANCE",
+      "name": "Work related",
+      "type": "WORK_RELATED",
+      "coverage": [
+        "Death during work",
+        "Loss of working capacity due to work"
+      ]
+    },
+    {
+      "id": "6af5",
+      "policyType": "HEALTH_INSURANCE",
+      "name": "Everyday life related",
+      "type": "EVERYDAY_LIFE_RELATED",
+      "coverage": [
+        "Death during everyday life activities",
+        "Loss of working capacity due to everyday life activities"
+      ]
     }
   ],
   "claims": [
