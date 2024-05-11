@@ -59,6 +59,7 @@
       "eventDescription": "Някой ми подпали колата",
       "claimedAmount": "123.00",
       "claimedAmountCurrency": "BGN",
+      "claimantId": "132ab",
       "documents": [
         {
           "id": "12ac",
