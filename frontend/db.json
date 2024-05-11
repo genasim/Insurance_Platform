@@ -75,6 +75,10 @@
       "policyType": "CAR_INSURANCE",
       "name": "Full",
       "type": "FULL",
+      "basePremium": "500",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire, explosion or lightning",
         "Natural disaster",
@@ -90,6 +94,10 @@
       "policyType": "CAR_INSURANCE",
       "name": "Partial",
       "type": "PARTIAL",
+      "basePremium": "400",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire, explosion or lightning",
         "Natural disaster",
@@ -102,6 +110,10 @@
       "policyType": "CAR_INSURANCE",
       "name": "Minimal",
       "type": "MINIMAL",
+      "basePremium": "300",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire, explosion or lightning",
         "Natural disaster"
@@ -112,6 +124,10 @@
       "policyType": "PROPERTY_INSURANCE",
       "name": "Elite",
       "type": "ELITE",
+      "basePremium": "250",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire",
         "Explosion",
@@ -130,6 +146,10 @@
       "policyType": "PROPERTY_INSURANCE",
       "name": "Super",
       "type": "SUPER",
+      "basePremium": "200",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire",
         "Explosion",
@@ -146,6 +166,10 @@
       "policyType": "PROPERTY_INSURANCE",
       "name": "Classic",
       "type": "CLASSIC",
+      "basePremium": "150",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Fire",
         "Explosion",
@@ -160,6 +184,10 @@
       "policyType": "HEALTH_INSURANCE",
       "name": "Work related",
       "type": "WORK_RELATED",
+      "basePremium": "200",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Death during work",
         "Loss of working capacity due to work"
@@ -170,6 +198,10 @@
       "policyType": "HEALTH_INSURANCE",
       "name": "Everyday life related",
       "type": "EVERYDAY_LIFE_RELATED",
+      "basePremium": "250",
+      "basePremiumCurrency": "EUR",
+      "duration": "1",
+      "durationUnit": "Year",
       "coverage": [
         "Death during everyday life activities",
         "Loss of working capacity due to everyday life activities"
