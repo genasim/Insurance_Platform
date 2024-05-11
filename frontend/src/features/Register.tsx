@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "./ApiClient";
+import API, {Tables} from "../shared/api-client/ApiClient";
 import {UserDto} from "./User";
 import {Link, useNavigate} from "react-router-dom";
 

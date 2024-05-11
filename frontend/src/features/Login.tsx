@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "./ApiClient";
+import API, {Tables} from "../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 
 interface LoginState {
