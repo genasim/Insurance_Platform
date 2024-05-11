@@ -236,5 +236,90 @@
         }
       ]
     }
+  ],
+  "calculationCoefficients": [
+    {
+      "id": "3121",
+      "policyType": "CAR_INSURANCE",
+      "type": "AGE",
+      "description": "The age of a driver",
+      "values": {
+        "young": "1.1",
+        "mature": "1.0",
+        "elderly": "1.05"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3122",
+      "policyType": "CAR_INSURANCE",
+      "type": "VEHICLE_TYPE",
+      "description": "The type of the car",
+      "values": {
+        "sports": "1.1",
+        "normal": "1.0"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3123",
+      "policyType": "CAR_INSURANCE",
+      "type": "DRIVING_EXPERIENCE",
+      "description": "The driving experience of the driver",
+      "values": {
+        "novice": "1.1",
+        "normal": "1.03",
+        "experienced": "1.0"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3124",
+      "policyType": "CAR_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": {
+        "small": "1.0",
+        "medium": "1.03",
+        "large": "1.08"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3125",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the owner",
+      "values": {
+        "young": "1.0",
+        "mature": "1.02",
+        "elderly": "1.05"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3126",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": {
+        "small": "1.0",
+        "medium": "1.03",
+        "large": "1.08"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3127",
+      "policyType": "HEALTH_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the insured person",
+      "values": {
+        "young": "1.0",
+        "mature": "1.02",
+        "elderly": "1.1"
+      },
+      "isEnabled": true
+    }
   ]
 }
