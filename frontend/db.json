@@ -10,14 +10,15 @@
       "claimedAmount": "123.00",
       "claimedAmountCurrency": "BGN",
       "claimantId": "132ab",
-      "status": "SUBMITTED",
-      "documents": [
-        {
-          "id": "12ac",
-          "description": "Предна броня",
-          "document": "binary representation of document"
-        }
-      ]
+      "status": "SUBMITTED"
+    }
+  ],
+  "claimDocuments": [
+    {
+      "id": "12ac",
+      "claimId": "3122",
+      "description": "Предна броня",
+      "document": "binary representation of document"
     }
   ],
   "calculationCoefficients": [
@@ -112,6 +113,13 @@
       "amount": "120",
       "amountCurrency": "BGN",
       "paymentDate": "2024-04-15"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1234",
+      "message": "Hello there, general Kenobi",
+      "recipientId": "1241"
     }
   ],
   "policyPackages": [
