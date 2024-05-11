@@ -10,6 +10,7 @@
       "claimedAmount": "123.00",
       "claimedAmountCurrency": "BGN",
       "claimantId": "132ab",
+      "status": "SUBMITTED",
       "documents": [
         {
           "id": "12ac",
@@ -102,6 +103,15 @@
         "elderly": "1.1"
       },
       "isEnabled": true
+    }
+  ],
+  "claimPayments": [
+    {
+      "id": "1af5",
+      "claimId": "12412",
+      "amount": "120",
+      "amountCurrency": "BGN",
+      "paymentDate": "2024-04-15"
     }
   ],
   "policyPackages": [
