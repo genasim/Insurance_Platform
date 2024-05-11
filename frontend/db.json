@@ -48,5 +48,24 @@
       "fullName": "Vasko",
       "idNumber": "1122334455"
     }
+  ],
+  "claims": [
+    {
+      "id": "3122",
+      "policyNumber": "00800123",
+      "submissionDate": "2024-04-14",
+      "eventDate": "2024-03-11",
+      "eventType": "Пожар",
+      "eventDescription": "Някой ми подпали колата",
+      "claimedAmount": "123.00",
+      "claimedAmountCurrency": "BGN",
+      "documents": [
+        {
+          "id": "12ac",
+          "description": "Предна броня",
+          "document": "binary representation of document"
+        }
+      ]
+    }
   ]
 }
