@@ -1,72 +1,107 @@
 {
-  "users": [
+  "claims": [
     {
-      "email": "Vasko@email",
-      "password": "123",
-      "fullName": "Vasil Egov",
-      "idNumber": "931108"
-    },
-    {
-      "id": "bdaf",
-      "email": "ve@gmail.com",
-      "password": "ve@gmail.com",
-      "fullName": "Vasil Egov",
-      "idNumber": "1234567890"
-    },
-    {
-      "id": "991f",
-      "email": "ve1@gmail.com",
-      "password": "123",
-      "fullName": "Vasil Egov",
-      "idNumber": "1234567890"
-    },
-    {
-      "id": "82a9",
-      "email": "test@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "3f55",
-      "email": "test2@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "31ac",
-      "email": "test3@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "8afb",
-      "email": "test4@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
+      "id": "3122",
+      "policyNumber": "00800123",
+      "submissionDate": "2024-04-14",
+      "eventDate": "2024-03-11",
+      "eventType": "Пожар",
+      "eventDescription": "Някой ми подпали колата",
+      "claimedAmount": "123.00",
+      "claimedAmountCurrency": "BGN",
+      "claimantId": "132ab",
+      "documents": [
+        {
+          "id": "12ac",
+          "description": "Предна броня",
+          "document": "binary representation of document"
+        }
+      ]
     }
   ],
-  "policyTemplates": [
+  "calculationCoefficients": [
     {
-      "id": "8af2",
-      "name": "Car insurance",
-      "type": "CAR_INSURANCE",
-      "description": "Insure your car with us"
+      "id": "3121",
+      "policyType": "CAR_INSURANCE",
+      "type": "AGE",
+      "description": "The age of a driver",
+      "values": {
+        "young": "1.1",
+        "mature": "1.0",
+        "elderly": "1.05"
+      },
+      "isEnabled": true
     },
     {
-      "id": "8afc",
-      "name": "Property insurance",
-      "type": "PROPERTY_INSURANCE",
-      "description": "Insure your property with us"
+      "id": "3122",
+      "policyType": "CAR_INSURANCE",
+      "type": "VEHICLE_TYPE",
+      "description": "The type of the car",
+      "values": {
+        "sports": "1.1",
+        "normal": "1.0"
+      },
+      "isEnabled": true
     },
     {
-      "id": "8afd",
-      "name": "Health insurance",
-      "type": "HEALTH_INSURANCE",
-      "description": "You can trust us with your health"
+      "id": "3123",
+      "policyType": "CAR_INSURANCE",
+      "type": "DRIVING_EXPERIENCE",
+      "description": "The driving experience of the driver",
+      "values": {
+        "novice": "1.1",
+        "normal": "1.03",
+        "experienced": "1.0"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3124",
+      "policyType": "CAR_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": {
+        "small": "1.0",
+        "medium": "1.03",
+        "large": "1.08"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3125",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the owner",
+      "values": {
+        "young": "1.0",
+        "mature": "1.02",
+        "elderly": "1.05"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3126",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": {
+        "small": "1.0",
+        "medium": "1.03",
+        "large": "1.08"
+      },
+      "isEnabled": true
+    },
+    {
+      "id": "3127",
+      "policyType": "HEALTH_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the insured person",
+      "values": {
+        "young": "1.0",
+        "mature": "1.02",
+        "elderly": "1.1"
+      },
+      "isEnabled": true
     }
   ],
   "policyPackages": [
@@ -217,109 +252,74 @@
       "paymentDate": "2024-04-15"
     }
   ],
-  "claims": [
+  "users": [
     {
-      "id": "3122",
-      "policyNumber": "00800123",
-      "submissionDate": "2024-04-14",
-      "eventDate": "2024-03-11",
-      "eventType": "Пожар",
-      "eventDescription": "Някой ми подпали колата",
-      "claimedAmount": "123.00",
-      "claimedAmountCurrency": "BGN",
-      "claimantId": "132ab",
-      "documents": [
-        {
-          "id": "12ac",
-          "description": "Предна броня",
-          "document": "binary representation of document"
-        }
-      ]
+      "email": "Vasko@email",
+      "password": "123",
+      "fullName": "Vasil Egov",
+      "idNumber": "931108"
+    },
+    {
+      "id": "bdaf",
+      "email": "ve@gmail.com",
+      "password": "ve@gmail.com",
+      "fullName": "Vasil Egov",
+      "idNumber": "1234567890"
+    },
+    {
+      "id": "991f",
+      "email": "ve1@gmail.com",
+      "password": "123",
+      "fullName": "Vasil Egov",
+      "idNumber": "1234567890"
+    },
+    {
+      "id": "82a9",
+      "email": "test@abv.bg",
+      "password": "123",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "3f55",
+      "email": "test2@abv.bg",
+      "password": "123",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "31ac",
+      "email": "test3@abv.bg",
+      "password": "123",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
+    },
+    {
+      "id": "8afb",
+      "email": "test4@abv.bg",
+      "password": "123",
+      "fullName": "Vasko",
+      "idNumber": "1122334455"
     }
   ],
-  "calculationCoefficients": [
+  "policyTemplates": [
     {
-      "id": "3121",
-      "policyType": "CAR_INSURANCE",
-      "type": "AGE",
-      "description": "The age of a driver",
-      "values": {
-        "young": "1.1",
-        "mature": "1.0",
-        "elderly": "1.05"
-      },
-      "isEnabled": true
+      "id": "8af2",
+      "name": "Car insurance",
+      "type": "CAR_INSURANCE",
+      "description": "Insure your car with us"
     },
     {
-      "id": "3122",
-      "policyType": "CAR_INSURANCE",
-      "type": "VEHICLE_TYPE",
-      "description": "The type of the car",
-      "values": {
-        "sports": "1.1",
-        "normal": "1.0"
-      },
-      "isEnabled": true
+      "id": "8afc",
+      "name": "Property insurance",
+      "type": "PROPERTY_INSURANCE",
+      "description": "Insure your property with us"
     },
     {
-      "id": "3123",
-      "policyType": "CAR_INSURANCE",
-      "type": "DRIVING_EXPERIENCE",
-      "description": "The driving experience of the driver",
-      "values": {
-        "novice": "1.1",
-        "normal": "1.03",
-        "experienced": "1.0"
-      },
-      "isEnabled": true
-    },
-    {
-      "id": "3124",
-      "policyType": "CAR_INSURANCE",
-      "type": "CITY_SIZE",
-      "description": "The size of the city",
-      "values": {
-        "small": "1.0",
-        "medium": "1.03",
-        "large": "1.08"
-      },
-      "isEnabled": true
-    },
-    {
-      "id": "3125",
-      "policyType": "PROPERTY_INSURANCE",
-      "type": "AGE",
-      "description": "The age of the owner",
-      "values": {
-        "young": "1.0",
-        "mature": "1.02",
-        "elderly": "1.05"
-      },
-      "isEnabled": true
-    },
-    {
-      "id": "3126",
-      "policyType": "PROPERTY_INSURANCE",
-      "type": "CITY_SIZE",
-      "description": "The size of the city",
-      "values": {
-        "small": "1.0",
-        "medium": "1.03",
-        "large": "1.08"
-      },
-      "isEnabled": true
-    },
-    {
-      "id": "3127",
-      "policyType": "HEALTH_INSURANCE",
-      "type": "AGE",
-      "description": "The age of the insured person",
-      "values": {
-        "young": "1.0",
-        "mature": "1.02",
-        "elderly": "1.1"
-      },
-      "isEnabled": true
+      "id": "8afd",
+      "name": "Health insurance",
+      "type": "HEALTH_INSURANCE",
+      "description": "You can trust us with your health"
     }
   ]
 }
