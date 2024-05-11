@@ -49,6 +49,113 @@
       "idNumber": "1122334455"
     }
   ],
+  "policyTemplates": [
+    {
+      "id": "8af2",
+      "name": "Car insurance",
+      "type": "CAR_INSURANCE",
+      "description": "Insure your car with us"
+    },
+    {
+      "id": "8afc",
+      "name": "Property insurance",
+      "type": "PROPERTY_INSURANCE",
+      "description": "Insure your property with us"
+    },
+    {
+      "id": "8afd",
+      "name": "Health insurance",
+      "type": "HEALTH_INSURANCE",
+      "description": "You can trust us with your health"
+    }
+  ],
+  "policyPackages": [
+    {
+      "id": "8af2",
+      "policyType": "CAR_INSURANCE",
+      "name": "Full",
+      "type": "FULL",
+      "coverage": [
+        "Fire, explosion or lightning",
+        "Natural disaster",
+        "Road accidents",
+        "Vandalism",
+        "Arson and explosion",
+        "Theft",
+        "Windows and tires"
+      ]
+    },
+    {
+      "id": "8af3",
+      "policyType": "CAR_INSURANCE",
+      "name": "Partial",
+      "type": "PARTIAL",
+      "coverage": [
+        "Fire, explosion or lightning",
+        "Natural disaster",
+        "Road accidents",
+        "Vandalism"
+      ]
+    },
+    {
+      "id": "8af4",
+      "policyType": "CAR_INSURANCE",
+      "name": "Minimal",
+      "type": "MINIMAL",
+      "coverage": [
+        "Fire, explosion or lightning",
+        "Natural disaster"
+      ]
+    },
+    {
+      "id": "7af6",
+      "policyType": "PROPERTY_INSURANCE",
+      "name": "Elite",
+      "type": "ELITE",
+      "coverage": [
+        "Fire",
+        "Explosion",
+        "Collision",
+        "Damages due to natural disasters",
+        "Damages due to leaks",
+        "Glass cracking",
+        "Third party malicious actions",
+        "Third party liability insurance",
+        "Burglary",
+        "Electrical short circuit"
+      ]
+    },
+    {
+      "id": "7af5",
+      "policyType": "PROPERTY_INSURANCE",
+      "name": "Super",
+      "type": "SUPER",
+      "coverage": [
+        "Fire",
+        "Explosion",
+        "Collision",
+        "Damages due to natural disasters",
+        "Damages due to leaks",
+        "Glass cracking",
+        "Third party malicious actions",
+        "Third party liability insurance"
+      ]
+    },
+    {
+      "id": "7af4",
+      "policyType": "PROPERTY_INSURANCE",
+      "name": "Classic",
+      "type": "CLASSIC",
+      "coverage": [
+        "Fire",
+        "Explosion",
+        "Collision",
+        "Damages due to natural disasters",
+        "Damages due to leaks",
+        "Glass cracking"
+      ]
+    }
+  ],
   "claims": [
     {
       "id": "3122",
