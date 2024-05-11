@@ -1,10 +1,31 @@
-import { IdType, Identifiable } from "./shared-types";
+import {IdType, Identifiable} from "./shared-types";
 import {User} from "./User";
 
-export class ApiClient {
-    constructor(private baseUrl: string) { }
+export enum Tables {
+    CLAIMS = "claims",
+    CLAIM_DOCUMENTS = "claimDocuments",
+    CALCULATION_COEFFICIENTS = "calculationCoefficients",
+    CLAIM_PAYMENTS = "claimPayments",
+    NOTIFICATIONS = "notifications",
+    POLICY_PACKAGES = "policyPackages",
+    PREMIUM_PAYMENTS = "premiumPayments",
+    USERS = "users",
+    POLICY_TEMPLATES = "policyTemplates",
+}
 
-    create<V extends Identifiable<IdType>>(table: string, entity: Omit<V, 'id'>): Promise<V>  {
+export class ApiClient {
+    constructor(private baseUrl: string) {
+    }
+
+    findAll(table: string): Promise<Array<User>> {
+        return this.fetchData(`${this.baseUrl}/${table}`)
+    }
+
+    findById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V> {
+        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`);
+    }
+
+    create<V extends Identifiable<IdType>>(table: string, entity: Omit<V, 'id'>): Promise<V> {
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}`, {
             method: 'POST',
             headers: {
@@ -14,17 +35,25 @@ export class ApiClient {
         });
     }
 
-    findById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V>  {
-        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`);
+    update<V extends Identifiable<IdType>>(table: string, entity: V): Promise<V> {
+        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${entity.id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(entity)
+        });
     }
 
-    findAll(table: string): Promise<Array<User>>  {
-        return this.fetchData(`${this.baseUrl}/${table}`)
+    deleteById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V> {
+        return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`, {
+            method: 'DELETE',
+        });
     }
 
     private async fetchData<D>(uri: string, options?: RequestInit): Promise<D> {
         const resp = await fetch(uri, options);
-        if(resp.status >= 400) {
+        if (resp.status >= 400) {
             throw new Error(await resp.text());
         }
         return resp.json();

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API from "./ApiClient";
+import API, {Tables} from "./ApiClient";
 import {UserDto} from "./User";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll("users")
+        API.findAll(Tables.USERS)
             .then((x) => {
                 const user = x.find(x => x.email === state.registerEmail);
                 if (user) {
@@ -68,8 +68,7 @@ const Login: React.FC = () => {
                     fullName: state.registerFullName!,
                     idNumber: state.registerIdNumber!,
                 }
-                //ToDo all table names in a single place
-                return API.create("users", user)
+                return API.create(Tables.USERS, user)
                     .then(() => navigate("/login"));
             }).catch(err => {
             setState({

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API from "./ApiClient";
+import API, {Tables} from "./ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 
 interface LoginState {
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll("users")
+        API.findAll(Tables.USERS)
             .then(x => {
                 const user = x.find(x => x.email === state.email);
                 if (!user) {
