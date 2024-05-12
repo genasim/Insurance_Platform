@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import API, {Tables} from "../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 import {UserDto} from "./UserDto";
+import {Right} from "../models/Rights";
 
 interface LoginState {
     registerEmail: string | undefined,
@@ -67,6 +68,7 @@ const Login: React.FC = () => {
                     password: state.registerPassword!,
                     fullName: state.registerFullName!,
                     idNumber: state.registerIdNumber!,
+                    rights: [Right.CLIENT]
                 }
                 return API.create(Tables.USERS, user)
                     .then(() => navigate("/login"));
