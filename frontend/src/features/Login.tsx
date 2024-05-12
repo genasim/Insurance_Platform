@@ -58,8 +58,8 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className="container-md align-content-center mt-5">
-            <div style={{height: "15vh"}}></div>
+        <div className="container-md align-content-center my-5">
+            <div style={{height: "5vh"}}></div>
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h3 className="h3 text-center my-4">Login</h3>

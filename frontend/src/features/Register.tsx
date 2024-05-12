@@ -164,7 +164,7 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className="container-md align-content-center mt-5">
+        <div className="container-md align-content-center my-5">
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h4 className="h4 text-center my-4">Register an account with us!</h4>
