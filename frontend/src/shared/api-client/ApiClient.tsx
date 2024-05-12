@@ -21,11 +21,11 @@ export class ApiClient {
         return this.fetchData(`${this.baseUrl}/${table}`)
     }
 
-    findById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V> {
+    findById<V extends Identifiable>(table: string, id: IdType): Promise<V> {
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`);
     }
 
-    create<V extends Identifiable<IdType>>(table: string, entity: Omit<V, 'id'>): Promise<V> {
+    create<V extends Identifiable>(table: string, entity: Omit<V, 'id'>): Promise<V> {
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}`, {
             method: 'POST',
             headers: {
@@ -35,7 +35,7 @@ export class ApiClient {
         });
     }
 
-    update<V extends Identifiable<IdType>>(table: string, entity: V): Promise<V> {
+    update<V extends Identifiable>(table: string, entity: V): Promise<V> {
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${entity.id}`, {
             method: 'PUT',
             headers: {
@@ -45,7 +45,7 @@ export class ApiClient {
         });
     }
 
-    deleteById<V extends Identifiable<IdType>>(table: string, id: IdType): Promise<V> {
+    deleteById<V extends Identifiable>(table: string, id: IdType): Promise<V> {
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}/${id}`, {
             method: 'DELETE',
         });
