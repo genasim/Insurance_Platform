@@ -40,7 +40,8 @@ const Login: React.FC = () => {
                     throw new Error("Invalid username or password");
                 }
 
-                sessionStorage.setItem('token', "IM IN");
+                sessionStorage.setItem('token', "PUT TOKEN HERE");
+                sessionStorage.setItem('rights', user.rights.join(","));
                 navigate("/home");
             }).catch(_ => {
             setState({
