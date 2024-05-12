@@ -1,5 +1,5 @@
-import {IdType, Identifiable} from "../../features/shared-types";
-import {User} from "../../features/User";
+import {IdType, Identifiable} from "../../models/Identifiable";
+import {User} from "../../models/User";
 
 export enum Tables {
     CLAIMS = "claims",

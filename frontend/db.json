@@ -27,11 +27,20 @@
       "policyType": "CAR_INSURANCE",
       "type": "AGE",
       "description": "The age of a driver",
-      "values": {
-        "young": "1.1",
-        "mature": "1.0",
-        "elderly": "1.05"
-      },
+      "values": [
+        {
+          "name": "young",
+          "value": 1.1
+        },
+        {
+          "name": "mature",
+          "value": 1.0
+        },
+        {
+          "name": "elderly",
+          "value": 1.05
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -39,10 +48,16 @@
       "policyType": "CAR_INSURANCE",
       "type": "VEHICLE_TYPE",
       "description": "The type of the car",
-      "values": {
-        "sports": "1.1",
-        "normal": "1.0"
-      },
+      "values": [
+        {
+          "name": "sports",
+          "value": 1.1
+        },
+        {
+          "name": "normal",
+          "value": 1.0
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -50,11 +65,20 @@
       "policyType": "CAR_INSURANCE",
       "type": "DRIVING_EXPERIENCE",
       "description": "The driving experience of the driver",
-      "values": {
-        "novice": "1.1",
-        "normal": "1.03",
-        "experienced": "1.0"
-      },
+      "values": [
+        {
+          "name": "novice",
+          "value": 1.1
+        },
+        {
+          "name": "normal",
+          "value": 1.03
+        },
+        {
+          "name": "experienced",
+          "value": 1.0
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -62,11 +86,20 @@
       "policyType": "CAR_INSURANCE",
       "type": "CITY_SIZE",
       "description": "The size of the city",
-      "values": {
-        "small": "1.0",
-        "medium": "1.03",
-        "large": "1.08"
-      },
+      "values": [
+        {
+          "name": "small",
+          "value": 1.0
+        },
+        {
+          "name": "medium",
+          "value": 1.03
+        },
+        {
+          "name": "large",
+          "value": 1.08
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -74,11 +107,20 @@
       "policyType": "PROPERTY_INSURANCE",
       "type": "AGE",
       "description": "The age of the owner",
-      "values": {
-        "young": "1.0",
-        "mature": "1.02",
-        "elderly": "1.05"
-      },
+      "values": [
+        {
+          "name": "young",
+          "value": 1.0
+        },
+        {
+          "name": "mature",
+          "value": 1.02
+        },
+        {
+          "name": "elderly",
+          "value": 1.05
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -86,11 +128,20 @@
       "policyType": "PROPERTY_INSURANCE",
       "type": "CITY_SIZE",
       "description": "The size of the city",
-      "values": {
-        "small": "1.0",
-        "medium": "1.03",
-        "large": "1.08"
-      },
+      "values": [
+        {
+          "name": "small",
+          "value": 1.0
+        },
+        {
+          "name": "medium",
+          "value": 1.03
+        },
+        {
+          "name": "large",
+          "value": 1.08
+        }
+      ],
       "isEnabled": true
     },
     {
@@ -98,11 +149,20 @@
       "policyType": "HEALTH_INSURANCE",
       "type": "AGE",
       "description": "The age of the insured person",
-      "values": {
-        "young": "1.0",
-        "mature": "1.02",
-        "elderly": "1.1"
-      },
+      "values": [
+        {
+          "name": "young",
+          "value": 1.0
+        },
+        {
+          "name": "mature",
+          "value": 1.02
+        },
+        {
+          "name": "elderly",
+          "value": 1.1
+        }
+      ],
       "isEnabled": true
     }
   ],
