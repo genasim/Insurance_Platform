@@ -1,9 +1,9 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "../shared/api-client/ApiClient";
+import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 import {UserDto} from "./UserDto";
-import {Right} from "../models/Rights";
+import {Right} from "../../models/Rights";
 
 interface LoginState {
     registerEmail: string | undefined,

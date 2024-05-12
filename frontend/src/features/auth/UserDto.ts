@@ -1,4 +1,4 @@
-import {Right} from "../models/Rights";
+import {Right} from "../../models/Rights";
 
 export interface UserDto {
     email:  string,

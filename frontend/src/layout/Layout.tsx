@@ -11,15 +11,15 @@ const PageLayout: FC = () => {
     const [state, setState] = useState<LayoutState>({
         isLoggedIn: false
     });
-    const toggleIsLoggedIn = () => {
-        setState(prevState => ({
-            ...prevState,
-            isLoggedIn: !prevState
+    const setLoggedIn = (isLoggedIn: boolean) => {
+        setState(({
+            ...state,
+            isLoggedIn: isLoggedIn
         }));
     };
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Navbar toggleIsLoggedIn={toggleIsLoggedIn}/>
+            <Navbar setLoggedIn={setLoggedIn}/>
             <div className="flex-grow-1">
                 <Outlet/>
             </div>

@@ -337,6 +337,7 @@
       "fullName": "Vasil Egov",
       "idNumber": "931108",
       "rights": [
+        "CLIENT", "ADMIN"
       ]
     }
   ],

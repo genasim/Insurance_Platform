@@ -2,25 +2,30 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
 import Logo from "../shared/components/Logo";
+import {AuthStorageKeys} from "../shared/enums/AuthStorageKeys";
+import {Right} from "../models/Rights";
 
 
 interface NavbarProps {
-    toggleIsLoggedIn: () => void
+    setLoggedIn: (isLoggedIn: boolean) => void
 }
 
-const Navbar = ({toggleIsLoggedIn}: NavbarProps) => {
-    const item = sessionStorage.getItem("token");
-    //ToDo fix rights
+const Navbar = ({setLoggedIn}: NavbarProps) => {
+    const isLoggedIn = !!sessionStorage.getItem(AuthStorageKeys.TOKEN);
+    const rights = sessionStorage.getItem(AuthStorageKeys.RIGHTS)?.split(",") ?? [];
+    debugger;
     let login = null;
     let register = null;
     let logout = null;
+    let admin = null;
 
-    let handleLogout = () => {
-        sessionStorage.removeItem("token");
-        toggleIsLoggedIn();
+    const handleLogout = () => {
+        sessionStorage.removeItem(AuthStorageKeys.TOKEN);
+        sessionStorage.removeItem(AuthStorageKeys.RIGHTS);
+        setLoggedIn(false);
     };
 
-    if (!item) {
+    if (!isLoggedIn) {
         login =
             <li className="nav-item fs-5">
                 <Link className="nav-link" to="/login">Login</Link>
@@ -34,6 +39,13 @@ const Navbar = ({toggleIsLoggedIn}: NavbarProps) => {
             <li className="nav-item fs-5">
                 <Link className="nav-link" to="/" onClick={handleLogout}>Logout</Link>
             </li>
+    }
+
+    if (rights.includes(Right.ADMIN)) {
+        admin =
+            <li className="nav-item fs-5">
+                <Link className="nav-link" to="/admin">Admin</Link>
+            </li>;
     }
 
     return (
@@ -75,6 +87,7 @@ const Navbar = ({toggleIsLoggedIn}: NavbarProps) => {
                         </li>
                         {login}
                         {register}
+                        {admin}
                         {logout}
                     </ul>
                 </div>
