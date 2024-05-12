@@ -324,7 +324,7 @@
   "premiumPayments": [
     {
       "id": "1af5",
-      "policyNumber": "00800123",
+      "policyId": "2af5",
       "amount": "120",
       "amountCurrency": "BGN",
       "paymentDate": "2024-04-15"
