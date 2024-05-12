@@ -99,7 +99,7 @@ const Login: React.FC = () => {
     function validateRegisterData() {
         let isValid = true;
         const emailErrors: string[] = [];
-        if (!state.registerEmail) {
+        if (!state.registerEmail || !state.registerEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
             emailErrors.push("Invalid email address");
             isValid = false;
         }
