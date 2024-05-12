@@ -13,7 +13,7 @@ interface NavbarProps {
 const Navbar = ({setLoggedIn}: NavbarProps) => {
     const isLoggedIn = !!sessionStorage.getItem(AuthStorageKeys.TOKEN);
     const rights = sessionStorage.getItem(AuthStorageKeys.RIGHTS)?.split(",") ?? [];
-    debugger;
+
     let login = null;
     let register = null;
     let logout = null;

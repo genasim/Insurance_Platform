@@ -27,10 +27,6 @@ const router = createBrowserRouter([
                 children: [...pages.backoffice],
             },
             {
-                path: "/admin",
-                children: [...pages.admin],
-            },
-            {
                 path: "login",
                 element: <Login/>
             },
