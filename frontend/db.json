@@ -1,72 +1,185 @@
 {
-  "users": [
+  "claims": [
     {
-      "email": "Vasko@email",
-      "password": "123",
-      "fullName": "Vasil Egov",
-      "idNumber": "931108"
-    },
-    {
-      "id": "bdaf",
-      "email": "ve@gmail.com",
-      "password": "ve@gmail.com",
-      "fullName": "Vasil Egov",
-      "idNumber": "1234567890"
-    },
-    {
-      "id": "991f",
-      "email": "ve1@gmail.com",
-      "password": "123",
-      "fullName": "Vasil Egov",
-      "idNumber": "1234567890"
-    },
-    {
-      "id": "82a9",
-      "email": "test@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "3f55",
-      "email": "test2@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "31ac",
-      "email": "test3@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
-    },
-    {
-      "id": "8afb",
-      "email": "test4@abv.bg",
-      "password": "123",
-      "fullName": "Vasko",
-      "idNumber": "1122334455"
+      "id": "3122",
+      "policyNumber": "00800123",
+      "submissionDate": "2024-04-14",
+      "eventDate": "2024-03-11",
+      "eventType": "Пожар",
+      "eventDescription": "Някой ми подпали колата",
+      "claimedAmount": "123.00",
+      "claimedAmountCurrency": "BGN",
+      "claimantId": "132ab",
+      "status": "SUBMITTED"
     }
   ],
-  "policyTemplates": [
+  "claimDocuments": [
     {
-      "id": "8af2",
-      "name": "Car insurance",
-      "type": "CAR_INSURANCE",
-      "description": "Insure your car with us"
+      "id": "12ac",
+      "claimId": "3122",
+      "description": "Предна броня",
+      "document": "binary representation of document"
+    }
+  ],
+  "calculationCoefficients": [
+    {
+      "id": "3121",
+      "policyType": "CAR_INSURANCE",
+      "type": "AGE",
+      "description": "The age of a driver",
+      "values": [
+        {
+          "name": "young",
+          "value": 1.1
+        },
+        {
+          "name": "mature",
+          "value": 1.0
+        },
+        {
+          "name": "elderly",
+          "value": 1.05
+        }
+      ],
+      "isEnabled": true
     },
     {
-      "id": "8afc",
-      "name": "Property insurance",
-      "type": "PROPERTY_INSURANCE",
-      "description": "Insure your property with us"
+      "id": "3122",
+      "policyType": "CAR_INSURANCE",
+      "type": "VEHICLE_TYPE",
+      "description": "The type of the car",
+      "values": [
+        {
+          "name": "sports",
+          "value": 1.1
+        },
+        {
+          "name": "normal",
+          "value": 1.0
+        }
+      ],
+      "isEnabled": true
     },
     {
-      "id": "8afd",
-      "name": "Health insurance",
-      "type": "HEALTH_INSURANCE",
-      "description": "You can trust us with your health"
+      "id": "3123",
+      "policyType": "CAR_INSURANCE",
+      "type": "DRIVING_EXPERIENCE",
+      "description": "The driving experience of the driver",
+      "values": [
+        {
+          "name": "novice",
+          "value": 1.1
+        },
+        {
+          "name": "normal",
+          "value": 1.03
+        },
+        {
+          "name": "experienced",
+          "value": 1.0
+        }
+      ],
+      "isEnabled": true
+    },
+    {
+      "id": "3124",
+      "policyType": "CAR_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": [
+        {
+          "name": "small",
+          "value": 1.0
+        },
+        {
+          "name": "medium",
+          "value": 1.03
+        },
+        {
+          "name": "large",
+          "value": 1.08
+        }
+      ],
+      "isEnabled": true
+    },
+    {
+      "id": "3125",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the owner",
+      "values": [
+        {
+          "name": "young",
+          "value": 1.0
+        },
+        {
+          "name": "mature",
+          "value": 1.02
+        },
+        {
+          "name": "elderly",
+          "value": 1.05
+        }
+      ],
+      "isEnabled": true
+    },
+    {
+      "id": "3126",
+      "policyType": "PROPERTY_INSURANCE",
+      "type": "CITY_SIZE",
+      "description": "The size of the city",
+      "values": [
+        {
+          "name": "small",
+          "value": 1.0
+        },
+        {
+          "name": "medium",
+          "value": 1.03
+        },
+        {
+          "name": "large",
+          "value": 1.08
+        }
+      ],
+      "isEnabled": true
+    },
+    {
+      "id": "3127",
+      "policyType": "HEALTH_INSURANCE",
+      "type": "AGE",
+      "description": "The age of the insured person",
+      "values": [
+        {
+          "name": "young",
+          "value": 1.0
+        },
+        {
+          "name": "mature",
+          "value": 1.02
+        },
+        {
+          "name": "elderly",
+          "value": 1.1
+        }
+      ],
+      "isEnabled": true
+    }
+  ],
+  "claimPayments": [
+    {
+      "id": "1af5",
+      "claimId": "12412",
+      "amount": "120",
+      "amountCurrency": "BGN",
+      "paymentDate": "2024-04-15"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1234",
+      "message": "Hello there, general Kenobi",
+      "recipientId": "1241"
     }
   ],
   "policyPackages": [
@@ -208,24 +321,43 @@
       ]
     }
   ],
-  "claims": [
+  "premiumPayments": [
     {
-      "id": "3122",
-      "policyNumber": "00800123",
-      "submissionDate": "2024-04-14",
-      "eventDate": "2024-03-11",
-      "eventType": "Пожар",
-      "eventDescription": "Някой ми подпали колата",
-      "claimedAmount": "123.00",
-      "claimedAmountCurrency": "BGN",
-      "claimantId": "132ab",
-      "documents": [
-        {
-          "id": "12ac",
-          "description": "Предна броня",
-          "document": "binary representation of document"
-        }
+      "id": "1af5",
+      "policyId": "2af5",
+      "amount": "120",
+      "amountCurrency": "BGN",
+      "paymentDate": "2024-04-15"
+    }
+  ],
+  "users": [
+    {
+      "email": "Vasko@email",
+      "password": "123",
+      "fullName": "Vasil Egov",
+      "idNumber": "931108",
+      "rights": [
       ]
+    }
+  ],
+  "policyTemplates": [
+    {
+      "id": "8af2",
+      "name": "Car insurance",
+      "type": "CAR_INSURANCE",
+      "description": "Insure your car with us"
+    },
+    {
+      "id": "8afc",
+      "name": "Property insurance",
+      "type": "PROPERTY_INSURANCE",
+      "description": "Insure your property with us"
+    },
+    {
+      "id": "8afd",
+      "name": "Health insurance",
+      "type": "HEALTH_INSURANCE",
+      "description": "You can trust us with your health"
     }
   ]
 }

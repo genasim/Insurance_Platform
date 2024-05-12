@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API from "./ApiClient";
+import API, {Tables} from "../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 
 interface LoginState {
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll("users")
+        API.findAll(Tables.USERS)
             .then(x => {
                 const user = x.find(x => x.email === state.email);
                 if (!user) {
@@ -40,7 +40,8 @@ const Login: React.FC = () => {
                     throw new Error("Invalid username or password");
                 }
 
-                sessionStorage.setItem('token', "IM IN");
+                sessionStorage.setItem('token', "PUT TOKEN HERE");
+                sessionStorage.setItem('rights', user.rights.join(","));
                 navigate("/home");
             }).catch(_ => {
             setState({
@@ -58,8 +59,8 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className="container-md align-content-center mt-5">
-            <div style={{height: "15vh"}}></div>
+        <div className="container-md align-content-center my-5">
+            <div style={{height: "5vh"}}></div>
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h3 className="h3 text-center my-4">Login</h3>

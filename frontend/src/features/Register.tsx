@@ -1,8 +1,9 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API from "./ApiClient";
-import {UserDto} from "./User";
+import API, {Tables} from "../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
+import {UserDto} from "./UserDto";
+import {Right} from "../models/Rights";
 
 interface LoginState {
     registerEmail: string | undefined,
@@ -54,7 +55,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll("users")
+        API.findAll(Tables.USERS)
             .then((x) => {
                 const user = x.find(x => x.email === state.registerEmail);
                 if (user) {
@@ -67,9 +68,9 @@ const Login: React.FC = () => {
                     password: state.registerPassword!,
                     fullName: state.registerFullName!,
                     idNumber: state.registerIdNumber!,
+                    rights: [Right.CLIENT]
                 }
-                //ToDo all table names in a single place
-                return API.create("users", user)
+                return API.create(Tables.USERS, user)
                     .then(() => navigate("/login"));
             }).catch(err => {
             setState({
@@ -100,7 +101,7 @@ const Login: React.FC = () => {
     function validateRegisterData() {
         let isValid = true;
         const emailErrors: string[] = [];
-        if (!state.registerEmail) {
+        if (!state.registerEmail || !state.registerEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
             emailErrors.push("Invalid email address");
             isValid = false;
         }
@@ -165,7 +166,7 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className="container-md align-content-center mt-5">
+        <div className="container-md align-content-center my-5">
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h4 className="h4 text-center my-4">Register an account with us!</h4>
