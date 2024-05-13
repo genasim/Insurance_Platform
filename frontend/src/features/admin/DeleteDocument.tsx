@@ -55,6 +55,7 @@ const DeleteDocument = () => {
         })
     };
 
+    //ToDO middle pages and todo filter function
     const handleOnNextPageClick = () => {
         if (state.currentPage >= state.pageCount - 1) {
             return;
@@ -89,6 +90,7 @@ const DeleteDocument = () => {
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Claim Id</th>
+                    <th scope="col">Number</th>
                     <th scope="col">Last</th>
                     <th scope="col" className="text-end">
                         <span className="me-4">Actions</span>
@@ -102,6 +104,7 @@ const DeleteDocument = () => {
                         <tr key={doc.id}>
                             <th scope="row">{index + 1}</th>
                             <td>{doc.claimId}</td>
+                            <td>{doc.claimNumber}</td>
                             <td>{doc.description}</td>
                             <td className="text-end">
                                 <button className="btn btn-danger me-3" onClick={() => handleOnDelete(doc.id)}>Delete
@@ -113,12 +116,13 @@ const DeleteDocument = () => {
             </table>
             <nav aria-label="Delete document pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item"><a className="page-link" href="#"
+                    <li className="page-item"><a className="page-link"
                                                  onClick={handleOnPreviousPageClick}>Previous</a></li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item"><a className="page-link" href="#"
+                    {}
+                    <li className="page-item"><a className="page-link">1</a></li>
+                    <li className="page-item"><a className="page-link">2</a></li>
+                    <li className="page-item"><a className="page-link">3</a></li>
+                    <li className="page-item"><a className="page-link"
                                                  onClick={handleOnNextPageClick}>Next</a>
                     </li>
                 </ul>

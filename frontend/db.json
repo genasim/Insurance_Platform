@@ -397,7 +397,8 @@
       "rights": [
         "CLIENT",
         "ADMIN"
-      ]
+      ],
+      "id": "6ed4"
     }
   ],
   "policy-templates": [
