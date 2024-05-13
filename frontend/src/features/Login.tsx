@@ -42,7 +42,7 @@ const Login: React.FC = () => {
 
                 sessionStorage.setItem('token', "PUT TOKEN HERE");
                 sessionStorage.setItem('rights', user.rights.join(","));
-                navigate("/home");
+                navigate("/");
             }).catch(_ => {
             setState({
                 ...state,
