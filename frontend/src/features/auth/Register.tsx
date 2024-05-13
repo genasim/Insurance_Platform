@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useCallback, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
@@ -81,25 +81,7 @@ const Login: React.FC = () => {
         });
     }
 
-    useEffect(() => {
-        const {
-            passwordErrors,
-            emailErrors,
-            idNumberErrors,
-            fullNameErrors
-        } = validateRegisterData();
-
-        setState({
-            ...state,
-            registerEmailErrors: emailErrors,
-            registerPasswordErrors: passwordErrors,
-            registerFullNameErrors: fullNameErrors,
-            registerIdNumberErrors: idNumberErrors,
-        })
-
-    }, [state.registerEmail, state.registerPassword, state.registerPasswordConfirm, state.registerFullName, state.registerIdNumber]);
-
-    function validateRegisterData() {
+    const validateRegisterData = useCallback(() => {
         let isValid = true;
         const emailErrors: string[] = [];
         if (!state.registerEmail || !state.registerEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
@@ -157,7 +139,26 @@ const Login: React.FC = () => {
         }
 
         return {isValid, emailErrors, passwordErrors, fullNameErrors, idNumberErrors};
-    }
+    }, [state.registerEmail, state.registerFullName, state.registerIdNumber, state.registerPassword, state.registerPasswordConfirm])
+
+
+    useEffect(() => {
+        const {
+            passwordErrors,
+            emailErrors,
+            idNumberErrors,
+            fullNameErrors
+        } = validateRegisterData();
+
+        setState({
+            ...state,
+            registerEmailErrors: emailErrors,
+            registerPasswordErrors: passwordErrors,
+            registerFullNameErrors: fullNameErrors,
+            registerIdNumberErrors: idNumberErrors,
+        })
+
+    }, [state.registerEmail, state.registerPassword, state.registerPasswordConfirm, state.registerFullName, state.registerIdNumber, validateRegisterData, state]);
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({

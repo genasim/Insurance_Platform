@@ -70,7 +70,7 @@ const Navbar = ({setLoggedIn}: NavbarProps) => {
                 <div id="main-nav" className="collapse navbar-collapse justify-content-end align-center">
                     <ul className="navbar-nav">
                         <li className="nav-item fs-5">
-                            <Link className="nav-link" to="/home">Home</Link>
+                            <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item fs-5">
                             <Link to="/client/policies" className="nav-link">

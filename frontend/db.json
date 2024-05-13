@@ -394,6 +394,15 @@
       "password": "123",
       "fullName": "Vasil Egov",
       "idNumber": "931108",
+      "rights": [],
+      "id": "8f51"
+    },
+    {
+      "id": "0218",
+      "email": "genasi@mail.co",
+      "password": "Test123!",
+      "fullName": "Genadi Kolev",
+      "idNumber": "1234567890",
       "rights": [
         "CLIENT",
         "ADMIN"
