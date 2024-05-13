@@ -53,7 +53,6 @@ export class ApiClient {
 
     private async fetchData<D>(uri: string, options?: RequestInit): Promise<D> {
         const resp = await fetch(uri, options);
-        debugger;
         if (resp.status >= 400) {
             throw new Error(await resp.text());
         }

@@ -19,14 +19,63 @@
       "id": "12ac",
       "claimId": "3122",
       "claimNumber": "002121",
-      "description": "Предна броня",
+      "description": "Предна броня 1",
       "document": "binary representation of document"
     },
     {
       "id": "12ad",
       "claimId": "3123",
       "claimNumber": "002123",
-      "description": "Предна броня - задна",
+      "description": "Предна броня - задна 2",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "12a1",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна 3",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "22ac",
+      "claimId": "3122",
+      "claimNumber": "002121",
+      "description": "Предна броня 11",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "22ad",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна 22 ",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "22a1",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна 33",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "32ac",
+      "claimId": "3122",
+      "claimNumber": "002121",
+      "description": "Предна броня 111",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "32ad",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна 222",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "32a1",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна 333",
       "document": "binary representation of document"
     }
   ],
