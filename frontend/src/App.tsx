@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     {
         //ToDo index file
         //ToDo remove pages
+        //ToDo use navlinks
         path: "/",
         element: <Layout/>,
         errorElement: <NotFoundPage/>,
