@@ -1,11 +1,12 @@
 import React, {ChangeEvent, useState} from 'react';
+import DeleteDocument from './DeleteDocument';
 
 interface AdminCreateUserState {
 
 }
 
 //ToDo extract 3 components here, for each action to reduce complexity
-const Admin = () => {
+const Admin: React.FC = () => {
     const [createUserState, setCreateUserState] = useState<AdminCreateUserState>({});
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -87,13 +88,8 @@ const Admin = () => {
                         </div>
                     </form>
                 </div>
-                <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"
-                     aria-labelledby="nav-delete-document-tab">
-                    <h2>Delete document</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam atque beatae blanditiis,
-                        consequatur dolorem ducimus et, ipsa minima neque non obcaecati praesentium provident
-                        quisquam
-                        recusandae repellendus temporibus voluptas voluptatem!</p>
+                <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel" aria-labelledby="nav-delete-document-tab">
+                    <DeleteDocument/>
                 </div>
             </div>
         </div>

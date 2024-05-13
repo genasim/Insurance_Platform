@@ -3,21 +3,21 @@ import {User} from "../../models/User";
 
 export enum Tables {
     CLAIMS = "claims",
-    CLAIM_DOCUMENTS = "claimDocuments",
-    CALCULATION_COEFFICIENTS = "calculationCoefficients",
-    CLAIM_PAYMENTS = "claimPayments",
+    CLAIM_DOCUMENTS = "claim-documents",
+    CALCULATION_COEFFICIENTS = "calculation-coefficients",
+    CLAIM_PAYMENTS = "claim-payments",
     NOTIFICATIONS = "notifications",
-    POLICY_PACKAGES = "policyPackages",
-    PREMIUM_PAYMENTS = "premiumPayments",
+    POLICY_PACKAGES = "policy-packages",
+    PREMIUM_PAYMENTS = "premium-payments",
     USERS = "users",
-    POLICY_TEMPLATES = "policyTemplates",
+    POLICY_TEMPLATES = "policy-templates",
 }
 
 export class ApiClient {
     constructor(private baseUrl: string) {
     }
 
-    findAll(table: string): Promise<Array<User>> {
+    findAll<V extends Identifiable>(table: string): Promise<Array<V>> {
         return this.fetchData(`${this.baseUrl}/${table}`)
     }
 
