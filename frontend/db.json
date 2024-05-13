@@ -18,7 +18,15 @@
     {
       "id": "12ac",
       "claimId": "3122",
+      "claimNumber": "002121",
       "description": "Предна броня",
+      "document": "binary representation of document"
+    },
+    {
+      "id": "12ad",
+      "claimId": "3123",
+      "claimNumber": "002123",
+      "description": "Предна броня - задна",
       "document": "binary representation of document"
     }
   ],
