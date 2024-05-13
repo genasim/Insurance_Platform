@@ -1,4 +1,5 @@
 import React from 'react';
+import DeleteDocument from "./DeleteDocument";
 
 const Admin = () => {
     return (
@@ -36,11 +37,7 @@ const Admin = () => {
                         recusandae repellendus temporibus voluptas voluptatem!</p>
                 </div>
                 <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel" aria-labelledby="nav-delete-document-tab">
-                    <h2>Delete document</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam atque beatae blanditiis,
-                        consequatur dolorem ducimus et, ipsa minima neque non obcaecati praesentium provident
-                        quisquam
-                        recusandae repellendus temporibus voluptas voluptatem!</p>
+                    <DeleteDocument/>
                 </div>
             </div>
         </div>

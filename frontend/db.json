@@ -13,15 +13,21 @@
       "status": "SUBMITTED"
     }
   ],
-  "claimDocuments": [
+  "claim-documents": [
     {
       "id": "12ac",
       "claimId": "3122",
       "description": "Предна броня",
       "document": "binary representation of document"
+    },
+    {
+      "id": "12ad",
+      "claimId": "3123",
+      "description": "Предна броня 2",
+      "document": "binary representation of document"
     }
   ],
-  "calculationCoefficients": [
+  "calculation-coefficients": [
     {
       "id": "3121",
       "policyType": "CAR_INSURANCE",
@@ -166,7 +172,7 @@
       "isEnabled": true
     }
   ],
-  "claimPayments": [
+  "claim-payments": [
     {
       "id": "1af5",
       "claimId": "12412",
@@ -182,7 +188,7 @@
       "recipientId": "1241"
     }
   ],
-  "policyPackages": [
+  "policy-packages": [
     {
       "id": "8af2",
       "policyType": "CAR_INSURANCE",
@@ -321,7 +327,7 @@
       ]
     }
   ],
-  "premiumPayments": [
+  "premium-payments": [
     {
       "id": "1af5",
       "policyId": "2af5",
@@ -341,7 +347,7 @@
       ]
     }
   ],
-  "policyTemplates": [
+  "policy-templates": [
     {
       "id": "8af2",
       "name": "Car insurance",
