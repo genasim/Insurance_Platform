@@ -1,7 +1,7 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import pages from "./pages/index";
-import PageLayout from "./layout/Layout";
+import Layout from "./layout/Layout";
 import NotFoundPage from "./pages/404";
 import ClientDashboard from "./pages/client/Dashboard";
 import Login from "./features/auth/Login";
@@ -11,7 +11,7 @@ import Admin from "./features/admin/Admin";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <PageLayout/>,
+        element: <Layout/>,
         errorElement: <NotFoundPage/>,
         children: [
             {

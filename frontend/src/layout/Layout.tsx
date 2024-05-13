@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {useState} from "react";
 import {Outlet} from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -7,7 +7,7 @@ interface LayoutState {
     isLoggedIn: boolean;
 }
 
-const PageLayout: FC = () => {
+const Layout: React.FC = () => {
     const [state, setState] = useState<LayoutState>({
         isLoggedIn: false
     });
@@ -28,4 +28,4 @@ const PageLayout: FC = () => {
     );
 };
 
-export default PageLayout;
+export default Layout;
