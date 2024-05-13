@@ -10,6 +10,8 @@ import Admin from "./features/admin/Admin";
 
 const router = createBrowserRouter([
     {
+        //ToDo index file
+        //ToDo remove pages
         path: "/",
         element: <Layout/>,
         errorElement: <NotFoundPage/>,
