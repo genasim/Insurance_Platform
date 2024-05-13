@@ -106,7 +106,7 @@ const DeleteDocument : React.FC = () => {
                             <td>{doc.claimId}</td>
                             <td>{doc.claimNumber}</td>
                             <td>{doc.description}</td>
-                            <td><img src={doc.document}></img></td>
+                            <td><img src={doc.document} alt="document"></img></td>
                             <td className="text-end">
                                 <button className="btn btn-danger me-3" onClick={() => handleOnDelete(doc.id)}>Delete
                                 </button>
