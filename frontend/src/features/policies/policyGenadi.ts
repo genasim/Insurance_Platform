@@ -7,10 +7,10 @@ export interface PolicyDTO {
   desctiption: string[];
 }
 
-export interface Policy extends PolicyDTO {
+export interface PolicyGenadi extends PolicyDTO {
   id: PolicyCardId;
 }
-
+//ToDo Genadi, tuk ti si znaesh kakva ti e ideqta. Podrejdai gi na volq svobodno.
 export const mock_policies = [
   {
     id: "1",
@@ -33,4 +33,4 @@ export const mock_policies = [
     header: "Car insurance",
     imgSrc: "/medical-insurance.svg",
   },
-] as  Policy[];
+] as  PolicyGenadi[];

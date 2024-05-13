@@ -1,48 +1,48 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import pages from "./pages/index";
-import PageLayout from "./layout/Layout";
-import NotFoundPage from "./pages/404";
-import ClientDashboard from "./pages/client/Dashboard";
-import Login from "./features/Login";
-import Register from "./features/Register";
+import Layout from "./shared/layout/Layout";
+import NotFoundPage from "./features/not-found/404";
+import Login from "./features/auth/Login";
+import Register from "./features/auth/Register";
+import Admin from "./features/admin/Admin";
+import Home from "./features/home/Home";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <PageLayout />,
-    errorElement: <NotFoundPage />,
-    children: [
-      {
+    {
+        //ToDo Genadi, pls sloji 1 stranica s path * където да е notFound и една страница глобален catch all error element
+        //ToDo use navlinks
         path: "/",
-        children: [...pages.unprotected],
-      },
-      {
-        path: "/client",
-        children: [...pages.client],
-      },
-      {
-        path: "/backoffice",
-        children: [...pages.backoffice],
-      },
-      {
-        path: "/admin",
-        children: [...pages.admin],
-      },
-      {
-        path: "login",
-        element: <Login/>
-      },
-      {
-        path: "register",
-        element: <Register/>
-      }
-    ],
-  },
+        element: <Layout/>,
+        errorElement: <NotFoundPage/>,
+        children: [
+            {
+                index: true,
+                element: <Home/>,
+            },
+            {
+                path: "/client",
+            },
+            {
+                path: "/backoffice",
+            },
+            {
+                path: "login",
+                element: <Login/>
+            },
+            {
+                path: "register",
+                element: <Register/>
+            },
+            {
+                path: "admin",
+                element: <Admin/>
+            },
+        ],
+    },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+    return <RouterProvider router={router}/>;
 }
 
 export default App;

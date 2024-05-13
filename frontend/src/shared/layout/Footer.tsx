@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Logo from "../shared/components/Logo";
+import Logo from "../components/Logo";
 import InsurancesGrid from "./InsuransesGrid";
 
 const insuranceItems = [

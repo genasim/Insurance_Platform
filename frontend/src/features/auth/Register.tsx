@@ -1,9 +1,10 @@
 import React, {ChangeEvent, FormEvent, useCallback, useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "../shared/api-client/ApiClient";
+import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
 import {UserDto} from "./UserDto";
-import {Right} from "../models/Rights";
+import {Right} from "../../models/Rights";
+import {User} from "../../models/User";
 
 interface LoginState {
     registerEmail: string | undefined,
@@ -55,7 +56,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll(Tables.USERS)
+        API.findAll<User>(Tables.USERS)
             .then((x) => {
                 const user = x.find(x => x.email === state.registerEmail);
                 if (user) {

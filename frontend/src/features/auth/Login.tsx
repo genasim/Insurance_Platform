@@ -1,13 +1,14 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "../shared/api-client/ApiClient";
+import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
+import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
+import {User} from "../../models/User";
 
 interface LoginState {
     email: string | undefined,
     password: string | undefined,
-    error: string | undefined,
-
+    error: string | undefined
 }
 
 const Login: React.FC = () => {
@@ -29,7 +30,7 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll(Tables.USERS)
+        API.findAll<User>(Tables.USERS)
             .then(x => {
                 const user = x.find(x => x.email === state.email);
                 if (!user) {
@@ -40,9 +41,9 @@ const Login: React.FC = () => {
                     throw new Error("Invalid username or password");
                 }
 
-                sessionStorage.setItem('token', "PUT TOKEN HERE");
-                sessionStorage.setItem('rights', user.rights.join(","));
-                navigate("/");
+                sessionStorage.setItem(AuthStorageKeys.TOKEN, "PUT TOKEN HERE");
+                sessionStorage.setItem(AuthStorageKeys.RIGHTS, user.rights.join(","));
+                navigate("/home");
             }).catch(_ => {
             setState({
                 ...state,
