@@ -8,7 +8,7 @@ interface DeleteDocumentState {
     currentPage: number;
 }
 
-const DeleteDocument = () => {
+const DeleteDocument : React.FC = () => {
     const pageSize = 3;
     const [state, setState] = useState<DeleteDocumentState>(
         {

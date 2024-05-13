@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteDocument from "./DeleteDocument";
 
-const Admin = () => {
+const Admin : React.FC = () => {
     return (
         <div className="container my-5">
             <nav>
