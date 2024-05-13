@@ -1,33 +1,29 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import pages from "./pages/index";
 import Layout from "./shared/layout/Layout";
-import NotFoundPage from "./pages/404";
-import ClientDashboard from "./pages/client/Dashboard";
+import NotFoundPage from "./features/not-found/404";
 import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import Admin from "./features/admin/Admin";
+import Home from "./features/home/Home";
 
 const router = createBrowserRouter([
     {
-        //ToDo index file
-        //ToDo remove pages
+        //ToDo Genadi, pls sloji 1 stranica s path * където да е notFound и една страница глобален catch all error element
         //ToDo use navlinks
         path: "/",
         element: <Layout/>,
         errorElement: <NotFoundPage/>,
         children: [
             {
-                path: "/",
-                children: [...pages.unprotected],
+                index: true,
+                element: <Home/>,
             },
             {
                 path: "/client",
-                children: [...pages.client],
             },
             {
                 path: "/backoffice",
-                children: [...pages.backoffice],
             },
             {
                 path: "login",

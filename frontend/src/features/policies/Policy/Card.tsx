@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { PolicyGenadi } from "../../models/policyGenadi";
+import { PolicyGenadi } from "../policyGenadi";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 export interface PolicyCardProps {
