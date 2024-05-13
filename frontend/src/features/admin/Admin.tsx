@@ -23,7 +23,7 @@ const Admin: React.FC = () => {
         }
     }
 
-    return (
+    let div = <>
         <div className="container my-5">
             <nav>
                 <div className="nav nav-tabs" id="nav-tabs" role="tablist">
@@ -88,12 +88,14 @@ const Admin: React.FC = () => {
                         </div>
                     </form>
                 </div>
-                <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel" aria-labelledby="nav-delete-document-tab">
+                <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"
+                     aria-labelledby="nav-delete-document-tab">
                     <DeleteDocument/>
                 </div>
             </div>
         </div>
-    );
+    </>;
+    return div;
 };
 
 export default Admin;
