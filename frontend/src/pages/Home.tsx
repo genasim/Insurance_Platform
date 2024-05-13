@@ -4,7 +4,7 @@ import HomeCard from "../components/Cards/HomeCard";
 import Policy from "../components/Policy/PolicyFacade";
 import Title from "../components/Title";
 import { homeCards } from "../models/home-card";
-import { mock_policies } from "../models/policy";
+import { mock_policies } from "../models/policyGenadi";
 
 interface HomeProps extends React.HTMLAttributes<HTMLDivElement> {}
 

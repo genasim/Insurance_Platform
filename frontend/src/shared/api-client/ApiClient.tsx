@@ -11,6 +11,7 @@ export enum Tables {
     PREMIUM_PAYMENTS = "premium-payments",
     USERS = "users",
     POLICY_TEMPLATES = "policy-templates",
+    POLICIES = "policies",
 }
 
 export class ApiClient {

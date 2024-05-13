@@ -398,7 +398,6 @@
       "id": "8f51"
     },
     {
-      "id": "0218",
       "email": "genasi@mail.co",
       "password": "Test123!",
       "fullName": "Genadi Kolev",
@@ -408,6 +407,18 @@
         "ADMIN"
       ],
       "id": "6ed4"
+    }
+  ],
+  "policies": [
+    {
+      "id": "123p",
+      "policyNumber": "0121412",
+      "holderId": "8f51",
+      "type": "CAR_INSURANCE",
+      "package": "Package id",
+      "beginDate": "2024-01-05",
+      "endDate": "2025-01-05",
+      "purchaseDate": "2024-01-02"
     }
   ],
   "policy-templates": [

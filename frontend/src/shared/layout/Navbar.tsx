@@ -1,9 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
-import Logo from "../shared/components/Logo";
-import {AuthStorageKeys} from "../shared/enums/AuthStorageKeys";
-import {Right} from "../models/Rights";
+import Logo from "../components/Logo";
+import {AuthStorageKeys} from "../enums/AuthStorageKeys";
+import {Right} from "../../models/Rights";
 
 
 interface NavbarProps {

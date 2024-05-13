@@ -1,7 +1,7 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import pages from "./pages/index";
-import Layout from "./layout/Layout";
+import Layout from "./shared/layout/Layout";
 import NotFoundPage from "./pages/404";
 import ClientDashboard from "./pages/client/Dashboard";
 import Login from "./features/auth/Login";

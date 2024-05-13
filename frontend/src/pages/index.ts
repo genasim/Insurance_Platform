@@ -26,7 +26,7 @@ export const pages: Pages = {
   ],
   client: [
     { Component: ClientDashboard, path: "", title: "Dashboard" },
-    { Component: PoliciesPayment, path: "policies", title: "Buy Policy" },
+    { Component: PoliciesPayment, path: "policies", title: "Buy PolicyGenadi" },
     { Component: ClaimSubmission, path: "claims", title: "Submit Claim" },
   ],
   backoffice: [
@@ -35,7 +35,7 @@ export const pages: Pages = {
     {
       Component: PoliciesPayment,
       path: "policies/payments",
-      title: "Policy Payments",
+      title: "PolicyGenadi Payments",
     },
     { Component: Claims, path: "claims", title: "Claims" },
     {
