@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {ClaimDocument} from "../../models/ClaimDocument";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 
@@ -6,42 +6,47 @@ interface DeleteDocumentState {
     documents: ClaimDocument[];
     pageCount: number;
     currentPage: number;
+    claimNumberFilter: string | undefined;
 }
 
 const DeleteDocument: React.FC = () => {
-    const pageSize = 3;
+    const pageSize = 5;
     const [state, setState] = useState<DeleteDocumentState>(
         {
             documents: [],
             pageCount: 1,
-            currentPage: 1
+            currentPage: 1,
+            claimNumberFilter: undefined
         }
     );
 
     useEffect(() => {
         API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS)
             .then(docs => {
-                const pageCount = calculatePageCount(docs);
+                const filteredDocuments = filterDocuments(docs);
+                const pageCount = calculatePageCount(filteredDocuments);
+                debugger;
                 setState({
                     ...state,
                     documents: docs,
                     pageCount: pageCount,
                 });
             })
-    }, []);
+    }, [state.currentPage, state.claimNumberFilter]);
 
     const handleOnDelete = (id: string) => {
         API.deleteById<ClaimDocument>(Tables.CLAIM_DOCUMENTS, id)
             .then(() => {
                 const remainingDocuments = state.documents
                     .filter((c: ClaimDocument) => c.id !== id);
-                const pageCount = calculatePageCount(remainingDocuments);
+                const filteredDocuments = filterDocuments(remainingDocuments);
+                const pageCount = calculatePageCount(filteredDocuments);
                 setState({
                     ...state,
                     documents: remainingDocuments,
                     pageCount: pageCount,
                 });
-            })
+            });
     }
 
     const handleSelectedPageClick = (pageNumber: number) => {
@@ -67,7 +72,6 @@ const DeleteDocument: React.FC = () => {
     };
 
     //ToDo boundary, not boundry typo
-    //ToDO middle pages and todo filter function
     const handleOnNextPageClick = () => {
         if (state.currentPage >= state.pageCount) {
             return;
@@ -81,8 +85,8 @@ const DeleteDocument: React.FC = () => {
 
     const calculatePageCount = (documents: ClaimDocument[]) => {
         const remainingDocuments = documents.length % pageSize;
-        const remainingPage = remainingDocuments > 0 ? 1 : 0;
-        const pageCount = documents.length / pageSize + remainingPage;
+        const remainingPage: number = remainingDocuments > 0 ? 1 : 0;
+        const pageCount: number = documents.length / pageSize + remainingPage;
         return pageCount;
     };
 
@@ -94,16 +98,38 @@ const DeleteDocument: React.FC = () => {
         return state.currentPage * pageSize;
     }
 
+    const filterDocuments = (documents: ClaimDocument[]) => {
+        alert(state.claimNumberFilter)
+        if (!!state.claimNumberFilter) {
+            alert(state.claimNumberFilter)
+            documents = documents.filter((c: ClaimDocument) => c.claimNumber.includes(state.claimNumberFilter!));
+        }
+        return documents;
+    }
+
+    const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+        setState(prevState => ({
+            ...prevState,
+            [event.target.name]: event.target.value
+        }));
+    }
+
     return (
         <div>
-            <h2>Delete document</h2>
+            <h2 className="h2 mb-4">Delete document</h2>
+            <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
+                <span className="input-group-text">Filter by claim number:</span>
+                <input type="text" className="form-control" id="claim-number-filter"
+                       name="claimNumberFilter"
+                       onChange={handleOnChange}
+                       placeholder="0821"/>
+            </div>
             <table className="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Claim Id</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Last</th>
+                    <th scope="col">Claim Number</th>
+                    <th scope="col">Description</th>
                     <th scope="col" className="text-end">
                         <span className="me-4">Actions</span>
                     </th>
@@ -113,17 +139,36 @@ const DeleteDocument: React.FC = () => {
                 {state.documents
                     .filter((doc, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
-                        <tr key={doc.id}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{doc.claimId}</td>
-                            <td>{doc.claimNumber}</td>
-                            <td>{doc.description}</td>
-                            <td><img src={doc.document} alt="document"></img></td>
-                            <td className="text-end">
-                                <button className="btn btn-danger me-3" onClick={() => handleOnDelete(doc.id)}>Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <>
+                            <tr key={doc.id}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{doc.claimNumber}</td>
+                                <td>{doc.description}</td>
+                                <td className="text-end">
+                                    <button className="btn btn-primary me-3" data-bs-toggle="modal"
+                                            data-bs-target={`#preview-document-modal-${doc.id}`}>Preview
+                                    </button>
+                                    <button className="btn btn-danger me-3"
+                                            onClick={() => handleOnDelete(doc.id)}>Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <div className="modal fade border" id={`preview-document-modal-${doc.id}`} tabIndex={-1}
+                                 aria-labelledby="modal-body"
+                                 aria-hidden="true">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <button className="btn-close" type="button" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body text-center">
+                                            <img src={doc.document} alt="document"></img>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
                     ))}
                 </tbody>
             </table>
@@ -132,9 +177,9 @@ const DeleteDocument: React.FC = () => {
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnPreviousPageClick}>Previous</a></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
-                             (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
-                                <a className="page-link">{number}</a>
-                            </li>))
+                        (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
+                            <a className="page-link">{number}</a>
+                        </li>))
                     }
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnNextPageClick}>Next</a>
