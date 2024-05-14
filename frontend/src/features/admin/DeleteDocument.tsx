@@ -28,7 +28,7 @@ const DeleteDocument: React.FC = () => {
                 debugger;
                 setState({
                     ...state,
-                    documents: docs,
+                    documents: filteredDocuments,
                     pageCount: pageCount,
                 });
             })
@@ -43,7 +43,7 @@ const DeleteDocument: React.FC = () => {
                 const pageCount = calculatePageCount(filteredDocuments);
                 setState({
                     ...state,
-                    documents: remainingDocuments,
+                    documents: filteredDocuments,
                     pageCount: pageCount,
                 });
             });
@@ -86,7 +86,7 @@ const DeleteDocument: React.FC = () => {
     const calculatePageCount = (documents: ClaimDocument[]) => {
         const remainingDocuments = documents.length % pageSize;
         const remainingPage: number = remainingDocuments > 0 ? 1 : 0;
-        const pageCount: number = documents.length / pageSize + remainingPage;
+        const pageCount: number = Math.trunc(documents.length / pageSize + remainingPage);
         return pageCount;
     };
 
@@ -99,9 +99,7 @@ const DeleteDocument: React.FC = () => {
     }
 
     const filterDocuments = (documents: ClaimDocument[]) => {
-        alert(state.claimNumberFilter)
         if (!!state.claimNumberFilter) {
-            alert(state.claimNumberFilter)
             documents = documents.filter((c: ClaimDocument) => c.claimNumber.includes(state.claimNumberFilter!));
         }
         return documents;
