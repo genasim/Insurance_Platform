@@ -7,6 +7,7 @@ import Register from "./features/auth/Register";
 import Admin from "./features/admin/Admin";
 import Home from "./features/home/Home";
 import ErrorBoundry from "./features/error-catch/ErrorBoundry";
+import ClaimSubmission from "./features/claims/ClaimSubmission";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "/client",
+                children: [
+                    {
+                        path: "claims",
+                        element: <ClaimSubmission />
+                    }
+                ]
             },
             {
                 path: "/backoffice",
