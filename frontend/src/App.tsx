@@ -6,14 +6,14 @@ import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import Admin from "./features/admin/Admin";
 import Home from "./features/home/Home";
+import ErrorBoundry from "./features/error-catch/ErrorBoundry";
 
 const router = createBrowserRouter([
     {
-        //ToDo Genadi, pls sloji 1 stranica s path * където да е notFound и една страница глобален catch all error element
         //ToDo use navlinks
         path: "/",
         element: <Layout/>,
-        errorElement: <NotFoundPage/>,
+        errorElement: <ErrorBoundry/>,
         children: [
             {
                 index: true,
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    }
 ]);
 
 function App() {
