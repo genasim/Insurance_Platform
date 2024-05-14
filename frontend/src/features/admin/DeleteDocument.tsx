@@ -26,11 +26,11 @@ const DeleteDocument: React.FC = () => {
             .then(docs => {
                 const filteredDocuments = filterDocuments(docs);
                 const pageCount = calculatePageCount(filteredDocuments);
-                debugger;
                 setState({
                     ...state,
                     documents: filteredDocuments,
                     pageCount: pageCount,
+                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
                 });
             })
     }, [state.currentPage, state.claimNumberFilter]);
@@ -136,7 +136,7 @@ const DeleteDocument: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.documents
-                    .filter((doc, index) => getBeginIndex() <= index && index < getEndIndex())
+                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
                         <>
                             <tr key={doc.id}>
