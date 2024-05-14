@@ -8,13 +8,13 @@ interface DeleteDocumentState {
     currentPage: number;
 }
 
-const DeleteDocument : React.FC = () => {
+const DeleteDocument: React.FC = () => {
     const pageSize = 3;
     const [state, setState] = useState<DeleteDocumentState>(
         {
             documents: [],
-            pageCount: 0,
-            currentPage: 0
+            pageCount: 1,
+            currentPage: 1
         }
     );
 
@@ -44,8 +44,19 @@ const DeleteDocument : React.FC = () => {
             })
     }
 
+    const handleSelectedPageClick = (pageNumber: number) => {
+        if (pageNumber < 1 || state.pageCount < pageNumber) {
+            return;
+        }
+
+        setState({
+            ...state,
+            currentPage: pageNumber,
+        })
+    };
+
     const handleOnPreviousPageClick = () => {
-        if (state.currentPage < 1) {
+        if (state.currentPage <= 1) {
             return;
         }
 
@@ -55,9 +66,10 @@ const DeleteDocument : React.FC = () => {
         })
     };
 
+    //ToDo boundary, not boundry typo
     //ToDO middle pages and todo filter function
     const handleOnNextPageClick = () => {
-        if (state.currentPage >= state.pageCount - 1) {
+        if (state.currentPage >= state.pageCount) {
             return;
         }
 
@@ -75,11 +87,11 @@ const DeleteDocument : React.FC = () => {
     };
 
     const getBeginIndex = (): number => {
-        return state.currentPage * pageSize;
+        return (state.currentPage - 1) * pageSize;
     }
 
     const getEndIndex = (): number => {
-        return (state.currentPage + 1) * pageSize;
+        return state.currentPage * pageSize;
     }
 
     return (
@@ -119,10 +131,11 @@ const DeleteDocument : React.FC = () => {
                 <ul className="pagination">
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnPreviousPageClick}>Previous</a></li>
-                    {}
-                    <li className="page-item"><a className="page-link">1</a></li>
-                    <li className="page-item"><a className="page-link">2</a></li>
-                    <li className="page-item"><a className="page-link">3</a></li>
+                    {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
+                             (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
+                                <a className="page-link">{number}</a>
+                            </li>))
+                    }
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnNextPageClick}>Next</a>
                     </li>
