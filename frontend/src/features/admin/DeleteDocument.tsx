@@ -6,16 +6,17 @@ interface DeleteDocumentState {
     documents: ClaimDocument[];
     pageCount: number;
     currentPage: number;
+    pageSize: number;
     claimNumberFilter: string | undefined;
 }
 
 const DeleteDocument: React.FC = () => {
-    const pageSize = 5;
     const [state, setState] = useState<DeleteDocumentState>(
         {
             documents: [],
             pageCount: 1,
             currentPage: 1,
+            pageSize: 5,
             claimNumberFilter: undefined
         }
     );
@@ -84,18 +85,18 @@ const DeleteDocument: React.FC = () => {
     };
 
     const calculatePageCount = (documents: ClaimDocument[]) => {
-        const remainingDocuments = documents.length % pageSize;
+        const remainingDocuments = documents.length % state.pageSize;
         const remainingPage: number = remainingDocuments > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(documents.length / pageSize + remainingPage);
+        const pageCount: number = Math.trunc(documents.length / state.pageSize + remainingPage);
         return pageCount;
     };
 
     const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * pageSize;
+        return (state.currentPage - 1) * state.pageSize;
     }
 
     const getEndIndex = (): number => {
-        return state.currentPage * pageSize;
+        return state.currentPage * state.pageSize;
     }
 
     const filterDocuments = (documents: ClaimDocument[]) => {
@@ -139,7 +140,7 @@ const DeleteDocument: React.FC = () => {
                     .map((doc, index) => (
                         <>
                             <tr key={doc.id}>
-                                <th scope="row">{index + 1}</th>
+                                <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
                                 <td>{doc.claimNumber}</td>
                                 <td>{doc.description}</td>
                                 <td className="text-end">
