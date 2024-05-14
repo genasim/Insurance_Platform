@@ -419,6 +419,26 @@
       "beginDate": "2024-01-05",
       "endDate": "2025-01-05",
       "purchaseDate": "2024-01-02"
+    },
+    {
+      "id": "129l",
+      "policyNumber": "0121415",
+      "holderId": "6ed4",
+      "type": "HEALTH_INSURANCE",
+      "package": "Package id",
+      "beginDate": "2024-01-05",
+      "endDate": "2025-01-05",
+      "purchaseDate": "2024-01-02"
+    },
+    {
+      "id": "129m",
+      "policyNumber": "0121491",
+      "holderId": "6ed4",
+      "type": "CAR_INSURANCE",
+      "package": "Package id",
+      "beginDate": "2024-01-05",
+      "endDate": "2025-01-05",
+      "purchaseDate": "2024-01-02"
     }
   ],
   "policy-templates": [
