@@ -101,9 +101,8 @@ const DeleteDocument: React.FC = () => {
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Claim Id</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Last</th>
+                    <th scope="col">Claim Number</th>
+                    <th scope="col">Description</th>
                     <th scope="col" className="text-end">
                         <span className="me-4">Actions</span>
                     </th>
@@ -113,17 +112,36 @@ const DeleteDocument: React.FC = () => {
                 {state.documents
                     .filter((doc, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
-                        <tr key={doc.id}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{doc.claimId}</td>
-                            <td>{doc.claimNumber}</td>
-                            <td>{doc.description}</td>
-                            <td><img src={doc.document} alt="document"></img></td>
-                            <td className="text-end">
-                                <button className="btn btn-danger me-3" onClick={() => handleOnDelete(doc.id)}>Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <>
+                            <tr key={doc.id}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{doc.claimNumber}</td>
+                                <td>{doc.description}</td>
+                                <td className="text-end">
+                                    <button className="btn btn-primary me-3" data-bs-toggle="modal"
+                                            data-bs-target={`#preview-document-modal-${doc.id}`}>Preview
+                                    </button>
+                                    <button className="btn btn-danger me-3"
+                                            onClick={() => handleOnDelete(doc.id)}>Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <div className="modal fade border" id={`preview-document-modal-${doc.id}`} tabIndex={-1}
+                                 aria-labelledby="modal-body"
+                                 aria-hidden="true">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <button className="btn-close" type="button" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body text-center">
+                                            <img src={doc.document} alt="document"></img>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
                     ))}
                 </tbody>
             </table>
@@ -132,9 +150,9 @@ const DeleteDocument: React.FC = () => {
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnPreviousPageClick}>Previous</a></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
-                             (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
-                                <a className="page-link">{number}</a>
-                            </li>))
+                        (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
+                            <a className="page-link">{number}</a>
+                        </li>))
                     }
                     <li className="page-item"><a className="page-link"
                                                  onClick={handleOnNextPageClick}>Next</a>
