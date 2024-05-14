@@ -13,7 +13,6 @@ const router = createBrowserRouter([
         //ToDo use navlinks
         path: "/",
         element: <Layout/>,
-        errorElement: <NotFoundPage/>,
         children: [
             {
                 index: true,
@@ -39,6 +38,10 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    }
 ]);
 
 function App() {
