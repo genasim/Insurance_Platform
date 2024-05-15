@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 import Layout from "./shared/layout/Layout";
 import NotFoundPage from "./features/not-found/404";
 import Login from "./features/auth/Login";

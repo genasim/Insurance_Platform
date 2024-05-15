@@ -4,6 +4,7 @@ import {EventType} from "./EventType";
 
 export interface Claim extends Identifiable {
     "claimNumber": string,
+    "policyId": IdType,
     "policyNumber": string,
     "submissionDate": Date,
     "eventDate": Date,
@@ -14,4 +15,3 @@ export interface Claim extends Identifiable {
     "claimantId": IdType,
     "status": ClaimStatus
 }
-
