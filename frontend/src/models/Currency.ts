@@ -1,3 +1,5 @@
 export enum Currency {
-    BGN = "BGN"
+    BGN = "BGN",
+    EUR = "EUR",
+    GBP = "GBP"
 }
