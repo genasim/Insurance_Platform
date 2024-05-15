@@ -138,8 +138,8 @@ const DeleteDocument: React.FC = () => {
                 {state.documents
                     .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
-                        <>
-                            <tr key={doc.id}>
+                        <React.Fragment key={doc.id}>
+                            <tr>
                                 <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
                                 <td>{doc.claimNumber}</td>
                                 <td>{doc.description}</td>
@@ -150,38 +150,39 @@ const DeleteDocument: React.FC = () => {
                                     <button className="btn btn-danger me-3"
                                             onClick={() => handleOnDelete(doc.id)}>Delete
                                     </button>
-                                </td>
-                            </tr>
-                            <div className="modal fade border" id={`preview-document-modal-${doc.id}`} tabIndex={-1}
-                                 aria-labelledby="modal-body"
-                                 aria-hidden="true">
-                                <div className="modal-dialog">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <button className="btn-close" type="button" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div className="modal-body text-center">
-                                            <img src={doc.document} alt="document"></img>
+                                    <div className="modal fade border" id={`preview-document-modal-${doc.id}`}
+                                         tabIndex={-1}
+                                         aria-labelledby="modal-body"
+                                         aria-hidden="true">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <button className="btn-close" type="button" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body text-center">
+                                                    <img src={doc.document} alt="document"></img>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </>
+                                </td>
+                            </tr>
+                        </React.Fragment>
                     ))}
                 </tbody>
             </table>
             <nav aria-label="Delete document pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item"><a className="page-link"
-                                                 onClick={handleOnPreviousPageClick}>Previous</a></li>
+                    <li className="page-item" key={0}><a className="page-link"
+                                                         onClick={handleOnPreviousPageClick}>Previous</a></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
                         (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
                             <a className="page-link">{number}</a>
                         </li>))
                     }
-                    <li className="page-item"><a className="page-link"
-                                                 onClick={handleOnNextPageClick}>Next</a>
+                    <li className="page-item" key={state.pageCount + 1}><a className="page-link"
+                                                                           onClick={handleOnNextPageClick}>Next</a>
                     </li>
                 </ul>
             </nav>
