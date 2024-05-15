@@ -6,3 +6,5 @@ export interface ClaimDocument extends Identifiable {
     "description": string,
     "document": string
 }
+
+export interface ClaimDocumentDTO extends Omit<ClaimDocument, "id" | "claimNumber" | "claimId"> {}

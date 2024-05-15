@@ -1,26 +1,21 @@
 import { FC } from "react";
-import {
-  Container
-} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useLoaderData } from "react-router-dom";
+import { ClaimDTO } from "../../models/Claim";
+import { ClaimDocumentDTO } from "../../models/ClaimDocument";
 import { Policy } from "../../models/Policy";
 import SubmitForm from "./SubmitForm";
-import { Claim } from "../../models/Claim";
-import { ClaimDocument } from "../../models/ClaimDocument";
 
 const SubmitClaim: FC = () => {
   const policy = useLoaderData() as Policy;
 
-  const handleOnSubmit = async (claim: Claim, docs: ClaimDocument[]) => {
+  const handleOnSubmit = async (claim: ClaimDTO, docs: ClaimDocumentDTO[]) => {
     console.log(claim, docs);
-    
-  }
+  };
 
   return (
     <Container>
-      <h3 className="my-5">
-        Fill your claim details
-      </h3>
+      <h3 className="my-5">Fill your claim details</h3>
       <SubmitForm policy={policy} onSubmit={handleOnSubmit} />
     </Container>
   );

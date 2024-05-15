@@ -15,3 +15,5 @@ export interface Claim extends Identifiable {
     "claimantId": IdType,
     "status": ClaimStatus
 }
+
+export interface ClaimDTO extends Omit<Claim, "id" | "claimNumber"> {}

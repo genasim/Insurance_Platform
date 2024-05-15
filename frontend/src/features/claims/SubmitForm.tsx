@@ -15,8 +15,8 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { Claim } from "../../models/Claim";
-import { ClaimDocument } from "../../models/ClaimDocument";
+import { ClaimDTO } from "../../models/Claim";
+import { ClaimDocumentDTO } from "../../models/ClaimDocument";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { Currency } from "../../models/Currency";
 import { EventType } from "../../models/EventType";
@@ -24,7 +24,7 @@ import { IdType } from "../../models/Identifiable";
 import { Policy } from "../../models/Policy";
 
 interface SubmitFormProps {
-  onSubmit: (claim: Claim, docs: ClaimDocument[]) => void;
+  onSubmit: (claim: ClaimDTO, docs: ClaimDocumentDTO[]) => void;
   policy: Policy;
 }
 
@@ -73,9 +73,8 @@ const SubmitForm: FC<SubmitFormProps> = ({ policy, onSubmit }) => {
 
   const { fields, append, remove } = useFieldArray({ control, name: "files" });
 
-
   const processFormData: SubmitHandler<FormData> = async (formData) => {
-    const claim: Claim = {
+    const claim: ClaimDTO = {
       claimedAmountCurrency: formData.currencry,
       claimedAmount: +formData.amount,
       eventDate: formData.eventDate!,
@@ -86,18 +85,12 @@ const SubmitForm: FC<SubmitFormProps> = ({ policy, onSubmit }) => {
       claimantId: policy.holderId,
       status: ClaimStatus.SUBMITTED,
       submissionDate: new Date(),
-
-      claimNumber: "1",
-      id: "999",
     };
 
-    const docs: ClaimDocument[] = await Promise.all(
+    const docs: ClaimDocumentDTO[] = await Promise.all(
       formData.files.map(async (file) => ({
         description: file.description,
         document: await readFileAsBase64(file.document),
-        claimId: "999",
-        claimNumber: "1",
-        id: "kmk",
       }))
     );
 
