@@ -390,11 +390,14 @@
   ],
   "users": [
     {
-      "email": "Vasko@email",
+      "email": "vasko",
       "password": "123",
       "fullName": "Vasil Egov",
       "idNumber": "931108",
-      "rights": [],
+      "rights": [
+        "CLIENT",
+        "ADMIN"
+      ],
       "id": "8f51"
     },
     {
