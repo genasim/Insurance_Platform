@@ -4,23 +4,22 @@ import { Policy } from "../../models/Policy";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
 import API from "../../shared/api-client/ApiClient";
 import { Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 interface ClaimSubmissionProps {}
 
-interface ClaimSubmissionState {
-  policies: Policy[];
-}
-
 const ClaimSubmission: FC<ClaimSubmissionProps> = () => {
-  const [state, setState] = useState<ClaimSubmissionState>({ policies: [] });
-  const token = sessionStorage.getItem("user-id");
+  const [policies, setPolicies] = useState<Policy[]>([]);
+  const userId = sessionStorage.getItem("user-id");
+
+  const navigate = useNavigate();
 
   useAsyncEffect(async () => {
     const policies = (await API.findAll<Policy>("policies")).filter(
-      (policy) => policy.holderId === token
+      (policy) => policy.holderId === userId
     );
-    setState({ ...state, policies: policies });
-  }, []);
+    setPolicies(policies);
+  }, [userId]);
 
   return (
     <Container>
@@ -43,7 +42,7 @@ const ClaimSubmission: FC<ClaimSubmissionProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {state.policies.map((policy, idx) => (
+          {policies.map((policy, idx) => (
             <tr className="align-middle" key={policy.id}>
               <th scope="row">{idx + 1}</th>
               <td>{policy.policyNumber}</td>
@@ -52,7 +51,11 @@ const ClaimSubmission: FC<ClaimSubmissionProps> = () => {
               <td>{policy.endDate.toString()}</td>
               <td>{policy.purchaseDate.toString()}</td>
               <td className="text-end">
-                <Button variant="primary" className="me-3" onClick={() => {}}>
+                <Button
+                  variant="primary"
+                  className="me-3"
+                  onClick={() => navigate({ pathname: policy.id })}
+                >
                   Select
                 </Button>
               </td>
