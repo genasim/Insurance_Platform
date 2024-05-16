@@ -38,14 +38,13 @@ const CreateUser: React.FC = () => {
             }));
             return;
         }
-        debugger
-        let rights: Set<string> = new Set<string>(state.rights);
+
+        const rights: Set<string> = new Set<string>(state.rights);
         if (event.target.checked) {
             rights.add(event.target.value);
         } else {
             rights.delete(event.target.value);
         }
-        debugger;
         setState(prevState => ({
             ...prevState,
             rights
