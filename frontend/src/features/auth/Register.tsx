@@ -158,7 +158,7 @@ const Register: React.FC = () => {
             idNumberErrors: idNumberErrors,
         })
 
-    }, [state.email, state.password, state.passwordConfirm, state.fullName, state.idNumber, validateRegisterData, state]);
+    }, [state.email, state.password, state.passwordConfirm, state.fullName, state.idNumber]);
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
