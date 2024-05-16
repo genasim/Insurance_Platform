@@ -2,40 +2,53 @@ import React, {ChangeEvent, useState} from 'react';
 import {Right} from "../../models/Rights";
 
 interface CreateUserState {
-    registerEmail: string | undefined,
-    registerPassword: string | undefined,
-    registerPasswordConfirm: string | undefined,
-    registerFullName: string | undefined,
-    registerIdNumber: string | undefined,
-    registerEmailErrors: string[],
-    registerPasswordErrors: string[],
-    registerFullNameErrors: string[],
-    registerIdNumberErrors: string[],
-    registerError: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+    passwordConfirm: string | undefined,
+    fullName: string | undefined,
+    idNumber: string | undefined,
+    rights: Set<string>,
+    emailErrors: string[],
+    passwordErrors: string[],
+    fullNameErrors: string[],
+    idNumberErrors: string[],
+    error: string | undefined,
 }
 
 const CreateUser: React.FC = () => {
     const [state, setState] = useState<CreateUserState>({
-        registerEmail: undefined,
-        registerPassword: undefined,
-        registerPasswordConfirm: undefined,
-        registerFullName: undefined,
-        registerIdNumber: undefined,
-        registerEmailErrors: [],
-        registerPasswordErrors: [],
-        registerFullNameErrors: [],
-        registerIdNumberErrors: [],
-        registerError: undefined,
+        email: undefined,
+        password: undefined,
+        passwordConfirm: undefined,
+        fullName: undefined,
+        idNumber: undefined,
+        rights: new Set<string>(),
+        emailErrors: [],
+        passwordErrors: [],
+        fullNameErrors: [],
+        idNumberErrors: [],
+        error: undefined,
     });
 
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const value = event.target.value;
-
-
+        if (event.target.name !== "right") {
+            setState(prevState => ({
+                ...prevState,
+                [event.target.name]: event.target.value
+            }));
+            return;
+        }
+        debugger
+        let rights: Set<string> = new Set<string>(state.rights);
+        if (event.target.checked) {
+            rights.add(event.target.value);
+        } else {
+            rights.delete(event.target.value);
+        }
+        debugger;
         setState(prevState => ({
             ...prevState,
-            [event.target.name]: value
+            rights
         }));
     };
 
