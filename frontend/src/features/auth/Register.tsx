@@ -6,7 +6,7 @@ import {UserDto} from "./UserDto";
 import {Right} from "../../models/Rights";
 import {User} from "../../models/User";
 
-interface LoginState {
+interface RegisterState {
     registerEmail: string | undefined,
     registerPassword: string | undefined,
     registerPasswordConfirm: string | undefined,
@@ -19,8 +19,8 @@ interface LoginState {
     registerError: string | undefined,
 }
 
-const Login: React.FC = () => {
-    const [state, setState] = useState<LoginState>({
+const Register: React.FC = () => {
+    const [state, setState] = useState<RegisterState>({
         registerEmail: undefined,
         registerPassword: undefined,
         registerPasswordConfirm: undefined,
@@ -242,4 +242,4 @@ const Login: React.FC = () => {
     );
 };
 
-export default Login;
+export default Register;
