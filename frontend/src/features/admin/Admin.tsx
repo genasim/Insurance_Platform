@@ -1,28 +1,8 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import DeleteDocument from './DeleteDocument';
+import CreateUser from "./CreateUser";
 
-interface AdminCreateUserState {
-
-}
-
-//ToDo extract 3 components here, for each action to reduce complexity
 const Admin: React.FC = () => {
-    const [createUserState, setCreateUserState] = useState<AdminCreateUserState>({});
-
-    const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-        const tab: string = event.target.name.split('-')[0];
-        const key = event.target.name.split('-').filter((x, i) => i !== 0).join('-');
-
-        switch (tab) {
-            case 'create-user': {
-                setCreateUserState(prevState => ({
-                    ...prevState,
-                    [key]: event.target.value,
-                }));
-            }
-        }
-    }
-
     let div = <>
         <div className="container my-5">
             <nav>
@@ -55,38 +35,7 @@ const Admin: React.FC = () => {
                 </div>
                 <div className="tab-pane fade p-3" id="nav-create-user" role="tabpanel"
                      aria-labelledby="nav-create-user-tab">
-                    <h2>Create user</h2>
-                    <form className="row">
-                        <div className="col-md-5 justify-content-center">
-                            <label htmlFor="register-email" className="form-label">Email: </label>
-                            <div className="mb-4 input-group">
-                                <span className="input-group-text"><i className="bi bi-envelope"></i></span>
-                                <input type="email" className="form-control" id="register-email"
-                                       name="registerEmail"
-                                    // onChange={handleOnChange}
-                                       placeholder="e.g. mario@example.com"/>
-                            </div>
-                        </div>
-                        <div className="col-md-5 justify-content-center">
-                            <label htmlFor="register-email" className="form-label">Email: </label>
-                            <div className="mb-4 input-group">
-                                <span className="input-group-text"><i className="bi bi-envelope"></i></span>
-                                <input type="email" className="form-control" id="register-email"
-                                       name="registerEmail"
-                                    // onChange={handleOnChange}
-                                       placeholder="e.g. mario@example.com"/>
-                            </div>
-                        </div>
-                        <div className="col-md-5 justify-content-center">
-                            Password
-                        </div>
-                        <div className="col-md-5 justify-content-center">
-                            Confirm Password
-                        </div>
-                        <div className="col-md-5 justify-content-center">
-                            Name
-                        </div>
-                    </form>
+                    <CreateUser/>
                 </div>
                 <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"
                      aria-labelledby="nav-delete-document-tab">
