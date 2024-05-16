@@ -10,7 +10,7 @@
       "eventDescription": "Някой ми подпали колата",
       "claimedAmount": "123.00",
       "claimedAmountCurrency": "BGN",
-      "claimantId": "132ab",
+      "claimantId": "6ed4",
       "status": "SUBMITTED"
     }
   ],
@@ -414,6 +414,26 @@
       "id": "123p",
       "policyNumber": "0121412",
       "holderId": "8f51",
+      "type": "CAR_INSURANCE",
+      "package": "Package id",
+      "beginDate": "2024-01-05",
+      "endDate": "2025-01-05",
+      "purchaseDate": "2024-01-02"
+    },
+    {
+      "id": "129l",
+      "policyNumber": "0121415",
+      "holderId": "6ed4",
+      "type": "HEALTH_INSURANCE",
+      "package": "Package id",
+      "beginDate": "2024-01-05",
+      "endDate": "2025-01-05",
+      "purchaseDate": "2024-01-02"
+    },
+    {
+      "id": "129m",
+      "policyNumber": "0121491",
+      "holderId": "6ed4",
       "type": "CAR_INSURANCE",
       "package": "Package id",
       "beginDate": "2024-01-05",

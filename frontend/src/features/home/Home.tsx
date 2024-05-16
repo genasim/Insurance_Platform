@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import HomeCard from "./HomeCard";
 import Policy from "../policies/Policy/PolicyFacade";
-import Title from "./Title";
+import Title from "../../shared/components/Title";
 import { homeCards } from "../../models/home-card";
 import { mock_policies } from "../policies/policyGenadi";
 
