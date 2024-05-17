@@ -157,6 +157,7 @@ const CreateUser: React.FC = () => {
                         <span className="input-group-text"><i className="bi bi-envelope"></i></span>
                         <input type="email" className="form-control" id="email"
                                name="email"
+                               value={state.email}
                                onChange={handleOnChange}
                                placeholder="e.g. mario@example.com"/>
                     </div>
@@ -170,6 +171,7 @@ const CreateUser: React.FC = () => {
                         <span className="input-group-text"><i className="bi bi-person"></i></span>
                         <input type="text" className="form-control" id="full-name"
                                name="fullName"
+                               value={state.fullName}
                                onChange={handleOnChange}
                                placeholder="e.g. Todor Georgiev"/>
                     </div>
@@ -183,6 +185,7 @@ const CreateUser: React.FC = () => {
                         <span className="input-group-text"><i className="bi bi-lock"></i></span>
                         <input type="password" className="form-control" id="password"
                                name="password"
+                               value={state.password}
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
@@ -196,6 +199,7 @@ const CreateUser: React.FC = () => {
                         <span className="input-group-text"><i className="bi bi-lock"></i></span>
                         <input type="password" className="form-control" id="confirm-password"
                                name="passwordConfirm"
+                               value={state.passwordConfirm}
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
@@ -206,6 +210,7 @@ const CreateUser: React.FC = () => {
                         <span className="input-group-text"><i className="bi bi-person"></i></span>
                         <input type="text" className="form-control" id="id-number"
                                name="idNumber"
+                               value={state.idNumber}
                                onChange={handleOnChange}
                                placeholder="e.g. 8211152030"/>
                     </div>
@@ -216,9 +221,10 @@ const CreateUser: React.FC = () => {
                 <div className="col-md-5 mb-4 d-flex justify-content-center">
                     {Object.keys(Right).map(right => (
                         <div key={right} className="form-check align-content-center">
-                            <input className="form-check-input" type="checkbox" value={right}
+                            <input className="form-check-input" type="checkbox"
                                    id={`checkbox-right-${right}`}
                                    name="right"
+                                   value={right}
                                    onChange={handleOnChange}
                             />
                             <label className="form-check-label me-4" htmlFor={`checkbox-right-${right}`}>
