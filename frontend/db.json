@@ -430,6 +430,28 @@
       "fullName": "Vasko",
       "idNumber": "6122334455",
       "rights": []
+    },
+    {
+      "id": "755a",
+      "email": "test8@test.com",
+      "password": "Parola123!",
+      "fullName": "Vasko",
+      "idNumber": "9122334455",
+      "rights": [
+        "ADMIN",
+        "CLIENT",
+        "EXPERT"
+      ]
+    },
+    {
+      "id": "5b70",
+      "email": "test10@test.com",
+      "password": "Parola123!",
+      "fullName": "Vasko",
+      "idNumber": "1122334456",
+      "rights": [
+        "CLIENT"
+      ]
     }
   ],
   "policies": [

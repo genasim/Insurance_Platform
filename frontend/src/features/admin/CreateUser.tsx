@@ -84,7 +84,6 @@ const CreateUser: React.FC = () => {
                 return API.create(Tables.USERS, user);
             })
             .then(_ => {
-                alert("OK")
                 setState({
                     ...INITIAL_STATE,
                     message: "Created user successfully!"
