@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useCallback, useEffect, useState} from 'react';
 import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
+import API, {Tables} from "../../shared/api-client/ApiClient";
+import {User} from "../../models/User";
+import {CreateUserDto} from "./CreateUserDto";
 
 interface CreateUserState {
     email: string | undefined,
@@ -9,7 +12,7 @@ interface CreateUserState {
     passwordConfirm: string | undefined,
     fullName: string | undefined,
     idNumber: string | undefined,
-    rights: Set<string>,
+    rights: Set<Right>,
     emailErrors: string[],
     passwordErrors: string[],
     fullNameErrors: string[],
@@ -24,7 +27,7 @@ const CreateUser: React.FC = () => {
         passwordConfirm: undefined,
         fullName: undefined,
         idNumber: undefined,
-        rights: new Set<string>(),
+        rights: new Set<Right>(),
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
@@ -32,8 +35,59 @@ const CreateUser: React.FC = () => {
         error: undefined,
     });
 
+
+    const handleCreateUser = (event: FormEvent) => {
+        event.preventDefault();
+        const {
+            emailErrors,
+            fullNameErrors,
+            idNumberErrors,
+            isValid,
+            passwordErrors
+        } = validateRegisterData();
+
+        if (!isValid) {
+            setState({
+                ...state,
+                emailErrors: emailErrors,
+                passwordErrors: passwordErrors,
+                fullNameErrors: fullNameErrors,
+                idNumberErrors: idNumberErrors,
+            })
+            return;
+        }
+
+        API.findAll<User>(Tables.USERS)
+            .then((x) => {
+                const isEmailTaken = x.some(x => x.email === state.email);
+                if (isEmailTaken) {
+                    throw new Error(`User with email ${state.email} already exists`);
+                }
+
+                const isIdNumberTaken = x.some(x => x.idNumber === state.idNumber);
+                if (isIdNumberTaken) {
+                    throw new Error(`User with id number ${state.idNumber} already exists`);
+                }
+            })
+            .then(() => {
+                const user: CreateUserDto = {
+                    email: state.email!,
+                    password: state.password!,
+                    fullName: state.fullName!,
+                    idNumber: state.idNumber!,
+                    rights: state.rights
+                }
+                return API.create(Tables.USERS, user);
+            }).catch(err => {
+            setState({
+                ...state,
+                error: err.message
+            });
+        });
+    }
+
     const validateRegisterData = useCallback(() => {
-        const validationResult  = validateUser(state);
+        const validationResult = validateUser(state);
         return validationResult;
     }, [state.email, state.fullName, state.idNumber, state.password, state.passwordConfirm])
 
@@ -65,11 +119,16 @@ const CreateUser: React.FC = () => {
             return;
         }
 
-        const rights: Set<string> = new Set<string>(state.rights);
+        const isValidRight = Object.keys(Right).some(r => r === event.target.value);
+        if (!isValidRight) {
+            throw new Error("Invalid right type in checkbox")
+        }
+
+        const rights: Set<Right> = new Set<Right>(state.rights);
         if (event.target.checked) {
-            rights.add(event.target.value);
+            rights.add(event.target.value as Right);
         } else {
-            rights.delete(event.target.value);
+            rights.delete(event.target.value as Right);
         }
         setState(prevState => ({
             ...prevState,
