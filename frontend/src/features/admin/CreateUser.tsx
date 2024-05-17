@@ -113,6 +113,9 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. Todor Georgiev"/>
                     </div>
+                    {state.fullNameErrors && <ul className="mb-4 text-danger">
+                        {state.fullNameErrors.map(e => <li key={e}>{e}</li>)}
+                    </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="confirm-password" className="form-label">Confirm password: </label>
@@ -136,6 +139,9 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. 8211152030"/>
                     </div>
+                    {state.idNumberErrors && <ul className="mb-4 text-danger">
+                        {state.idNumberErrors.map(e => <li key={e}>{e}</li>)}
+                    </ul>}
                 </div>
                 <div className="col-md-5 mb-4 d-flex justify-content-center">
                     {Object.keys(Right).map(right => (
