@@ -4,6 +4,7 @@ import Title from "../../shared/components/Title";
 import { Claim } from "../../models/Claim";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
 import API, { Tables } from "../../shared/api-client/ApiClient";
+import { useNavigate } from "react-router-dom";
 
 const ClaimsDashboard: FC = () => {
     const [claims, setClaims] = useState<Claim[]>([])
@@ -17,6 +18,8 @@ const ClaimsDashboard: FC = () => {
             setError(error as Error)
         }
     },[])
+
+    const navigate = useNavigate()
 
     return ( 
         <Container>
@@ -45,7 +48,7 @@ const ClaimsDashboard: FC = () => {
                     <td>{claim.claimedAmountCurrency}</td>
                     <td>{claim.eventType}</td>
                     <td className="text-end">
-                      <Button variant="primary">
+                      <Button variant="primary" onClick={() => navigate(claim.id)}>
                         Details
                       </Button>
                     </td>
