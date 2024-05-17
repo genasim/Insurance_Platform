@@ -21,7 +21,7 @@ interface CreateUserState {
 }
 
 const CreateUser: React.FC = () => {
-    const [state, setState] = useState<CreateUserState>({
+    const INITIAL_STATE = {
         email: undefined,
         password: undefined,
         passwordConfirm: undefined,
@@ -34,8 +34,9 @@ const CreateUser: React.FC = () => {
         idNumberErrors: [],
         error: undefined,
         message: undefined,
-    });
+    };
 
+    const [state, setState] = useState<CreateUserState>(INITIAL_STATE);
 
     const handleCreateUser = (event: FormEvent) => {
         event.preventDefault();
@@ -82,17 +83,10 @@ const CreateUser: React.FC = () => {
                 return API.create(Tables.USERS, user);
             })
             .then(x => {
-                setState({
-                    ...state,
-                    email: undefined,
-                    password: undefined,
-                    passwordConfirm: undefined,
-                    fullName: undefined,
-                    idNumber: undefined,
-                    rights: new Set<Right>(),
-                    error: undefined,
-                    message: "Created user successfully!"
-                })
+                setState(prevState => ({
+                    ...INITIAL_STATE,
+                        message: "Created user successfully!"
+                }));
             })
             .catch(err => {
             setState({
@@ -192,6 +186,9 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
+                    {state.passwordErrors && <ul className="mb-4 text-danger">
+                        {state.passwordErrors.map(e => <li key={e}>{e}</li>)}
+                    </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="confirm-password" className="form-label">Confirm password: </label>
@@ -202,9 +199,6 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
-                    {state.passwordErrors && <ul className="mb-4 text-danger">
-                        {state.passwordErrors.map(e => <li key={e}>{e}</li>)}
-                    </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="id-number" className="form-label">Id number: </label>
