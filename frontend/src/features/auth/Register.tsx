@@ -123,7 +123,7 @@ const Register: React.FC = () => {
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h4 className="h4 text-center my-4">Register an account with us!</h4>
-                    <form>
+                    <form onSubmit={handleRegister}>
                         <label htmlFor="email" className="form-label">Email: </label>
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-envelope"></i></span>
@@ -187,9 +187,7 @@ const Register: React.FC = () => {
                         <Link to="/login" className="text-center d-block text-decoration-none mb-4">Already have an
                             account? Login now!</Link>
                         <div className="mb-4 text-center">
-                            <button type="submit" className="btn btn-primary"
-                                    onSubmit={handleRegister}>Register
-                            </button>
+                            <button type="submit" className="btn btn-primary">Register</button>
                         </div>
                     </form>
                 </div>

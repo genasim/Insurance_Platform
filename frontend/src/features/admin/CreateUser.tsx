@@ -41,8 +41,9 @@ const CreateUser: React.FC = () => {
     const [state, setState] = useState<CreateUserState>(INITIAL_STATE);
 
     const handleCreateUser = (event: FormEvent) => {
-        event.preventDefault();
         debugger;
+        event.preventDefault();
+        event.nativeEvent.stopImmediatePropagation();
         const {
             emailErrors,
             fullNameErrors,
@@ -86,6 +87,7 @@ const CreateUser: React.FC = () => {
                 return API.create(Tables.USERS, user);
             })
             .then(_ => {
+                alert("OK")
                 setState({
                     ...INITIAL_STATE,
                     message: "Created user successfully!"
@@ -155,7 +157,7 @@ const CreateUser: React.FC = () => {
     return (
         <div>
             <h2 className="h2 mb-4">Create user</h2>
-            <form className="row">
+            <form className="row" onSubmit={handleCreateUser}>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="email" className="form-label">Email: </label>
                     <div className="mb-4 input-group">
@@ -243,7 +245,7 @@ const CreateUser: React.FC = () => {
                 {state.message &&
                     <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="mb-4 text-center">
-                    <button type="submit" className="btn btn-primary" onSubmit={handleCreateUser}>Create user</button>
+                    <button type="submit" className="btn btn-primary">Create user</button>
                 </div>
             </form>
         </div>
