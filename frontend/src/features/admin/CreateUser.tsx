@@ -4,21 +4,21 @@ import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
-import {debug} from "node:util";
 
 interface CreateUserState {
-    email: string | undefined,
-    password: string | undefined,
-    passwordConfirm: string | undefined,
-    fullName: string | undefined,
-    idNumber: string | undefined,
+    email: string,
+    password: string,
+    passwordConfirm: string,
+    fullName: string,
+    idNumber: string,
     rights: Set<Right>,
+    isEdited: boolean,
     emailErrors: string[],
     passwordErrors: string[],
     fullNameErrors: string[],
     idNumberErrors: string[],
-    error: string | undefined,
-    message: string | undefined,
+    error: string,
+    message: string,
 }
 
 const CreateUser: React.FC = () => {
@@ -29,6 +29,7 @@ const CreateUser: React.FC = () => {
         fullName: '',
         idNumber: '',
         rights: new Set<Right>(),
+        isEdited: false,
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
@@ -84,19 +85,19 @@ const CreateUser: React.FC = () => {
                 }
                 return API.create(Tables.USERS, user);
             })
-            .then(x => {
-                setState(prevState => ({
+            .then(_ => {
+                setState({
                     ...INITIAL_STATE,
-                        message: "Created user successfully!"
-                }));
+                    message: "Created user successfully!"
+                });
             })
             .catch(err => {
-            setState({
-                ...state,
-                error: err.message,
-                message: undefined
+                setState({
+                    ...state,
+                    error: err.message,
+                    message: ''
+                });
             });
-        });
     }
 
     const validateRegisterData = useCallback(() => {
@@ -127,6 +128,7 @@ const CreateUser: React.FC = () => {
         if (event.target.name !== "right") {
             setState(prevState => ({
                 ...prevState,
+                isEdited: true,
                 [event.target.name]: event.target.value
             }));
             return;
@@ -145,6 +147,7 @@ const CreateUser: React.FC = () => {
         }
         setState(prevState => ({
             ...prevState,
+            isEdited: true,
             rights
         }));
     };
@@ -163,7 +166,7 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. mario@example.com"/>
                     </div>
-                    {state.emailErrors && <ul className="mb-4 text-danger">
+                    {state.isEdited && state.emailErrors && <ul className="mb-4 text-danger">
                         {state.emailErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
                 </div>
@@ -177,7 +180,7 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. Todor Georgiev"/>
                     </div>
-                    {state.fullNameErrors && <ul className="mb-4 text-danger">
+                    {state.isEdited && state.fullNameErrors && <ul className="mb-4 text-danger">
                         {state.fullNameErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
                 </div>
@@ -191,7 +194,7 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
-                    {state.passwordErrors && <ul className="mb-4 text-danger">
+                    {state.isEdited && state.passwordErrors && <ul className="mb-4 text-danger">
                         {state.passwordErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
                 </div>
@@ -216,7 +219,7 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. 8211152030"/>
                     </div>
-                    {state.idNumberErrors && <ul className="mb-4 text-danger">
+                    {state.isEdited && state.idNumberErrors && <ul className="mb-4 text-danger">
                         {state.idNumberErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
                 </div>
