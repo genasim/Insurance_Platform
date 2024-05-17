@@ -128,6 +128,7 @@ const SubmitForm: FC<SubmitFormProps> = ({ policy, onSubmit }) => {
             <Form.Control
               isInvalid={formState.errors.amount !== undefined}
               type="number"
+              step={0.01}
               {...register("amount", {
                 required: "Required field",
                 valueAsNumber: true,
