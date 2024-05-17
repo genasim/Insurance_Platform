@@ -410,6 +410,22 @@
         "ADMIN"
       ],
       "id": "6ed4"
+    },
+    {
+      "id": "10f7",
+      "email": "test1@gmail.com",
+      "password": "Parola123!",
+      "fullName": "Vasko",
+      "idNumber": "1122334455",
+      "rights": {}
+    },
+    {
+      "id": "5289",
+      "email": "test2@gmail.com",
+      "password": "Parola123!",
+      "fullName": "Vasko",
+      "idNumber": "1122334456",
+      "rights": {}
     }
   ],
   "policies": [

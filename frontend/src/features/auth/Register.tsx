@@ -3,7 +3,6 @@ import React, {ChangeEvent, FormEvent, useCallback, useEffect, useState} from 'r
 import 'bootstrap/dist/css/bootstrap.css'
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
-import {RegisterUserDto} from "./RegisterUserDto";
 import {Right} from "../../models/Rights";
 import {User} from "../../models/User";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
@@ -71,12 +70,12 @@ const Register: React.FC = () => {
                 }
             })
             .then(() => {
-                const user: RegisterUserDto = {
+                const user: Omit<User, "id"> = {
                     email: state.email!,
                     password: state.password!,
                     fullName: state.fullName!,
                     idNumber: state.idNumber!,
-                    rights: new Set<Right>([Right.CLIENT])
+                    rights: [Right.CLIENT]
                 }
                 return API.create(Tables.USERS, user)
                     .then(() => navigate("/login"));

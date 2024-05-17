@@ -4,7 +4,6 @@ import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
-import {CreateUserDto} from "./CreateUserDto";
 
 interface CreateUserState {
     email: string | undefined,
@@ -70,12 +69,13 @@ const CreateUser: React.FC = () => {
                 }
             })
             .then(() => {
-                const user: CreateUserDto = {
+                debugger
+                const user: Omit<User, "id"> = {
                     email: state.email!,
                     password: state.password!,
                     fullName: state.fullName!,
                     idNumber: state.idNumber!,
-                    rights: state.rights
+                    rights: Array.from(state.rights.values())
                 }
                 return API.create(Tables.USERS, user);
             }).catch(err => {
@@ -154,16 +154,6 @@ const CreateUser: React.FC = () => {
                     </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
-                    <label htmlFor="password" className="form-label">Password: </label>
-                    <div className="mb-4 input-group">
-                        <span className="input-group-text"><i className="bi bi-lock"></i></span>
-                        <input type="password" className="form-control" id="password"
-                               name="password"
-                               onChange={handleOnChange}
-                               placeholder="****"/>
-                    </div>
-                </div>
-                <div className="col-md-5 justify-content-center">
                     <label htmlFor="full-name" className="form-label">Full name: </label>
                     <div className="mb-4 input-group">
                         <span className="input-group-text"><i className="bi bi-person"></i></span>
@@ -175,6 +165,16 @@ const CreateUser: React.FC = () => {
                     {state.fullNameErrors && <ul className="mb-4 text-danger">
                         {state.fullNameErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
+                </div>
+                <div className="col-md-5 justify-content-center">
+                    <label htmlFor="password" className="form-label">Password: </label>
+                    <div className="mb-4 input-group">
+                        <span className="input-group-text"><i className="bi bi-lock"></i></span>
+                        <input type="password" className="form-control" id="password"
+                               name="password"
+                               onChange={handleOnChange}
+                               placeholder="****"/>
+                    </div>
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="confirm-password" className="form-label">Confirm password: </label>
@@ -216,8 +216,10 @@ const CreateUser: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className="col-md-10 mb-4 text-end">
-                    <button type="submit" className="btn btn-primary">Create user</button>
+                {state.error &&
+                    <div className="col-md-4 mb-4 text-danger">{state.error}</div>}
+                <div className="col-md-8 mb-4 text-center">
+                    <button type="submit" className="btn btn-primary" onClick={handleCreateUser}>Create user</button>
                 </div>
             </form>
         </div>
