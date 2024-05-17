@@ -8,3 +8,4 @@ export interface ClaimPayment extends Identifiable {
     paymentDate: Date
 }
 
+export interface ClaimPaymentDTO extends Omit<ClaimPayment, "id"> {}

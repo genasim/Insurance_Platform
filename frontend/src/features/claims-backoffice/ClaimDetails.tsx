@@ -5,9 +5,10 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { Claim } from "../../models/Claim";
 import { ClaimDocument } from "../../models/ClaimDocument";
 import ClaimInfo from "./components/ClaimInfo";
-import { SiTicktick } from "react-icons/si";
 import API, { Tables } from "../../shared/api-client/ApiClient";
 import { ClaimStatus } from "../../models/ClaimStatus";
+import { ClaimPaymentDTO } from "../../models/ClaimPayment";
+import ResolveClaimForm from "./components/ResolveClaimForm";
 
 type LoaderData = {
   claim: Claim;
@@ -17,6 +18,7 @@ type LoaderData = {
 const ClaimDetails: FC = () => {
   const [error, setError] = useState<Error>();
   const [willApprove, setWillApprove] = useState<boolean>(false);
+
   const { claim, docs } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
@@ -33,6 +35,10 @@ const ClaimDetails: FC = () => {
     }
   };
 
+  const handleResolve = async (payment: ClaimPaymentDTO) => {
+    console.log(payment);
+  };
+
   return (
     <Container>
       <div className="my-5">
@@ -42,9 +48,9 @@ const ClaimDetails: FC = () => {
           <Button
             className="d-inline-flex align-items-center"
             onClick={() => setWillApprove(true)}
-            variant="success"
+            variant="outline-primary"
+            disabled={willApprove}
           >
-            <SiTicktick className="me-1" />
             Resolve
           </Button>
           <Button
@@ -58,9 +64,9 @@ const ClaimDetails: FC = () => {
           {error && <p className="text-danger">{error.message}</p>}
         </div>
         {willApprove && (
-            <>
-                
-            </>
+          <div className="my-5">
+            <ResolveClaimForm claim={claim} onSubmit={handleResolve} />
+          </div>
         )}
       </div>
     </Container>
