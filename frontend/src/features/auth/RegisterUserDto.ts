@@ -1,9 +1,9 @@
 import {Right} from "../../models/Rights";
 
-export interface UserDto {
+export interface RegisterUserDto {
     email:  string,
     password: string,
     fullName: string,
     idNumber: string,
-    rights: Right[]
+    rights: Set<Right>,
 }
