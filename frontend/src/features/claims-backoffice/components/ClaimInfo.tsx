@@ -41,11 +41,11 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({ claim, docs }) => {
           </InputGroup>
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
-          <Form.Label>Event Date</Form.Label>
+          <Form.Label>Event Type</Form.Label>
           <Form.Control disabled value={claim.eventType} />
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
-          <Form.Label>Event Type</Form.Label>
+          <Form.Label>Event Date</Form.Label>
           <Form.Control disabled value={claim.eventDate.toLocaleString()} />
         </Form.Group>
       </Row>
