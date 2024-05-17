@@ -17,6 +17,7 @@ interface CreateUserState {
     fullNameErrors: string[],
     idNumberErrors: string[],
     error: string | undefined,
+    message: string | undefined,
 }
 
 const CreateUser: React.FC = () => {
@@ -32,6 +33,7 @@ const CreateUser: React.FC = () => {
         fullNameErrors: [],
         idNumberErrors: [],
         error: undefined,
+        message: undefined,
     });
 
 
@@ -58,6 +60,7 @@ const CreateUser: React.FC = () => {
 
         API.findAll<User>(Tables.USERS)
             .then((x) => {
+                debugger;
                 const isEmailTaken = x.some(x => x.email === state.email);
                 if (isEmailTaken) {
                     throw new Error(`User with email ${state.email} already exists`);
@@ -69,7 +72,6 @@ const CreateUser: React.FC = () => {
                 }
             })
             .then(() => {
-                debugger
                 const user: Omit<User, "id"> = {
                     email: state.email!,
                     password: state.password!,
@@ -78,10 +80,25 @@ const CreateUser: React.FC = () => {
                     rights: Array.from(state.rights.values())
                 }
                 return API.create(Tables.USERS, user);
-            }).catch(err => {
+            })
+            .then(x => {
+                setState({
+                    ...state,
+                    email: undefined,
+                    password: undefined,
+                    passwordConfirm: undefined,
+                    fullName: undefined,
+                    idNumber: undefined,
+                    rights: new Set<Right>(),
+                    error: undefined,
+                    message: "Created user successfully!"
+                })
+            })
+            .catch(err => {
             setState({
                 ...state,
-                error: err.message
+                error: err.message,
+                message: undefined
             });
         });
     }
@@ -217,8 +234,10 @@ const CreateUser: React.FC = () => {
                     ))}
                 </div>
                 {state.error &&
-                    <div className="col-md-4 mb-4 text-danger">{state.error}</div>}
-                <div className="col-md-8 mb-4 text-center">
+                    <div className="mb-4 text-danger text-center">{state.error}</div>}
+                {state.message &&
+                    <div className="mb-4 text-success text-center">{state.message}</div>}
+                <div className="mb-4 text-center">
                     <button type="submit" className="btn btn-primary" onClick={handleCreateUser}>Create user</button>
                 </div>
             </form>

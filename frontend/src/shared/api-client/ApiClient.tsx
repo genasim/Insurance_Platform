@@ -27,7 +27,6 @@ export class ApiClient {
     }
 
     create<V extends Identifiable>(table: string, entity: Omit<V, 'id'>): Promise<V> {
-        debugger
         return this.fetchData(`${this.baseUrl}/${table.toLocaleLowerCase()}`, {
             method: 'POST',
             headers: {
