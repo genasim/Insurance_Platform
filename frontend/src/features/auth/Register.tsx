@@ -58,9 +58,14 @@ const Register: React.FC = () => {
 
         API.findAll<User>(Tables.USERS)
             .then((x) => {
-                const user = x.find(x => x.email === state.email);
-                if (user) {
+                const isEmailTaken = x.some(x => x.email === state.email);
+                if (isEmailTaken) {
                     throw new Error(`User with email ${state.email} already exists`);
+                }
+
+                const isIdNumberTaken = x.some(x => x.idNumber === state.idNumber);
+                if (isIdNumberTaken) {
+                    throw new Error(`User with id number ${state.idNumber} already exists`);
                 }
             })
             .then(() => {
