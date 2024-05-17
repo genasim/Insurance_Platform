@@ -22,16 +22,16 @@ interface RegisterState {
 
 const Register: React.FC = () => {
     const [state, setState] = useState<RegisterState>({
-        email: undefined,
-        password: undefined,
-        passwordConfirm: undefined,
-        fullName: undefined,
-        idNumber: undefined,
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        fullName: '',
+        idNumber: '',
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
         idNumberErrors: [],
-        error: undefined
+        error: ''
     });
 
     const navigate = useNavigate();
