@@ -12,6 +12,7 @@ import ClaimSubmission from "./features/claims/ClaimSubmission";
 import SubmitClaim from "./features/claims/SubmitClaim";
 import { Policy } from "./models/Policy";
 import API, { Tables } from "./shared/api-client/ApiClient";
+import ClaimsDashboard from "./features/claims-backoffice/ClaimsDashboard";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/backoffice",
+        children: [
+          {
+            path: "claims",
+            children: [
+              {
+                index: true,
+                element: <ClaimsDashboard />,
+              }
+            ]
+          }
+        ]
       },
       {
         path: "login",
