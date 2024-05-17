@@ -1,5 +1,7 @@
-import React, {ChangeEvent, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {Right} from "../../models/Rights";
+import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 
 interface CreateUserState {
     email: string | undefined,
@@ -29,6 +31,30 @@ const CreateUser: React.FC = () => {
         idNumberErrors: [],
         error: undefined,
     });
+
+    const validateRegisterData = useCallback(() => {
+        const validationResult  = validateUser(state);
+        return validationResult;
+    }, [state.email, state.fullName, state.idNumber, state.password, state.passwordConfirm])
+
+
+    useEffect(() => {
+        const {
+            passwordErrors,
+            emailErrors,
+            idNumberErrors,
+            fullNameErrors
+        } = validateRegisterData();
+
+        setState({
+            ...state,
+            emailErrors: emailErrors,
+            passwordErrors: passwordErrors,
+            fullNameErrors: fullNameErrors,
+            idNumberErrors: idNumberErrors,
+        })
+
+    }, [state.email, state.password, state.passwordConfirm, state.fullName, state.idNumber]);
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
         if (event.target.name !== "right") {
@@ -64,6 +90,9 @@ const CreateUser: React.FC = () => {
                                onChange={handleOnChange}
                                placeholder="e.g. mario@example.com"/>
                     </div>
+                    {state.emailErrors && <ul className="mb-4 text-danger">
+                        {state.emailErrors.map(e => <li key={e}>{e}</li>)}
+                    </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="password" className="form-label">Password: </label>
@@ -90,10 +119,13 @@ const CreateUser: React.FC = () => {
                     <div className="mb-4 input-group">
                         <span className="input-group-text"><i className="bi bi-lock"></i></span>
                         <input type="password" className="form-control" id="confirm-password"
-                               name="confirmPassword"
+                               name="passwordConfirm"
                                onChange={handleOnChange}
                                placeholder="****"/>
                     </div>
+                    {state.passwordErrors && <ul className="mb-4 text-danger">
+                        {state.passwordErrors.map(e => <li key={e}>{e}</li>)}
+                    </ul>}
                 </div>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="id-number" className="form-label">Id number: </label>
