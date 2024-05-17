@@ -188,7 +188,7 @@ const Register: React.FC = () => {
                             account? Login now!</Link>
                         <div className="mb-4 text-center">
                             <button type="submit" className="btn btn-primary"
-                                    onClick={handleRegister}>Register
+                                    onSubmit={handleRegister}>Register
                             </button>
                         </div>
                     </form>
