@@ -41,9 +41,7 @@ const CreateUser: React.FC = () => {
     const [state, setState] = useState<CreateUserState>(INITIAL_STATE);
 
     const handleCreateUser = (event: FormEvent) => {
-        debugger;
         event.preventDefault();
-        event.nativeEvent.stopImmediatePropagation();
         const {
             emailErrors,
             fullNameErrors,
@@ -65,7 +63,6 @@ const CreateUser: React.FC = () => {
 
         API.findAll<User>(Tables.USERS)
             .then((x) => {
-                debugger;
                 const isEmailTaken = x.some(x => x.email === state.email);
                 if (isEmailTaken) {
                     throw new Error(`User with email ${state.email} already exists`);
