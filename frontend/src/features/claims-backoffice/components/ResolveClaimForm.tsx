@@ -116,7 +116,7 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
         variant="success"
         type="submit"
       >
-        Submit
+        Approve
         <SiTicktick className="ms-1" />
       </Button>
     </Form>

@@ -7,7 +7,7 @@ import { ClaimDocument } from "../../models/ClaimDocument";
 import ClaimInfo from "./components/ClaimInfo";
 import API, { Tables } from "../../shared/api-client/ApiClient";
 import { ClaimStatus } from "../../models/ClaimStatus";
-import { ClaimPaymentDTO } from "../../models/ClaimPayment";
+import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
 import ResolveClaimForm from "./components/ResolveClaimForm";
 
 type LoaderData = {
@@ -35,8 +35,18 @@ const ClaimDetails: FC = () => {
     }
   };
 
-  const handleResolve = async (payment: ClaimPaymentDTO) => {
-    console.log(payment);
+  const handleApprove = async (payment: ClaimPaymentDTO) => {
+    try {
+        await API.update<Claim>(Tables.CLAIMS, {
+            ...claim,
+            status: ClaimStatus.APPROVED
+        })
+        await API.create<ClaimPayment>(Tables.CLAIM_PAYMENTS, payment)
+    } catch (error) {
+        setError(error as Error)
+    } finally {
+        navigate("..")
+    }
   };
 
   return (
@@ -65,7 +75,7 @@ const ClaimDetails: FC = () => {
         </div>
         {willApprove && (
           <div className="my-5">
-            <ResolveClaimForm claim={claim} onSubmit={handleResolve} />
+            <ResolveClaimForm claim={claim} onSubmit={handleApprove} />
           </div>
         )}
       </div>
