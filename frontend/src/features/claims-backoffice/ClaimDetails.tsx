@@ -37,20 +37,28 @@ const ClaimDetails: FC = () => {
 
   const handleApprove = async (payment: ClaimPaymentDTO) => {
     try {
-        await API.update<Claim>(Tables.CLAIMS, {
-            ...claim,
-            status: ClaimStatus.APPROVED
-        })
-        await API.create<ClaimPayment>(Tables.CLAIM_PAYMENTS, payment)
+      await API.update<Claim>(Tables.CLAIMS, {
+        ...claim,
+        status: ClaimStatus.APPROVED,
+      });
+      await API.create<ClaimPayment>(Tables.CLAIM_PAYMENTS, payment);
     } catch (error) {
-        setError(error as Error)
+      setError(error as Error);
     } finally {
-        navigate("..")
+      navigate("..");
     }
   };
 
   return (
     <Container>
+      <Button
+        className="mt-4 ms-4"
+        variant="outline-secondary"
+        onClick={() => navigate("..")}
+      >
+        <i className="bi bi-box-arrow-in-left mx-1"></i>
+        Go back
+      </Button>
       <div className="my-5">
         <ClaimInfo claim={claim} docs={docs} />
         <hr />

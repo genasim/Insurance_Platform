@@ -21,32 +21,16 @@ const DocumentPreviewer: FC<DocumentPreviewerProps> = ({ document }) => {
     );
     const fileURL = URL.createObjectURL(fileBlob);
 
-    switch (true) {
-      case fileType.startsWith("image/"):
-        return (
-          <img src={fileURL} alt="Document preview" className="img-fluid" />
-        );
-      case fileType === "application/pdf":
-        return (
-          <iframe
-            src={fileURL}
-            title="PDF preview"
-            width="100%"
-            height="600px"
-          />
-        );
-      case fileType.startsWith("text/"):
-        return (
-          <iframe
-            src={fileURL}
-            title="Text file preview"
-            width="100%"
-            height="600px"
-          />
-        );
-      default:
-        return <p>File type not supported for preview.</p>;
-    }
+    if (fileType.startsWith("image/"))
+      return <img src={fileURL} alt="Document preview" className="img-fluid" />;
+
+    if (fileType === "application/pdf")
+      return <iframe src={fileURL} title="PDF preview" width="100%" height="600px" />;
+    
+    if (fileType.startsWith("text/"))
+      return <iframe src={fileURL} title="Text file preview" width="100%" height="600px"/>
+
+    return <p>File type not supported for preview.</p>;
   }, [document.document]);
 
   return (
