@@ -4,6 +4,7 @@ import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
+import {debug} from "node:util";
 
 interface CreateUserState {
     email: string | undefined,
@@ -22,24 +23,25 @@ interface CreateUserState {
 
 const CreateUser: React.FC = () => {
     const INITIAL_STATE = {
-        email: undefined,
-        password: undefined,
-        passwordConfirm: undefined,
-        fullName: undefined,
-        idNumber: undefined,
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        fullName: '',
+        idNumber: '',
         rights: new Set<Right>(),
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
         idNumberErrors: [],
-        error: undefined,
-        message: undefined,
+        error: '',
+        message: '',
     };
 
     const [state, setState] = useState<CreateUserState>(INITIAL_STATE);
 
     const handleCreateUser = (event: FormEvent) => {
         event.preventDefault();
+        debugger;
         const {
             emailErrors,
             fullNameErrors,
@@ -238,7 +240,7 @@ const CreateUser: React.FC = () => {
                 {state.message &&
                     <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="mb-4 text-center">
-                    <button type="submit" className="btn btn-primary" onClick={handleCreateUser}>Create user</button>
+                    <button type="submit" className="btn btn-primary" onSubmit={handleCreateUser}>Create user</button>
                 </div>
             </form>
         </div>
