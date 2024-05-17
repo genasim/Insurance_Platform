@@ -129,6 +129,7 @@ const Register: React.FC = () => {
                             <span className="input-group-text"><i className="bi bi-envelope"></i></span>
                             <input type="email" className="form-control" id="email"
                                    name="email"
+                                   value={state.email}
                                    onChange={handleOnChange}
                                    placeholder="e.g. mario@example.com"/>
                         </div>
@@ -140,6 +141,7 @@ const Register: React.FC = () => {
                             <span className="input-group-text"><i className="bi bi-lock"></i></span>
                             <input type="password" className="form-control" id="password"
                                    name="password"
+                                   value={state.password}
                                    onChange={handleOnChange}
                                    placeholder="****"/>
                         </div>
@@ -149,6 +151,7 @@ const Register: React.FC = () => {
                             <span className="input-group-text"><i className="bi bi-lock"></i></span>
                             <input type="password" className="form-control" id="password-confirm"
                                    name="passwordConfirm"
+                                   value={state.passwordConfirm}
                                    onChange={handleOnChange}
                                    placeholder="****"/>
                         </div>
@@ -160,6 +163,7 @@ const Register: React.FC = () => {
                             <span className="input-group-text"><i className="bi bi-person"></i></span>
                             <input type="text" className="form-control" id="full-name"
                                    name="fullName"
+                                   value={state.fullName}
                                    onChange={handleOnChange}
                                    placeholder="Mario Galileo"/>
                         </div>
@@ -171,6 +175,7 @@ const Register: React.FC = () => {
                             <span className="input-group-text"><i className="bi bi-person"></i></span>
                             <input type="text" className="form-control" id="id-number"
                                    name="idNumber"
+                                   value={state.idNumber}
                                    onChange={handleOnChange}
                                    placeholder="7585951025"/>
                         </div>
