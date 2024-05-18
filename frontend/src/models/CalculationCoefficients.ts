@@ -5,8 +5,8 @@ import {CalculationCoefficientValue} from "./CalculationCoefficientValue";
 export interface CalculationCoefficients extends Identifiable {
     id: IdType,
     policyType: PolicyType,
-    "type": string,
-    "description": string,
-    "values": CalculationCoefficientValue[]
-    "isEnabled": boolean
+    type: string,
+    description: string,
+    values: CalculationCoefficientValue[]
+    isEnabled: boolean
 }
