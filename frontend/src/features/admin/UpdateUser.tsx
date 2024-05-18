@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Right} from "../../models/Rights";
 import API, {Tables} from "../../shared/api-client/ApiClient";
@@ -22,8 +22,43 @@ interface UserUpdateState {
 
 const UpdateUser: React.FC = () => {
     const {userId} = useParams();
-    const handleUserUpdate = () => {
 
+    const handleUserUpdate = (event: FormEvent) => {
+        event.preventDefault();
+        const {
+            emailErrors,
+            fullNameErrors,
+            isValid,
+        } = validateUser();
+
+        if (!isValid) {
+            setState({
+                ...state,
+                emailErrors: emailErrors,
+                fullNameErrors: fullNameErrors,
+            })
+            return;
+        }
+
+        API.findById<User>(Tables.USERS, userId as IdType)
+            .then(user => {
+                user.email = state.email;
+                user.fullName = state.fullName;
+                user.rights = Array.from(state.rights);
+                return API.update<User>(Tables.USERS, user);
+            })
+            .then(_ => {
+                setState({
+                    ...state,
+                    message: "Successfully updated user!"
+                });
+            })
+            .catch(err => {
+                setState({
+                    ...state,
+                    error: err.message,
+                });
+            });
     };
 
     const [state, setState] = useState<UserUpdateState>({
@@ -43,12 +78,12 @@ const UpdateUser: React.FC = () => {
     useEffect(() => {
         API.findById<User>(Tables.USERS, userId as IdType)
             .then(user => {
-                console.log(user);
                 setState({
                     ...state,
                     email: user.email,
                     idNumber: user.idNumber,
                     fullName: user.fullName,
+                    rights: new Set<Right>(user.rights)
                 });
             })
             .catch(err => {
@@ -66,7 +101,6 @@ const UpdateUser: React.FC = () => {
             emailErrors.push("Invalid email address");
             isValid = false;
         }
-
 
         const fullNameErrors: string[] = [];
         if (!state.fullName) {
@@ -96,11 +130,11 @@ const UpdateUser: React.FC = () => {
             setState(prevState => ({
                 ...prevState,
                 isEdited: true,
+                message: '',
                 [event.target.name]: event.target.value
             }));
             return;
         }
-
         const isValidRight = Object.keys(Right).some(r => r === event.target.value);
         if (!isValidRight) {
             throw new Error("Invalid right type in checkbox")
@@ -115,6 +149,7 @@ const UpdateUser: React.FC = () => {
         setState(prevState => ({
             ...prevState,
             isEdited: true,
+            message: '',
             rights
         }));
     };
