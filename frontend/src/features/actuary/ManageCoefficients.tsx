@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {CalculationCoefficients} from "../../models/CalculationCoefficients";
 
@@ -9,8 +9,8 @@ interface ManageCoefficientState {
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    idNumberFilter: string;
-    emailFilter: string;
+    policyTypeFilter: string;
+    typeFilter: string;
 }
 
 const ManageCoefficients: React.FC = () => {
@@ -20,8 +20,8 @@ const ManageCoefficients: React.FC = () => {
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            idNumberFilter: '',
-            emailFilter: ''
+            policyTypeFilter: '',
+            typeFilter: ''
         }
     );
 
@@ -39,7 +39,7 @@ const ManageCoefficients: React.FC = () => {
                     currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
                 });
             })
-    }, [state.currentPage, state.idNumberFilter, state.emailFilter]);
+    }, [state.currentPage, state.policyTypeFilter, state.typeFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -90,13 +90,13 @@ const ManageCoefficients: React.FC = () => {
     }
 
     const filterCoefficients = (coefficients: CalculationCoefficients[]) => {
-        // if (!!state.idNumberFilter) {
-        //     coefficients = coefficients.filter((c: User) => c.idNumber.includes(state.idNumberFilter));
-        // }
-        //
-        // if (!!state.emailFilter) {
-        //     coefficients = coefficients.filter((c: User) => c.email.includes(state.emailFilter));
-        // }
+        if (!!state.typeFilter) {
+            coefficients = coefficients.filter((c: CalculationCoefficients) => c.type.includes(state.typeFilter));
+        }
+
+        if (!!state.policyTypeFilter) {
+            coefficients = coefficients.filter((c: CalculationCoefficients) => c.policyType.includes(state.policyTypeFilter));
+        }
 
         return coefficients;
     }
@@ -112,16 +112,16 @@ const ManageCoefficients: React.FC = () => {
         <div className="container my-5">
             <h2>Manage coefficients</h2>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by id number:</span>
+                <span className="input-group-text">Filter by policy type:</span>
                 <input type="text" className="form-control" id="id-number-filter"
-                       name="idNumberFilter"
+                       name="policyTypeFilter"
                        onChange={handleOnChange}
                        placeholder="8804127324"/>
             </div>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by email:</span>
+                <span className="input-group-text">Filter by type:</span>
                 <input type="text" className="form-control" id="email-filter"
-                       name="emailFilter"
+                       name="typeFilter"
                        onChange={handleOnChange}
                        placeholder="george@domains.com"/>
             </div>
