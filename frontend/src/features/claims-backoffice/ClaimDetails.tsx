@@ -9,17 +9,19 @@ import API, { Tables } from "../../shared/api-client/ApiClient";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
 import ResolveClaimForm from "./components/ResolveClaimForm";
+import { PolicyPackages } from "../../models/PolicyPackages";
 
 type LoaderData = {
   claim: Claim;
   docs: ClaimDocument[];
+  policyPackage: PolicyPackages;
 };
 
 const ClaimDetails: FC = () => {
   const [error, setError] = useState<Error>();
   const [willApprove, setWillApprove] = useState<boolean>(false);
 
-  const { claim, docs } = useLoaderData() as LoaderData;
+  const { claim, docs, policyPackage } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
   const handleReject = async () => {
@@ -60,7 +62,7 @@ const ClaimDetails: FC = () => {
         Go back
       </Button>
       <div className="my-5">
-        <ClaimInfo claim={claim} docs={docs} />
+        <ClaimInfo claim={claim} docs={docs} policyPackage={policyPackage} />
         <hr />
         <div className="d-flex gap-4 px-4">
           <Button

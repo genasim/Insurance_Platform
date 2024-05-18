@@ -17,6 +17,7 @@ import ClaimsDashboard from "./features/claims-backoffice/ClaimsDashboard";
 import ClaimDetails from "./features/claims-backoffice/ClaimDetails";
 import { Claim } from "./models/Claim";
 import { ClaimDocument } from "./models/ClaimDocument";
+import { PolicyPackages } from "./models/PolicyPackages";
 
 const router = createBrowserRouter([
     {
@@ -66,7 +67,9 @@ const router = createBrowserRouter([
                                     const claim = await API.findById<Claim>(Tables.CLAIMS, params.claimId ?? "")
                                     const docs = (await API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS))
                                         .filter(doc => doc.claimId === claim.id)
-                                    return {claim, docs}
+                                    const policy = await API.findById<Policy>(Tables.POLICIES, claim.policyId)
+                                    const policyPackage = await API.findById<PolicyPackages>(Tables.POLICY_PACKAGES, policy.package)
+                                    return {claim, docs, policyPackage}
                                 }}
                         ]
                     }
