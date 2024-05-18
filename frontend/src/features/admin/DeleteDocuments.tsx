@@ -10,7 +10,7 @@ interface DeleteDocumentState {
     claimNumberFilter: string
 }
 
-const DeleteDocument: React.FC = () => {
+const DeleteDocuments: React.FC = () => {
     const [state, setState] = useState<DeleteDocumentState>(
         {
             documents: [],
@@ -190,4 +190,4 @@ const DeleteDocument: React.FC = () => {
     );
 };
 
-export default DeleteDocument;
+export default DeleteDocuments;

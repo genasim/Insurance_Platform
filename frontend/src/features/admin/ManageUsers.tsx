@@ -2,6 +2,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {User} from "../../models/User";
 import API, {Tables} from "../../shared/api-client/ApiClient";
+import {useNavigate} from "react-router-dom";
 
 interface ManageUserState {
     users: User[];
@@ -12,7 +13,7 @@ interface ManageUserState {
     emailFilter: string;
 }
 
-const ManageUser: React.FC = () => {
+const ManageUsers: React.FC = () => {
     const [state, setState] = useState<ManageUserState>(
         {
             users: [],
@@ -23,6 +24,8 @@ const ManageUser: React.FC = () => {
             emailFilter: ''
         }
     );
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         API.findAll<User>(Tables.USERS)
@@ -147,9 +150,8 @@ const ManageUser: React.FC = () => {
                                 <td>{user.fullName}</td>
                                 <td>{user.rights.join(", ")}</td>
                                 <td className="text-end">
-                                    <button className="btn btn-primary me-3" onClick={() => {
-                                    }}>Edit
-                                    </button>
+                                    <button className="btn btn-primary me-3" onClick={() => { navigate(`users/${user.id}`)}}>
+                                        Edit</button>
                                 </td>
                             </tr>
                         </React.Fragment>
@@ -174,4 +176,4 @@ const ManageUser: React.FC = () => {
     );
 };
 
-export default ManageUser;
+export default ManageUsers;

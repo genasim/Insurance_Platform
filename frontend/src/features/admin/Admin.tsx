@@ -1,7 +1,7 @@
 import React from 'react';
-import DeleteDocument from './DeleteDocument';
+import DeleteDocuments from './DeleteDocuments';
 import CreateUser from "./CreateUser";
-import ManageUser from "./ManageUser";
+import ManageUsers from "./ManageUsers";
 
 const Admin: React.FC = () => {
     let div = <>
@@ -28,7 +28,7 @@ const Admin: React.FC = () => {
             <div className="tab-content" id="nav-tabContent">
                 <div className="tab-pane fade show active p-3" id="nav-manage-users" role="tabpanel"
                      aria-labelledby="nav-manage-users-tab">
-                    <ManageUser/>
+                    <ManageUsers/>
                 </div>
                 <div className="tab-pane fade p-3" id="nav-create-user" role="tabpanel"
                      aria-labelledby="nav-create-user-tab">
@@ -36,7 +36,7 @@ const Admin: React.FC = () => {
                 </div>
                 <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"
                      aria-labelledby="nav-delete-document-tab">
-                    <DeleteDocument/>
+                    <DeleteDocuments/>
                 </div>
             </div>
         </div>

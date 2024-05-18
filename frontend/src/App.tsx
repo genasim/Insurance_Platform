@@ -6,14 +6,15 @@ import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import Admin from "./features/admin/Admin";
 import Home from "./features/home/Home";
-import ErrorBoundry from "./features/error-catch/ErrorBoundry";
+import ErrorBoundary from "./features/error-catch/ErrorBoundry";
+import UpdateUser from "./features/admin/UpdateUser";
 
 const router = createBrowserRouter([
     {
         //ToDo use navlinks
         path: "/",
         element: <Layout/>,
-        errorElement: <ErrorBoundry/>,
+        errorElement: <ErrorBoundary/>,
         children: [
             {
                 index: true,
@@ -35,8 +36,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "admin",
-                element: <Admin/>
+                element: <Admin/>,
             },
+            {
+                path: "admin/users/:userId",
+                element: <UpdateUser/>
+            }
         ],
     },
     {
