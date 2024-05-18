@@ -18,6 +18,7 @@ import ClaimDetails from "./features/claims-backoffice/ClaimDetails";
 import { Claim } from "./models/Claim";
 import { ClaimDocument } from "./models/ClaimDocument";
 import ManageCoefficients from "./features/actuary/ManageCoefficients";
+import UpdateCoefficient from "./features/actuary/UpdateCoefficient";
 
 const router = createBrowserRouter([
     {
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
             {
                 path: "actuary",
                 element: <ManageCoefficients/>
+            },
+            {
+                path: "actuary/:coefficientId",
+                element: <UpdateCoefficient/>
             }
         ],
     },

@@ -2,10 +2,10 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
-import {CalculationCoefficients} from "../../models/CalculationCoefficients";
+import {CalculationCoefficient} from "../../models/CalculationCoefficient";
 
 interface ManageCoefficientState {
-    coefficients: CalculationCoefficients[];
+    coefficients: CalculationCoefficient[];
     pageCount: number;
     currentPage: number;
     pageSize: number;
@@ -28,7 +28,7 @@ const ManageCoefficients: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        API.findAll<CalculationCoefficients>(Tables.CALCULATION_COEFFICIENTS)
+        API.findAll<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS)
             .then(coefficients => {
                 const filteredCoefficients = filterCoefficients(coefficients);
                 const pageCount = calculatePageCount(filteredCoefficients);
@@ -74,7 +74,7 @@ const ManageCoefficients: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (coefficients: CalculationCoefficients[]) => {
+    const calculatePageCount = (coefficients: CalculationCoefficient[]) => {
         const remainingCoefficients = coefficients.length % state.pageSize;
         const remainingPage: number = remainingCoefficients > 0 ? 1 : 0;
         const pageCount: number = Math.trunc(coefficients.length / state.pageSize + remainingPage);
@@ -89,13 +89,13 @@ const ManageCoefficients: React.FC = () => {
         return state.currentPage * state.pageSize;
     }
 
-    const filterCoefficients = (coefficients: CalculationCoefficients[]) => {
+    const filterCoefficients = (coefficients: CalculationCoefficient[]) => {
         if (!!state.typeFilter) {
-            coefficients = coefficients.filter((c: CalculationCoefficients) => c.type.includes(state.typeFilter));
+            coefficients = coefficients.filter((c: CalculationCoefficient) => c.type.includes(state.typeFilter));
         }
 
         if (!!state.policyTypeFilter) {
-            coefficients = coefficients.filter((c: CalculationCoefficients) => c.policyType.includes(state.policyTypeFilter));
+            coefficients = coefficients.filter((c: CalculationCoefficient) => c.policyType.includes(state.policyTypeFilter));
         }
 
         return coefficients;
@@ -153,7 +153,7 @@ const ManageCoefficients: React.FC = () => {
                                 <td>{coefficient.isEnabled ? "ENABLED" : "DISABLED"}</td>
                                 <td className="text-end">
                                     <button className="btn btn-primary me-3" onClick={() => {
-                                        navigate(`actuary/${coefficient.id}`)
+                                        navigate(`${coefficient.id}`)
                                     }}>
                                         Edit
                                     </button>
