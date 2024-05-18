@@ -34,7 +34,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({ claim, docs }) => {
       </Row>
       <Row>
         <Form.Group as={Col} md="4">
-          <Form.Label>Sum for reimbursment</Form.Label>
+          <Form.Label>Claimed amount</Form.Label>
           <InputGroup className="mb-4" as={Col} md="6">
             <InputGroup.Text>{claim.claimedAmountCurrency}</InputGroup.Text>
             <Form.Control disabled value={claim.claimedAmount} />
@@ -46,7 +46,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({ claim, docs }) => {
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
           <Form.Label>Event Date</Form.Label>
-          <Form.Control disabled value={claim.eventDate.toLocaleString()} />
+          <Form.Control disabled value={claim.eventDate.toString()} />
         </Form.Group>
       </Row>
       <Form.Group className="mb-4">
