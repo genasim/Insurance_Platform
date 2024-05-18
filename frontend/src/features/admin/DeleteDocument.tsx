@@ -7,7 +7,7 @@ interface DeleteDocumentState {
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    claimNumberFilter: string | undefined;
+    claimNumberFilter: string
 }
 
 const DeleteDocument: React.FC = () => {
@@ -17,7 +17,7 @@ const DeleteDocument: React.FC = () => {
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            claimNumberFilter: undefined
+            claimNumberFilter: ''
         }
     );
 
