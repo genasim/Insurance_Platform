@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Right} from "../../models/Rights";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
@@ -22,6 +22,7 @@ interface UserUpdateState {
 
 const UpdateUser: React.FC = () => {
     const {userId} = useParams();
+    const navigate = useNavigate();
 
     const handleUserUpdate = (event: FormEvent) => {
         event.preventDefault();
@@ -156,10 +157,11 @@ const UpdateUser: React.FC = () => {
 
     return (
         <div className="container my-5">
-            <h2 className="h2 mb-4">Update user</h2>
+                <button className="btn btn-secondary d-inline me-4 mb-4" onClick={() => navigate(-1)}>Back</button>
+                <h2 className="h2 mb-4 d-inline">Update user</h2>
             <form className="row" onSubmit={handleUserUpdate}>
                 <div className="col-md-5 justify-content-center">
-                    <label htmlFor="email" className="form-label">Email: </label>
+                <label htmlFor="email" className="form-label">Email: </label>
                     <div className="mb-4 input-group">
                         <span className="input-group-text"><i className="bi bi-envelope"></i></span>
                         <input type="email" className="form-control" id="email"

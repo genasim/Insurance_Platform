@@ -413,14 +413,15 @@
     },
     {
       "id": "8542",
-      "email": "test5@test.com",
+      "email": "test5-test@test.com",
       "password": "Parola123!",
-      "fullName": "Vasko",
+      "fullName": "Vasko - test",
       "idNumber": "5122334455",
       "rights": [
         "ADMIN",
         "CLIENT",
-        "EXPERT"
+        "EXPERT",
+        "ACTUARY"
       ]
     },
     {
