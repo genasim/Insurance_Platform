@@ -66,7 +66,7 @@ const Login: React.FC = () => {
             <div className="row justify-content-center">
                 <div className="col-md-4 bg-light-subtle rounded border border-2">
                     <h3 className="h3 text-center my-4">Login</h3>
-                    <form className="px-3">
+                    <form className="px-3" onSubmit={handleLogin}>
                         <label htmlFor="login-email" className="form-label">Email: </label>
                         <div className="mb-4 input-group">
                                              <span className="input-group-text">
@@ -88,9 +88,7 @@ const Login: React.FC = () => {
                         <Link to="/register" className="text-center d-block text-decoration-none mb-4">Dont have an
                             account? Register now!</Link>
                         <div className="mb-4 text-center">
-                            <button type="submit" className="btn btn-primary"
-                                    onClick={handleLogin}>Login
-                            </button>
+                            <button type="submit" className="btn btn-primary">Login</button>
                         </div>
                     </form>
                 </div>

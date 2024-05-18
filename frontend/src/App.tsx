@@ -7,7 +7,8 @@ import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import Admin from "./features/admin/Admin";
 import Home from "./features/home/Home";
-import ErrorBoundry from "./features/error-catch/ErrorBoundry";
+import UpdateUser from "./features/admin/UpdateUser";
+import ErrorBoundary from "./features/error-catch/ErrorBoundry";
 import ClaimSubmission from "./features/claims/ClaimSubmission";
 import SubmitClaim from "./features/claims/SubmitClaim";
 import { Policy } from "./models/Policy";
@@ -18,77 +19,81 @@ import { Claim } from "./models/Claim";
 import { ClaimDocument } from "./models/ClaimDocument";
 
 const router = createBrowserRouter([
-  {
-    //ToDo use navlinks
-    path: "/",
-    element: <Layout />,
-    errorElement: <ErrorBoundry />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/client",
+    {
+        //ToDo use navlinks
+        path: "/",
+        element: <Layout/>,
+        errorElement: <ErrorBoundary/>,
         children: [
-          {
-            path: "claims",
-            children: [
-              {
+            {
                 index: true,
-                element: <ClaimSubmission />,
-              },
-              {
-                path: ":policyId",
-                element: <SubmitClaim />,
-                loader: async ({ params }) =>
-                  await API.findById<Policy>(Tables.POLICIES, params.policyId ?? ""),
-              },
-            ],
-          },
+                element: <Home/>,
+            },
+            {
+                path: "/client",
+                children: [
+                    {
+                        path: "claims",
+                        children: [
+                            {
+                                index: true,
+                                element: <ClaimSubmission />,
+                            },
+                            {
+                                path: ":policyId",
+                                element: <SubmitClaim />,
+                                loader: async ({ params }) =>
+                                    await API.findById<Policy>(Tables.POLICIES, params.policyId ?? ""),
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                path: "/backoffice",
+                children: [
+                    {
+                        path: "claims",
+                        children: [
+                            {
+                                index: true,
+                                element: <ClaimsDashboard />,
+                            },
+                            {
+                                path: ":claimId",
+                                element: <ClaimDetails />,
+                                loader: async ({ params }) => {
+                                    const claim = await API.findById<Claim>(Tables.CLAIMS, params.claimId ?? "")
+                                    const docs = (await API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS))
+                                        .filter(doc => doc.claimId === claim.id)
+                                    return {claim, docs}
+                                }}
+                        ]
+                    }
+                ]
+            },
+            {
+                path: "login",
+                element: <Login/>
+            },
+            {
+                path: "register",
+                element: <Register/>
+            },
+            {
+                path: "admin",
+                element: <Admin/>,
+            },
+            {
+                path: "admin/users/:userId",
+                element: <UpdateUser/>
+            }
         ],
-      },
-      {
-        path: "/backoffice",
-        children: [
-          {
-            path: "claims",
-            children: [
-              {
-                index: true,
-                element: <ClaimsDashboard />,
-              },
-              {
-                path: ":claimId",
-                element: <ClaimDetails />,
-                loader: async ({ params }) => {
-                  const claim = await API.findById<Claim>(Tables.CLAIMS, params.claimId ?? "")
-                  const docs = (await API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS))
-                    .filter(doc => doc.claimId === claim.id)
-                  return {claim, docs}
-                }}
-            ]
-          }
-        ]
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "admin",
-        element: <Admin />,
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    }
 ]);
 
 function App() {
