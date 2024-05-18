@@ -1,4 +1,4 @@
-interface CreateUserDto {
+interface UserValidationDto {
     email: string | undefined,
     password: string | undefined,
     passwordConfirm: string | undefined,
@@ -6,7 +6,7 @@ interface CreateUserDto {
     idNumber: string | undefined,
 }
 
-const validateUser = (state: CreateUserDto) => {
+const validateUser = (state: UserValidationDto) => {
     let isValid = true;
     const emailErrors: string[] = [];
     if (!state.email || !state.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {

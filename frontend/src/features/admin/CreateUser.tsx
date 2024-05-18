@@ -5,7 +5,7 @@ import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
 
-interface CreateUserState {
+interface UserCreateState {
     email: string,
     password: string,
     passwordConfirm: string,
@@ -38,7 +38,7 @@ const CreateUser: React.FC = () => {
         message: '',
     };
 
-    const [state, setState] = useState<CreateUserState>(INITIAL_STATE);
+    const [state, setState] = useState<UserCreateState>(INITIAL_STATE);
 
     const handleCreateUser = (event: FormEvent) => {
         event.preventDefault();
@@ -132,7 +132,7 @@ const CreateUser: React.FC = () => {
             return;
         }
 
-        const isValidRight = Object.keys(Right).some(r => r === event.target.value);
+        const isValidRight = Object.values(Right).some(r => r === event.target.value);
         if (!isValidRight) {
             throw new Error("Invalid right type in checkbox")
         }
@@ -222,7 +222,7 @@ const CreateUser: React.FC = () => {
                     </ul>}
                 </div>
                 <div className="col-md-5 mb-4 d-flex justify-content-center">
-                    {Object.keys(Right).map(right => (
+                    {Object.values(Right).map(right => (
                         <div key={right} className="form-check align-content-center">
                             <input className="form-check-input" type="checkbox"
                                    id={`checkbox-right-${right}`}
