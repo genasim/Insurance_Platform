@@ -1,6 +1,7 @@
 import React from 'react';
 import DeleteDocument from './DeleteDocument';
 import CreateUser from "./CreateUser";
+import ManageUser from "./ManageUser";
 
 const Admin: React.FC = () => {
     let div = <>
@@ -27,11 +28,7 @@ const Admin: React.FC = () => {
             <div className="tab-content" id="nav-tabContent">
                 <div className="tab-pane fade show active p-3" id="nav-manage-users" role="tabpanel"
                      aria-labelledby="nav-manage-users-tab">
-                    <h2>Manage users</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aperiam atque beatae blanditiis,
-                        consequatur dolorem ducimus et, ipsa minima neque non obcaecati praesentium provident
-                        quisquam
-                        recusandae repellendus temporibus voluptas voluptatem!</p>
+                    <ManageUser/>
                 </div>
                 <div className="tab-pane fade p-3" id="nav-create-user" role="tabpanel"
                      aria-labelledby="nav-create-user-tab">
