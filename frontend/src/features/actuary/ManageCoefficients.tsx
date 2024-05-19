@@ -110,7 +110,15 @@ const ManageCoefficients: React.FC = () => {
 
     return (
         <div className="container my-5">
-            <h2>Manage coefficients</h2>
+            <div className="d-flex">
+            <h2 className="col-md-11 me-4">Manage coefficients</h2>
+            <div className="col-md-1">
+                <button className="btn btn-primary me-4 mb-4"
+                        onClick={() => navigate('/actuary/create-coefficient')}>Create
+                </button>
+            </div>
+            </div>
+
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
                 <span className="input-group-text">Filter by policy type:</span>
                 <input type="text" className="form-control" id="id-number-filter"
