@@ -4,6 +4,6 @@ import {Currency} from "./Currency";
 export interface PremiumPayments extends Identifiable {
     policyId: IdType
     amount: number,
-    "amountCurrency": Currency,
-    "paymentDate": Date
+    amountCurrency: Currency,
+    paymentDate: Date
 }
