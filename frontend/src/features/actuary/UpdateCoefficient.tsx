@@ -18,6 +18,7 @@ interface CoefficientUpdateState {
     isEdited: boolean,
     typeErrors: string[],
     descriptionErrors: string[],
+    coefficientErrors: string[],
     error: string,
     message: string,
 }
@@ -36,6 +37,7 @@ const UpdateCoefficient: React.FC = () => {
         isEdited: false,
         typeErrors: [],
         descriptionErrors: [],
+        coefficientErrors: [],
         error: '',
         message: ''
     });
@@ -88,11 +90,19 @@ const UpdateCoefficient: React.FC = () => {
     }
 
     const handleAddCoefficientValue = (event: React.MouseEvent<HTMLDivElement>) => {
-        if(!state.coefficientName || !state.coefficientValue) {
+        if (!state.coefficientName || !state.coefficientValue) {
+            setState({
+                ...state,
+                coefficientErrors: ["Value or name is empty"],
+            });
             return;
         }
 
         if (state.values.map(x => x.name).some(presentName => presentName === state.coefficientName)) {
+            setState({
+                ...state,
+                coefficientErrors: ["Coefficient already exists"],
+            });
             return;
         }
 
@@ -100,6 +110,9 @@ const UpdateCoefficient: React.FC = () => {
         updatedValues.push({name: state.coefficientName, value: state.coefficientValue})
         setState({
             ...state,
+            coefficientName: '',
+            coefficientValue: 0,
+            coefficientErrors: [],
             values: updatedValues,
         });
     }
@@ -264,6 +277,9 @@ const UpdateCoefficient: React.FC = () => {
                        onChange={handleOnChange}
                        placeholder="value"/>
             </div>
+            {state.isEdited && state.coefficientErrors && <ul className="mb-4 text-danger">
+                {state.coefficientErrors.map(e => <li key={e}>{e}</li>)}
+            </ul>}
             <div className="col-md-3 justify-content-center text-center">
                 <div className="btn btn-primary" onClick={(event) => handleAddCoefficientValue(event)}>
                     Add Coefficient value
