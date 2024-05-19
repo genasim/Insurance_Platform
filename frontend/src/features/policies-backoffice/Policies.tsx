@@ -23,6 +23,8 @@ interface PolicyDto {
     type: string,
     packageId: string,
     package: string,
+    premium: string,
+    premiumCurrency: string
     coverage: string[]
     beginDate: Date,
     endDate: Date,
@@ -181,6 +183,7 @@ const Policies: React.FC = () => {
                     <th scope="col">Begin date</th>
                     <th scope="col">End date</th>
                     <th scope="col">Purchase date</th>
+                    <th scope="col">Premium</th>
                     <th scope="col">Coverage</th>
                 </tr>
                 </thead>
@@ -197,6 +200,7 @@ const Policies: React.FC = () => {
                                 <td>{policy.beginDate.toString()}</td>
                                 <td>{policy.endDate.toString()}</td>
                                 <td>{policy.purchaseDate.toString()}</td>
+                                <td>{policy.premium} {policy.premiumCurrency}</td>
                                 <td>
                                     {policy.coverage.map(x => <li key={x}>{x}</li>)}
                                 </td>
