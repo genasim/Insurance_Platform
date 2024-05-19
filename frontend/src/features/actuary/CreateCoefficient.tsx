@@ -7,7 +7,7 @@ import {PolicyType} from "../../models/PolicyType";
 import {CalculationCoefficientValue} from "../../models/CalculationCoefficientValue";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
 
-interface CoefficientUpdateState {
+interface CoefficientCreateState {
     policyType: PolicyType,
     type: string,
     description: string,
@@ -22,10 +22,10 @@ interface CoefficientUpdateState {
     message: string,
 }
 
-const UpdateCoefficient: React.FC = () => {
+const CreateCoefficient: React.FC = () => {
     const {coefficientId} = useParams();
     const navigate = useNavigate();
-    const [state, setState] = useState<CoefficientUpdateState>({
+    const [state, setState] = useState<CoefficientCreateState>({
         policyType: PolicyType.CAR_INSURANCE,
         type: '',
         description: '',
@@ -40,44 +40,52 @@ const UpdateCoefficient: React.FC = () => {
         message: ''
     });
 
-    const handleCoefficientUpdate = (event: FormEvent) => {
-            event.preventDefault();
-            const {
-                typeErrors,
-                descriptionErrors,
-                isValid,
-            } = validateCoefficient();
+    const handleCoefficientCreate = (event: FormEvent) => {
+        event.preventDefault();
+        const {
+            typeErrors,
+            descriptionErrors,
+            isValid,
+        } = validateCoefficient();
 
-            if (!isValid) {
+        if (!isValid) {
+            setState({
+                ...state,
+                typeErrors: typeErrors,
+                descriptionErrors: descriptionErrors,
+            })
+            return;
+        }
+
+        const coefficientEntity: Omit<CalculationCoefficient, "id"> = {
+            policyType: state.policyType,
+            type: state.type,
+            description: state.description,
+            values: state.values,
+            isEnabled: state.isEnabled,
+        };
+
+        API.findAll<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS)
+            .then(coefficients => {
+                const exists = coefficients
+                    .some(x => x.type === state.type && x.policyType === state.policyType);
+                if (exists) {
+                    throw new Error("Coefficient coefficient already exists!");
+                }
+            })
+            .then(_ => API.create<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficientEntity))
+            .then(_ => {
                 setState({
                     ...state,
-                    typeErrors: typeErrors,
-                    descriptionErrors: descriptionErrors,
-                })
-                return;
-            }
-
-            API.findById<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficientId as IdType)
-                .then(coefficient => {
-                    coefficient.type = state.type;
-                    coefficient.description = state.description;
-                    coefficient.policyType = state.policyType;
-                    coefficient.values = state.values;
-                    coefficient.isEnabled = state.isEnabled;
-                    return API.update<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficient);
-                })
-                .then(_ => {
-                    setState({
-                        ...state,
-                        message: "Successfully updated coefficient!"
-                    });
-                })
-                .catch(err => {
-                    setState({
-                        ...state,
-                        error: err.message,
-                    });
+                    message: "Successfully created coefficient!"
                 });
+            })
+            .catch(err => {
+                setState({
+                    ...state,
+                    error: err.message,
+                });
+            });
     };
 
     const handleCoefficientDelete = (name: string) => {
@@ -88,7 +96,7 @@ const UpdateCoefficient: React.FC = () => {
     }
 
     const handleAddCoefficientValue = (event: React.MouseEvent<HTMLDivElement>) => {
-        if(!state.coefficientName || !state.coefficientValue) {
+        if (!state.coefficientName || !state.coefficientValue) {
             return;
         }
 
@@ -177,8 +185,8 @@ const UpdateCoefficient: React.FC = () => {
     return (
         <div className="container my-5">
             <button className="btn btn-secondary d-inline me-4 mb-4" onClick={() => navigate('/actuary')}>Back</button>
-            <h2 className="h2 mb-4 d-inline">Update coefficient</h2>
-            <form className="row" onSubmit={handleCoefficientUpdate}>
+            <h2 className="h2 mb-4 d-inline">Create coefficient</h2>
+            <form className="row" onSubmit={handleCoefficientCreate}>
                 <div className="col-md-5 justify-content-center">
                     <label htmlFor="policy-type" className="form-label">Policy type: </label>
                     <div className="mb-4 input-group">
@@ -273,4 +281,4 @@ const UpdateCoefficient: React.FC = () => {
     );
 };
 
-export default UpdateCoefficient;
+export default CreateCoefficient;

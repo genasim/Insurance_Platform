@@ -1,9 +1,8 @@
-import {Identifiable, IdType} from "./Identifiable";
+import {Identifiable} from "./Identifiable";
 import {PolicyType} from "./PolicyType";
 import {CalculationCoefficientValue} from "./CalculationCoefficientValue";
 
 export interface CalculationCoefficient extends Identifiable {
-    id: IdType,
     policyType: PolicyType,
     type: string,
     description: string,
