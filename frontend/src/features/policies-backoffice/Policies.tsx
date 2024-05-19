@@ -23,6 +23,7 @@ interface PolicyDto {
     type: string,
     packageId: string,
     package: string,
+    coverage: string[]
     beginDate: Date,
     endDate: Date,
     purchaseDate: Date,
@@ -70,7 +71,8 @@ const Policies: React.FC = () => {
                     const policyDTO: PolicyDto = {
                         ...p,
                         holderName: user.fullName,
-                        package: policyPackage.name
+                        package: policyPackage.name,
+                        coverage: policyPackage.coverage
                     }
                     return policyDTO;
                 });
@@ -154,7 +156,7 @@ const Policies: React.FC = () => {
 
     return (
         <div className="container-md">
-            <h2>Manage users</h2>
+            <h2>Policies backoffice</h2>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
                 <span className="input-group-text">Filter by number:</span>
                 <input type="text" className="form-control" id="id-number-filter"
@@ -179,9 +181,7 @@ const Policies: React.FC = () => {
                     <th scope="col">Begin date</th>
                     <th scope="col">End date</th>
                     <th scope="col">Purchase date</th>
-                    <th scope="col" className="text-end">
-                        <span className="me-4">Actions</span>
-                    </th>
+                    <th scope="col">Coverage</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -197,9 +197,8 @@ const Policies: React.FC = () => {
                                 <td>{policy.beginDate.toString()}</td>
                                 <td>{policy.endDate.toString()}</td>
                                 <td>{policy.purchaseDate.toString()}</td>
-                                <td className="text-end">
-                                    <button className="btn btn-primary me-3" onClick={() => { navigate(`users/${policy.id}`)}}>
-                                        Details</button>
+                                <td>
+                                    {policy.coverage.map(x => <li key={x}>{x}</li>)}
                                 </td>
                             </tr>
                         </React.Fragment>
