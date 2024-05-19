@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
+import {IdType} from "../../models/Identifiable";
 
 interface ManageCoefficientState {
     coefficients: CalculationCoefficient[];
@@ -73,6 +74,14 @@ const ManageCoefficients: React.FC = () => {
             currentPage: state.currentPage + 1,
         })
     };
+
+    const handleDelete = (id: IdType) => {
+        API.deleteById<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, id)
+            .then(_ => setState({
+                ...state,
+                coefficients: state.coefficients.filter(coefficient => coefficient.id !== id)
+            }));
+    }
 
     const calculatePageCount = (coefficients: CalculationCoefficient[]) => {
         const remainingCoefficients = coefficients.length % state.pageSize;
@@ -165,6 +174,9 @@ const ManageCoefficients: React.FC = () => {
                                     }}>
                                         Edit
                                     </button>
+                                    <button className="btn btn-danger me-3" onClick={() => handleDelete(coefficient.id)}>
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         </React.Fragment>
@@ -173,7 +185,7 @@ const ManageCoefficients: React.FC = () => {
             </table>
             <nav aria-label="Manage coefficient pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item" key={0}><a className="page-link"
+                <li className="page-item" key={0}><a className="page-link"
                                                          onClick={handleOnPreviousPageClick}>Previous</a></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
                         (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
