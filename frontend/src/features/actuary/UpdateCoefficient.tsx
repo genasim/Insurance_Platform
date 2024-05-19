@@ -172,7 +172,7 @@ const UpdateCoefficient: React.FC = () => {
     //ToDo why some form post to the url react
     return (
         <div className="container my-5">
-            <button className="btn btn-secondary d-inline me-4 mb-4" onClick={() => navigate(-1)}>Back</button>
+            <button className="btn btn-secondary d-inline me-4 mb-4" onClick={() => navigate('/actuary')}>Back</button>
             <h2 className="h2 mb-4 d-inline">Update coefficient</h2>
             <form className="row" onSubmit={handleCoefficientUpdate}>
                 <div className="col-md-5 justify-content-center">
