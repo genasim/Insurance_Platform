@@ -8,8 +8,7 @@ import {
   InputGroup,
   Row,
 } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { SiTicktick } from "react-icons/si";
 import { Claim } from "../../../models/Claim";
 import { ClaimPaymentDTO } from "../../../models/ClaimPayment";
@@ -23,17 +22,15 @@ interface ResolveClaimFormProps {
 interface FormData {
   amount: number;
   currency: Currency;
-  payDay: Date;
 }
 
 const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
   const [currency, setCurrency] = useState<Currency>(Currency.BGN);
-  const { register, formState, setValue, control, handleSubmit } =
+  const { register, formState, setValue, handleSubmit } =
     useForm<FormData>({
       defaultValues: {
         amount: 0,
         currency: Currency.BGN,
-        payDay: new Date(),
       },
     });
 
@@ -41,8 +38,8 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
     const payment: ClaimPaymentDTO = {
       amount: formData.amount,
       amountCurrency: formData.currency,
-      paymentDate: formData.payDay,
       claimId: claim.id,
+      paymentDate: new Date(),
     };
     onSubmit(payment);
   };
@@ -51,7 +48,7 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
     <Form onSubmit={handleSubmit(processFormData)}>
       <Row>
         <Form.Group as={Col} md="6">
-          <Form.Label>Sum for reimbursment</Form.Label>
+          <Form.Label>Approved amount</Form.Label>
           <InputGroup className="mb-4" as={Col} md="6">
             <InputGroup.Text className="p-0">
               <DropdownButton
@@ -85,30 +82,6 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
               {formState.errors.amount?.message}
             </Form.Control.Feedback>
           </InputGroup>
-        </Form.Group>
-
-        <Form.Group as={Col} md="6" className="mb-4 d-flex flex-column">
-          <Form.Label>Event date</Form.Label>
-          <Controller
-            name="payDay"
-            control={control}
-            rules={{ required: "Required field" }}
-            render={({ field }) => (
-              <DatePicker
-                selected={field.value}
-                onChange={(date: Date) => field.onChange(date)}
-                className={`form-control ${
-                  formState.errors.payDay === undefined ? "" : "is-invalid"
-                }`}
-                placeholderText="Select a date"
-              />
-            )}
-          />
-          {formState.errors.payDay !== undefined && (
-            <Form.Control.Feedback type="invalid" className="d-block">
-              {formState.errors.payDay?.message}
-            </Form.Control.Feedback>
-          )}
         </Form.Group>
       </Row>
       <Button
