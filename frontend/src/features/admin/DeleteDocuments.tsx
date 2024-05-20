@@ -72,7 +72,6 @@ const DeleteDocuments: React.FC = () => {
         })
     };
 
-    //ToDo boundary, not boundry typo
     const handleOnNextPageClick = () => {
         if (state.currentPage >= state.pageCount) {
             return;
