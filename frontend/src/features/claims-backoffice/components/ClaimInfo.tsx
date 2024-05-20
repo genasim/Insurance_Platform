@@ -1,16 +1,9 @@
 import { FunctionComponent } from "react";
-import {
-  Row,
-  Col,
-  InputGroup,
-  Form,
-  ListGroup,
-  ListGroupItem,
-} from "react-bootstrap";
-import DocumentPreviewer from "./DocumentPreviewer";
+import { Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { Claim } from "../../../models/Claim";
 import { ClaimDocument } from "../../../models/ClaimDocument";
 import { PolicyPackages } from "../../../models/PolicyPackages";
+import DocumentPreviewer from "./DocumentPreviewer";
 
 interface ClaimInfoProps {
   claim: Claim;
