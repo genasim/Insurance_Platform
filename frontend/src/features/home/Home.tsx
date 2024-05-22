@@ -1,14 +1,15 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import HomeCard from "./HomeCard";
-import Policy from "../policies/Policy/PolicyFacade";
-import Title from "../../shared/components/Title";
+import { useLoaderData } from "react-router-dom";
+import { PolicyTemplates } from "../../models/PolicyTemplates";
 import { homeCards } from "../../models/home-card";
-import { mock_policies } from "../policies/policyGenadi";
+import Title from "../../shared/components/Title";
+import Policy from "../policies/Policy/PolicyFacade";
+import HomeCard from "./HomeCard";
 
-interface HomeProps extends React.HTMLAttributes<HTMLDivElement> {}
+const Home: React.FC = () => {
+  const templates = useLoaderData() as PolicyTemplates[]
 
-const Home: React.FC<HomeProps> = () => {
   return (
     <Container>
       <Title
@@ -16,7 +17,7 @@ const Home: React.FC<HomeProps> = () => {
         meta="Reliable premium insurance experience"
       />
       <div className="p-5 mt-5">
-        <Policy.List policies={mock_policies} />
+        <Policy.List policies={templates} />
       </div>
       <Title title="why us" />
       <div className="my-5 d-flex flex-row flex-wrap gap-5 justify-content-center">

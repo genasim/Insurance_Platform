@@ -1,8 +1,10 @@
-import {Identifiable} from "./Identifiable";
-import {PolicyType} from "./PolicyType";
+import { Identifiable } from "./Identifiable";
+import { PolicyType } from "./PolicyType";
 
 export interface PolicyTemplates extends Identifiable {
-    "name": string,
-    "type": PolicyType,
-    "description": string
+  name: string;
+  meta: string;
+  type: PolicyType;
+  description: string[];
+  imgSrc: string;
 }

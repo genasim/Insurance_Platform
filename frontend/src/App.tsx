@@ -18,6 +18,7 @@ import NotFoundPage from "./features/not-found/404";
 import Layout from "./shared/layout/Layout";
 import loadClaimInfo from "./shared/services/load-claim-info";
 import loadPolicy from "./shared/services/load-policy";
+import loadPolicyTemplates from "./shared/services/load-policy-templates";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home/>,
+                loader: loadPolicyTemplates
             },
             {
                 path: "/client",
