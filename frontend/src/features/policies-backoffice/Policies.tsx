@@ -171,7 +171,7 @@ const Policies: React.FC = () => {
                 <input type="text" className="form-control" id="email-filter"
                        name="holderFilter"
                        onChange={handleOnChange}
-                       placeholder="george@domains.com"/>
+                       placeholder="George Toshov"/>
             </div>
             <table className="table">
                 <thead>
