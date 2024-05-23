@@ -97,7 +97,7 @@ const CreateCoefficient: React.FC = () => {
         });
     }
 
-    const handleAddCoefficientValue = (event: React.MouseEvent<HTMLDivElement>) => {
+    const handleAddCoefficientValue = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (!state.coefficientName || !state.coefficientValue) {
             setState({
                 ...state,
@@ -220,7 +220,16 @@ const CreateCoefficient: React.FC = () => {
                         {state.descriptionErrors.map(e => <li key={e}>{e}</li>)}
                     </ul>}
                 </div>
-                <div className="col-md-5 mb-4 d-flex justify-content-center">
+                <div className="col-md-6 mb-4 align-content-center text-center">
+                    <input className="form-check-input me-2" type="checkbox"
+                           id="is-enabled"
+                           name="isEnabled"
+                           checked={state.isEnabled}
+                           onChange={handleOnChange}
+                    />
+                    <label className="form-check-label me-4" htmlFor="is-enabled">Is enabled</label>
+                </div>
+                <div className="col-md-10 mb-4 d-flex justify-content-center">
                     {state.values.map(coefficient => (
                         <div key={coefficient.name} className="form-check border rounded me-3 align-content-center">
                             <span className="me-3">{coefficient.name}</span>
@@ -231,16 +240,32 @@ const CreateCoefficient: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className="col-md-5 mb-4 d-flex justify-content-center">
-                    <input className="form-check-input me-2" type="checkbox"
-                           id="is-enabled"
-                           name="isEnabled"
-                           checked={state.isEnabled}
-                           onChange={handleOnChange}
-                    />
-                    <label className="form-check-label me-4" htmlFor="is-enabled">Is enabled</label>
+                <div className="row">
+                    <div className="col-md-3">
+                        <label htmlFor="coefficient-name" className="form-label">Coefficient name:</label>
+                        <input type="text" className="form-control mb-2" id="coefficient-name"
+                               name="coefficientName"
+                               value={state.coefficientName}
+                               onChange={handleOnChange}
+                               placeholder="name"/>
+                    </div>
+                    <div className="col-md-3">
+                        <label htmlFor="coefficient-value" className="form-label">Coefficient value:</label>
+                        <input type="number" className="form-control mb-4" id="coefficient-value"
+                               name="coefficientValue"
+                               value={state.coefficientValue}
+                               onChange={handleOnChange}
+                               placeholder="value"/>
+                    </div>
+                    <div className="col-md-3 align-content-center">
+                        <button type="button" className="btn btn-primary" onClick={handleAddCoefficientValue}>
+                            Add Coefficient value
+                        </button>
+                    </div>
                 </div>
-
+                {state.isEdited && state.coefficientErrors && <ul className="mb-4 text-danger">
+                    {state.coefficientErrors.map(e => <li key={e}>{e}</li>)}
+                </ul>}
                 {state.error &&
                     <div className="mb-4 text-danger text-center">{state.error}</div>}
                 {state.message &&
@@ -249,30 +274,6 @@ const CreateCoefficient: React.FC = () => {
                     <button type="submit" className="btn btn-primary">Create coefficient</button>
                 </div>
             </form>
-            <div className="col-md-3">
-                <label htmlFor="coefficient-name" className="form-label">Coefficient name:</label>
-                <input type="text" className="form-control mb-2" id="coefficient-name"
-                       name="coefficientName"
-                       value={state.coefficientName}
-                       onChange={handleOnChange}
-                       placeholder="name"/>
-            </div>
-            <div className="col-md-3">
-                <label htmlFor="coefficient-value" className="form-label">Coefficient value:</label>
-                <input type="number" className="form-control mb-4" id="coefficient-value"
-                       name="coefficientValue"
-                       value={state.coefficientValue}
-                       onChange={handleOnChange}
-                       placeholder="value"/>
-            </div>
-            {state.isEdited && state.coefficientErrors && <ul className="mb-4 text-danger">
-                {state.coefficientErrors.map(e => <li key={e}>{e}</li>)}
-            </ul>}
-            <div className="col-md-3 justify-content-center text-center">
-                <div className="btn btn-primary" onClick={(event) => handleAddCoefficientValue(event)}>
-                    Add Coefficient value
-                </div>
-            </div>
         </div>
     );
 };
