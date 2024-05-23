@@ -21,6 +21,7 @@ import ManageCoefficients from "./features/actuary/ManageCoefficients";
 import UpdateCoefficient from "./features/actuary/UpdateCoefficient";
 import CreateCoefficient from "./features/actuary/CreateCoefficient";
 import Policies from "./features/policies-backoffice/Policies";
+import PolicySubmission from "./features/policies-vasko/PolicySubmission";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
                         ],
                     },
                 ],
+            },
+            {
+                path: "/client/policies",
+                element: <PolicySubmission/>
             },
             {
                 path: "/backoffice",
