@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {Currency} from "../../models/Currency";
 import {PolicyType} from "../../models/PolicyType";
@@ -36,13 +37,14 @@ const PolicySubmission: React.FC = () => {
 
     useEffect(() => {
         API.findAll<PolicyPackages>(Tables.POLICY_PACKAGES)
+            .then(packages => packages.filter(p => p.policyType.toString() === state.type))
             .then(packages => {
                 setState({
                     ...state,
                     packages
                 });
             });
-    }, []);
+    }, [state.type]);
 
     const handleSubmit = (event: FormEvent) => {
         // event.preventDefault();
@@ -50,7 +52,6 @@ const PolicySubmission: React.FC = () => {
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-        debugger;
         if (event.target.name === "beginDate") {
             const beginDate = moment(event.target.value);
             const endDate = moment(beginDate).add(1, 'year' );
