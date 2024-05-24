@@ -95,7 +95,7 @@ const PolicySubmission: React.FC = () => {
             coefficientsErrorMessage: ''
         });
 
-    }, [state.type, state.package, state.coefficientValues]);
+    }, [state.type, state.package, state.coefficientValues, state.beginDate]);
 
     const handleSubmit = (event: FormEvent) => {
         // event.preventDefault();
