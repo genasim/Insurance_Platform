@@ -4,19 +4,19 @@ import {Currency} from "../../models/Currency";
 import {PolicyType} from "../../models/PolicyType";
 import moment from "moment";
 import API, {Tables} from "../../shared/api-client/ApiClient";
-import {PolicyPackages} from "../../models/PolicyPackages";
+import {PolicyPackage} from "../../models/PolicyPackage";
 
 interface PolicySubmissionState {
     policyNumber: string,
     holderId: string,
     type: string,
-    packageId: string,
+    package: PolicyPackage | null,
     premium: string,
     premiumCurrency: string,
     beginDate: string,
     endDate: string,
     purchaseDate: string,
-    packages: PolicyPackages[],
+    packages: PolicyPackage[],
 }
 
 const PolicySubmission: React.FC = () => {
@@ -25,8 +25,8 @@ const PolicySubmission: React.FC = () => {
     const [state, setState] = useState<PolicySubmissionState>({
         policyNumber: '',
         holderId: '',
-        type: '',
-        packageId: '',
+        type: PolicyType.CAR_INSURANCE.toString(),
+        package: null,
         premium: '',
         premiumCurrency: Currency.BGN,
         beginDate: moment().format(format),
@@ -36,7 +36,7 @@ const PolicySubmission: React.FC = () => {
     });
 
     useEffect(() => {
-        API.findAll<PolicyPackages>(Tables.POLICY_PACKAGES)
+        API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
             .then(packages => packages.filter(p => p.policyType.toString() === state.type))
             .then(packages => {
                 setState({
@@ -59,6 +59,14 @@ const PolicySubmission: React.FC = () => {
                 ...state,
                 beginDate: beginDate.format(format),
                 endDate: endDate.format(format)
+            });
+            return;
+        }
+
+        if (event.target.name === "package") {
+            setState({
+                ...state,
+                package: state.packages.find(x => x.id === event.target.value)!
             });
             return;
         }
@@ -92,11 +100,35 @@ const PolicySubmission: React.FC = () => {
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
                             <select id="package" className="form-select" name="package" onChange={handleOnChange}>
-                                {Object.values(PolicyType).map((e, i) => (
-                                    <option key={e.toString()} value={e.toString()}>{e.toString()}</option>
+                                {state.packages.map((e, i) => (
+                                    <option key={e.id} value={e.id}>{e.name}</option>
                                 ))}
                             </select>
                         </div>
+                    </div>
+                </div>
+                <h3 className="h3">Package info</h3>
+                <div className="row">
+                    <div className="col-md-5">
+                        <div className="mb-2 d-flex">
+                            <span className="d-inline me-2">Package name:</span><span
+                            className="fw-bold">{state.package?.name}</span>
+                        </div>
+                        <div className="mb-2 d-flex">
+                            <span className="d-inline me-2">Duration:</span>
+                            <span className="fw-bold me-1">{state.package?.duration}</span>
+                            <span className="fw-bold">{state.package?.durationUnit}</span>
+                        </div>
+                        <div className="mb-2 d-flex">
+                            <span className="d-inline me-2">Package name:</span><span
+                            className="fw-bold">{state.package?.name}</span>
+                        </div>
+                    </div>
+                    <div className="col-md-5">
+                        <span className="fw-bold">Coverages:</span>
+                        <ul>
+                            {state.package?.coverage.map(c => (<li key={c}>{c}</li>))}
+                        </ul>
                     </div>
                 </div>
                 <div className="row">

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {IdType} from "../../models/Identifiable";
 import {User} from "../../models/User";
-import {PolicyPackages} from "../../models/PolicyPackages";
+import {PolicyPackage} from "../../models/PolicyPackage";
 
 interface PoliciesState {
     policies: PolicyDto[];
@@ -55,7 +55,7 @@ const Policies: React.FC = () => {
             })
             .then(dto => {
                 debugger;
-                return API.findAll<PolicyPackages>(Tables.POLICY_PACKAGES)
+                return API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
                     .then(packages => ({
                     ...dto,
                     packages
