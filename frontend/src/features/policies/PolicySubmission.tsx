@@ -6,6 +6,8 @@ import moment from "moment";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {PolicyPackage} from "../../models/PolicyPackage";
 import {DurationInputArg2} from "moment/moment";
+import {CalculationCoefficient} from "../../models/CalculationCoefficient";
+import {debug} from "node:util";
 
 interface PolicySubmissionState {
     policyNumber: string,
@@ -18,6 +20,8 @@ interface PolicySubmissionState {
     endDate: string,
     purchaseDate: string,
     packages: PolicyPackage[],
+    coefficients: CalculationCoefficient[],
+    coefficientValues: any;
 }
 
 const PolicySubmission: React.FC = () => {
@@ -33,20 +37,25 @@ const PolicySubmission: React.FC = () => {
         beginDate: moment().format(format),
         endDate: moment().add(1, 'year').format(format),
         purchaseDate: moment().format(format),
-        packages: []
+        packages: [],
+        coefficients: [],
+        coefficientValues: {}
     });
 
     useEffect(() => {
         API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
             .then(packages => packages.filter(p => p.policyType.toString() === state.type))
-            .then(packages => {
-                const defaultPackage = packages.find(p => p.type === "FULL")!;
-                setState({
-                    ...state,
-                    package: defaultPackage,
-                    packages
-                });
-            });
+            .then(packages => API.findAll<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS)
+                .then(coefficients => ({coefficients, packages})))
+            .then(dto => {
+                    const coefficients = dto.coefficients.filter(x => x.policyType === state.type);
+                    setState({
+                        ...state,
+                        coefficients: coefficients,
+                        packages: dto.packages
+                    })
+                }
+            );
     }, [state.type]);
 
     const handleSubmit = (event: FormEvent) => {
@@ -70,6 +79,16 @@ const PolicySubmission: React.FC = () => {
             setState({
                 ...state,
                 package: state.packages.find(x => x.id === event.target.value)!
+            });
+            return;
+        }
+
+        if (event.target.name.startsWith("coefficient_")) {
+            const value = event.target.value;
+            const currentValues : any = {...state.coefficientValues, [event.target.name.replace("coefficient_", "")]: value};
+            setState({
+                ...state,
+                coefficientValues: currentValues
             });
             return;
         }
@@ -103,6 +122,7 @@ const PolicySubmission: React.FC = () => {
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
                             <select id="package" className="form-select" name="package" onChange={handleOnChange}>
+                                <option disabled selected> -- select an option --</option>
                                 {state.packages.map((e, i) => (
                                     <option key={e.id} value={e.id}>{e.name}</option>
                                 ))}
@@ -134,6 +154,23 @@ const PolicySubmission: React.FC = () => {
                         </ul>
                     </div>
                 </div>
+                <h3 className="h3">Coefficients</h3>
+                {state.coefficients.map(c => {
+                    return (<div className="row">
+                        <div className="col-md-5">
+                            <div className="col-md-5 mb-4 input-group">
+                                <span className="input-group-text">{c.description}</span>
+                                <select id="policy-type" className="form-select"
+                                        name={`coefficient_${c.type}`} onChange={handleOnChange}>
+                                    <option disabled selected> -- select an option --</option>
+                                    {c.values.map((value, i) => (
+                                        <option key={value.name} value={value.value}>{value.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>);
+                })}
                 <div className="row">
                     <div className="col-md-5 justify-content-center">
                         <label htmlFor="begin-date" className="form-label">Begin date:</label>
