@@ -7,13 +7,13 @@ import API, {Tables} from "../../shared/api-client/ApiClient";
 import {PolicyPackage} from "../../models/PolicyPackage";
 import {DurationInputArg2} from "moment/moment";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
-import {debug} from "node:util";
 
 interface PolicySubmissionState {
     policyNumber: string,
     holderId: string,
     type: string,
     package: PolicyPackage | null,
+    basePremium: string,
     premium: string,
     premiumCurrency: string,
     beginDate: string,
@@ -21,7 +21,8 @@ interface PolicySubmissionState {
     purchaseDate: string,
     packages: PolicyPackage[],
     coefficients: CalculationCoefficient[],
-    coefficientValues: any;
+    coefficientsErrorMessage: string,
+    coefficientValues: {[key in string]: number};
 }
 
 const PolicySubmission: React.FC = () => {
@@ -32,6 +33,7 @@ const PolicySubmission: React.FC = () => {
         holderId: '',
         type: PolicyType.CAR_INSURANCE.toString(),
         package: null,
+        basePremium: '',
         premium: '',
         premiumCurrency: Currency.BGN,
         beginDate: moment().format(format),
@@ -39,6 +41,7 @@ const PolicySubmission: React.FC = () => {
         purchaseDate: moment().format(format),
         packages: [],
         coefficients: [],
+        coefficientsErrorMessage: '',
         coefficientValues: {}
     });
 
@@ -58,6 +61,42 @@ const PolicySubmission: React.FC = () => {
             );
     }, [state.type]);
 
+    useEffect(() => {
+        const allTypes = state.coefficients.map(x => x.type);
+        for (const values of allTypes) {
+            const isIncluded = Object.keys(state.coefficientValues).includes(values);
+            if (!isIncluded) {
+                setState({
+                    ...state,
+                    coefficientsErrorMessage: "Fill all coefficients"
+                });
+                return;
+            }
+        }
+
+        if (!state.package) {
+            return;
+        }
+
+        const basePremium = state.package?.basePremium!;
+        let premium = basePremium;
+        const remainingCoefficients = Object.entries(state.coefficientValues).filter(x => {
+            const coefficient = state.coefficients.find(c => c.type === x[0])!;
+            return coefficient.isEnabled;
+        }).map(x => x[1]);
+
+        for (const remainingCoefficient of remainingCoefficients) {
+            premium *= remainingCoefficient;
+        }
+
+        setState({
+            ...state,
+            premium: `${premium} ${state.package?.basePremiumCurrency}`,
+            coefficientsErrorMessage: ''
+        });
+
+    }, [state.type, state.package, state.coefficientValues]);
+
     const handleSubmit = (event: FormEvent) => {
         // event.preventDefault();
         alert("Submit")
@@ -76,9 +115,11 @@ const PolicySubmission: React.FC = () => {
         }
 
         if (event.target.name === "package") {
+            const selectedPackage = state.packages.find(x => x.id === event.target.value)!;
             setState({
                 ...state,
-                package: state.packages.find(x => x.id === event.target.value)!
+                package: selectedPackage,
+                basePremium: `${selectedPackage.basePremium} ${selectedPackage.basePremiumCurrency}`
             });
             return;
         }
@@ -121,8 +162,10 @@ const PolicySubmission: React.FC = () => {
                         <label htmlFor="package" className="form-label">Package:</label>
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
-                            <select id="package" className="form-select" name="package" onChange={handleOnChange}>
-                                <option disabled selected> -- select an option --</option>
+                            <select id="package" className="form-select"
+                                    defaultValue={"initial"}
+                                    name="package" onChange={handleOnChange}>
+                                <option disabled key={"initial"} value={"initial"}> -- select an option --</option>
                                 {state.packages.map((e, i) => (
                                     <option key={e.id} value={e.id}>{e.name}</option>
                                 ))}
@@ -156,13 +199,14 @@ const PolicySubmission: React.FC = () => {
                 </div>
                 <h3 className="h3">Coefficients</h3>
                 {state.coefficients.map(c => {
-                    return (<div className="row">
+                    return (<div className="row" key={c.type}>
                         <div className="col-md-5">
                             <div className="col-md-5 mb-4 input-group">
                                 <span className="input-group-text">{c.description}</span>
                                 <select id="policy-type" className="form-select"
+                                        defaultValue={"initial"}
                                         name={`coefficient_${c.type}`} onChange={handleOnChange}>
-                                    <option disabled selected> -- select an option --</option>
+                                    <option disabled key={"initial"} value={"initial"}> -- select an option --</option>
                                     {c.values.map((value, i) => (
                                         <option key={value.name} value={value.value}>{value.name}</option>
                                     ))}
@@ -171,6 +215,7 @@ const PolicySubmission: React.FC = () => {
                         </div>
                     </div>);
                 })}
+                {!!state.coefficientsErrorMessage && <div className="text-danger mb-3">{state.coefficientsErrorMessage}</div>}
                 <div className="row">
                     <div className="col-md-5 justify-content-center">
                         <label htmlFor="begin-date" className="form-label">Begin date:</label>
@@ -197,7 +242,8 @@ const PolicySubmission: React.FC = () => {
                         <label htmlFor="base-premium" className="form-label">Base Premium:</label>
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
-                            <input type="number" className="form-control" id="base-premium" name="basePremium"
+                            <input type="text" className="form-control" id="base-premium" name="basePremium"
+                                   value={state.basePremium}
                                    disabled/>
                         </div>
                     </div>
@@ -205,13 +251,14 @@ const PolicySubmission: React.FC = () => {
                         <label htmlFor="premium" className="form-label">Premium:</label>
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
-                            <input type="number" className="form-control" id="premium" name="premium"
+                            <input type="text" className="form-control" id="premium" name="premium"
+                                   value={state.premium}
                                    disabled/>
                         </div>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-10 justify-content-center d-flex">
+                    <div className="col-md-10 justify-content-center d-flex mb-3">
                         <button type="submit" className="btn btn-primary">Purchase</button>
                     </div>
                 </div>
