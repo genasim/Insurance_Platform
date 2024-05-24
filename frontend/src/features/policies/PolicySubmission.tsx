@@ -5,6 +5,7 @@ import {PolicyType} from "../../models/PolicyType";
 import moment from "moment";
 import API, {Tables} from "../../shared/api-client/ApiClient";
 import {PolicyPackage} from "../../models/PolicyPackage";
+import {DurationInputArg2} from "moment/moment";
 
 interface PolicySubmissionState {
     policyNumber: string,
@@ -30,7 +31,7 @@ const PolicySubmission: React.FC = () => {
         premium: '',
         premiumCurrency: Currency.BGN,
         beginDate: moment().format(format),
-        endDate: moment().format(format),
+        endDate: moment().add(1, 'year').format(format),
         purchaseDate: moment().format(format),
         packages: []
     });
@@ -39,8 +40,10 @@ const PolicySubmission: React.FC = () => {
         API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
             .then(packages => packages.filter(p => p.policyType.toString() === state.type))
             .then(packages => {
+                const defaultPackage = packages.find(p => p.type === "FULL")!;
                 setState({
                     ...state,
+                    package: defaultPackage,
                     packages
                 });
             });
@@ -54,7 +57,7 @@ const PolicySubmission: React.FC = () => {
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         if (event.target.name === "beginDate") {
             const beginDate = moment(event.target.value);
-            const endDate = moment(beginDate).add(1, 'year' );
+            const endDate = moment(beginDate).add(state.package?.duration ?? 1, state.package?.durationUnit as DurationInputArg2);
             setState({
                 ...state,
                 beginDate: beginDate.format(format),
