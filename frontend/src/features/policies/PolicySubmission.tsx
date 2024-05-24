@@ -1,7 +1,9 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {Currency} from "../../models/Currency";
 import {PolicyType} from "../../models/PolicyType";
-import moment, {unitOfTime} from "moment";
+import moment from "moment";
+import API, {Tables} from "../../shared/api-client/ApiClient";
+import {PolicyPackages} from "../../models/PolicyPackages";
 
 interface PolicySubmissionState {
     policyNumber: string,
@@ -13,6 +15,7 @@ interface PolicySubmissionState {
     beginDate: string,
     endDate: string,
     purchaseDate: string,
+    packages: PolicyPackages[],
 }
 
 const PolicySubmission: React.FC = () => {
@@ -28,17 +31,22 @@ const PolicySubmission: React.FC = () => {
         beginDate: moment().format(format),
         endDate: moment().format(format),
         purchaseDate: moment().format(format),
-    })
+        packages: []
+    });
+
+    useEffect(() => {
+        API.findAll<PolicyPackages>(Tables.POLICY_PACKAGES)
+            .then(packages => {
+                setState({
+                    ...state,
+                    packages
+                });
+            });
+    }, []);
 
     const handleSubmit = (event: FormEvent) => {
         // event.preventDefault();
         alert("Submit")
-    }
-
-    const handleClick = (event: React.FormEvent<HTMLButtonElement>) => {
-        // event.preventDefault();
-        // event.stopPropagation();
-        alert("Click")
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -96,6 +104,7 @@ const PolicySubmission: React.FC = () => {
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
                             <input type="date" className="form-control" id="begin-date" name="beginDate"
+                                   min={moment().add(-1, 'day').format(format)}
                                    value={state.beginDate}
                                    onChange={handleOnChange}/>
                         </div>
