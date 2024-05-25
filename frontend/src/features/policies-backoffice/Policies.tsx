@@ -54,7 +54,6 @@ const Policies: React.FC = () => {
                 }))
             })
             .then(dto => {
-                debugger;
                 return API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
                     .then(packages => ({
                     ...dto,
@@ -63,14 +62,9 @@ const Policies: React.FC = () => {
             })
             .then(dto => {
                 const policyDTOs = dto.policies.map(p => {
-                    console.log(p)
                     const user = dto.users.find(u => u.id === p.holderId)!;
-                    debugger;
                     const policyPackage = dto.packages.find(pack =>  pack.id === p.packageId)!;
-                    if (!policyPackage) {
-                        console.log(p.packageId)
-                    }
-                    debugger;
+
                     const policyDTO: PolicyDto = {
                         ...p,
                         holderName: user.fullName,
