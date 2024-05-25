@@ -8,6 +8,7 @@ import {PolicyPackage} from "../../models/PolicyPackage";
 import {DurationInputArg2} from "moment/moment";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
 import {Policy} from "../../models/Policy";
+import {PremiumPayments} from "../../models/PremiumPayments";
 
 interface PolicySubmissionState {
     policyNumber: string,
@@ -23,7 +24,9 @@ interface PolicySubmissionState {
     packages: PolicyPackage[],
     coefficients: CalculationCoefficient[],
     coefficientsErrorMessage: string,
-    coefficientValues: {[key in string]: number};
+    coefficientValues: {[key in string]: number},
+    message: string,
+    error: string,
 }
 
 const PolicySubmission: React.FC = () => {
@@ -43,7 +46,9 @@ const PolicySubmission: React.FC = () => {
         packages: [],
         coefficients: [],
         coefficientsErrorMessage: '',
-        coefficientValues: {}
+        coefficientValues: {},
+        message: '',
+        error: ''
     });
 
     useEffect(() => {
@@ -126,9 +131,28 @@ const PolicySubmission: React.FC = () => {
             beginDate: state.beginDate,
             endDate: state.endDate,
             purchaseDate: moment().format(format).toString(),
+        };
+
+        const payment: Omit<PremiumPayments, "id"> = {
+            amount: state.premium,
+            amountCurrency: state.premiumCurrency,
+            paymentDate: moment().format(format).toString(),
         }
 
-        API.create<Policy>(Tables.POLICIES, policy);
+        API.create<Policy>(Tables.POLICIES, policy)
+            .then(_ => API.create<PremiumPayments>(Tables.PREMIUM_PAYMENTS, payment))
+            .then(_ => setState({
+                ...state,
+                message: 'Successfully purchased policy',
+                error: ''
+            }))
+            .catch(err => {
+                setState({
+                    ...state,
+                    error: err.message,
+                    message: ''
+                });
+            });
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -287,6 +311,10 @@ const PolicySubmission: React.FC = () => {
                     </div>
                 </div>
                 <div className="row">
+                    {state.error &&
+                        <div className="mb-4 text-danger text-center">{state.error}</div>}
+                    {state.message &&
+                        <div className="mb-4 text-success text-center">{state.message}</div>}
                     <div className="col-md-10 justify-content-center d-flex mb-3">
                         <button type="submit" className="btn btn-primary">Purchase</button>
                     </div>
