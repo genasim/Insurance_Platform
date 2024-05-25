@@ -1,9 +1,7 @@
-import {Identifiable, IdType} from "./Identifiable";
-import {Currency} from "./Currency";
+import {Identifiable} from "./Identifiable";
 
 export interface PremiumPayments extends Identifiable {
-    policyId: IdType
-    amount: number,
-    "amountCurrency": Currency,
-    "paymentDate": Date
+    amount: string,
+    amountCurrency: string,
+    paymentDate: string
 }

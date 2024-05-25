@@ -87,6 +87,9 @@ const Navbar = ({setLoggedIn}: NavbarProps) => {
                             <Link className="nav-link" to="/backoffice/claims">Backoffice</Link>
                         </li>
                         <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/backoffice/policies">Policies BO</Link>
+                        </li>
+                        <li className="nav-item fs-5">
                             <Link className="nav-link" to="/actuary">Actuary</Link>
                         </li>
                         {login}

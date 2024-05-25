@@ -8,10 +8,12 @@ import Admin from "./features/admin/Admin";
 import UpdateUser from "./features/admin/UpdateUser";
 import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
-import ClaimDetails from "./features/claims-backoffice/ClaimDetails";
-import ClaimsDashboard from "./features/claims-backoffice/ClaimsDashboard";
 import ClaimSubmission from "./features/claims/ClaimSubmission";
 import SubmitClaim from "./features/claims/SubmitClaim";
+import ClaimsDashboard from "./features/claims-backoffice/ClaimsDashboard";
+import ClaimDetails from "./features/claims-backoffice/ClaimDetails";
+import Policies from "./features/policies-backoffice/Policies";
+import PolicySubmission from "./features/policies/PolicySubmission";
 import ErrorBoundary from "./features/error-catch/ErrorBoundry";
 import Home from "./features/home/Home";
 import NotFoundPage from "./features/not-found/404";
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
                         ],
                     },
                 ],
+            },
+            {
+                path: "/client/policies",
+                element: <PolicySubmission/>
             },
             {
                 path: "/backoffice",
@@ -97,6 +103,10 @@ const router = createBrowserRouter([
             {
                 path: "actuary/create-coefficient",
                 element: <CreateCoefficient/>
+            },
+            {
+                path: "backoffice/policies",
+                element: <Policies/>
             }
         ],
     },

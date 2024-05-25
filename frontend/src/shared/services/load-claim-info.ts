@@ -2,8 +2,8 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { Claim } from "../../models/Claim";
 import { ClaimDocument } from "../../models/ClaimDocument";
 import { Policy } from "../../models/Policy";
-import { PolicyPackages } from "../../models/PolicyPackages";
 import API, { Tables } from "../api-client/ApiClient";
+import {PolicyPackage} from "../../models/PolicyPackage";
 
 const loadClaimInfo = async ({ params }: LoaderFunctionArgs<any>) => {
   try {
@@ -15,9 +15,9 @@ const loadClaimInfo = async ({ params }: LoaderFunctionArgs<any>) => {
       await API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS)
     ).filter((doc) => doc.claimId === claim.id);
     const policy = await API.findById<Policy>(Tables.POLICIES, claim.policyId);
-    const policyPackage = await API.findById<PolicyPackages>(
+    const policyPackage = await API.findById<PolicyPackage>(
       Tables.POLICY_PACKAGES,
-      policy.package
+      policy.packageId
     );
 
     return { claim, docs, policyPackage };

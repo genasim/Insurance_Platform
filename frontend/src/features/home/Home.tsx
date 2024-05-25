@@ -1,14 +1,14 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import { useLoaderData } from "react-router-dom";
-import { PolicyTemplates } from "../../models/PolicyTemplates";
-import { homeCards } from "../../models/home-card";
-import Title from "../../shared/components/Title";
-import Policy from "../policies/Policy/PolicyFacade";
+import { PolicyTemplate } from "../../models/PolicyTemplate";
 import HomeCard from "./HomeCard";
+import Policy from "./PolicyFacade";
+import Title from "../../shared/components/Title";
+import { homeCards } from "../../models/home-card";
 
 const Home: React.FC = () => {
-  const templates = useLoaderData() as PolicyTemplates[]
+  const templates = useLoaderData() as PolicyTemplate[]
 
   return (
     <Container>

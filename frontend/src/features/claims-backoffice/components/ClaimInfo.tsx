@@ -2,13 +2,13 @@ import { FunctionComponent } from "react";
 import { Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { Claim } from "../../../models/Claim";
 import { ClaimDocument } from "../../../models/ClaimDocument";
-import { PolicyPackages } from "../../../models/PolicyPackages";
 import DocumentPreviewer from "./DocumentPreviewer";
+import {PolicyPackage} from "../../../models/PolicyPackage";
 
 interface ClaimInfoProps {
   claim: Claim;
   docs: ClaimDocument[];
-  policyPackage: PolicyPackages;
+  policyPackage: PolicyPackage;
 }
 
 const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
