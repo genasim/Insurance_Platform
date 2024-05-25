@@ -87,19 +87,16 @@ const PolicySubmission: React.FC = () => {
             return;
         }
 
-        const basePremium = state.package?.basePremium!;
-        let premium: number = basePremium;
-        debugger;
+        const basePremium = state.package?.basePremium ?? 0;
+        let premium: number = +basePremium;
         const remainingCoefficients = Object.entries(state.coefficientValues).filter(x => {
             const coefficient = state.coefficients.find(c => c.type === x[0])!;
             return coefficient.isEnabled;
         }).map(x => x[1]);
-
         for (const remainingCoefficient of remainingCoefficients) {
             premium = +(premium * remainingCoefficient);
         }
 
-        alert(typeof premium);
         const premiumFormatted = premium.toFixed(2);
 
         setState({
@@ -151,7 +148,7 @@ const PolicySubmission: React.FC = () => {
             setState({
                 ...state,
                 package: selectedPackage,
-                basePremium: selectedPackage.basePremium.toString()
+                basePremium: (+selectedPackage.basePremium).toFixed(2)
             });
             return;
         }
