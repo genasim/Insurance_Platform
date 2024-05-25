@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { PolicyTemplates } from "../../../models/PolicyTemplates";
 import Policy from "./PolicyFacade";
+import {PolicyTemplate} from "../../models/PolicyTemplate";
 
 export interface PolicyListProps {
-  policies: PolicyTemplates[];
+  policies: PolicyTemplate[];
 }
 
 const PolicyList: FC<PolicyListProps> = ({ policies }) => {

@@ -9,12 +9,12 @@ import API, { Tables } from "../../shared/api-client/ApiClient";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
 import ResolveClaimForm from "./components/ResolveClaimForm";
-import { PolicyPackages } from "../../models/PolicyPackages";
+import {PolicyPackage} from "../../models/PolicyPackage";
 
 type LoaderData = {
   claim: Claim;
   docs: ClaimDocument[];
-  policyPackage: PolicyPackages;
+  policyPackage: PolicyPackage;
 };
 
 const ClaimDetails: FC = () => {
