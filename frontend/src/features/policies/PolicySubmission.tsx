@@ -7,6 +7,7 @@ import API, {Tables} from "../../shared/api-client/ApiClient";
 import {PolicyPackage} from "../../models/PolicyPackage";
 import {DurationInputArg2} from "moment/moment";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
+import {Policy} from "../../models/Policy";
 
 interface PolicySubmissionState {
     policyNumber: string,
@@ -61,7 +62,7 @@ const PolicySubmission: React.FC = () => {
             );
     }, [state.type]);
 
-    useEffect(() => {
+    const validateCoefficientValues = () => {
         const allTypes = state.coefficients.map(x => x.type);
         for (const values of allTypes) {
             const isIncluded = Object.keys(state.coefficientValues).includes(values);
@@ -70,36 +71,67 @@ const PolicySubmission: React.FC = () => {
                     ...state,
                     coefficientsErrorMessage: "Fill all coefficients"
                 });
-                return;
             }
         }
+    }
 
-        if (!state.package) {
+    const validatePackage = () : boolean=> {
+        return !!state.package;
+    }
+
+
+    useEffect(() => {
+        validateCoefficientValues();
+        const isPackageValid = validatePackage();
+        if (!isPackageValid) {
             return;
         }
 
         const basePremium = state.package?.basePremium!;
-        let premium = basePremium;
+        let premium: number = basePremium;
+        debugger;
         const remainingCoefficients = Object.entries(state.coefficientValues).filter(x => {
             const coefficient = state.coefficients.find(c => c.type === x[0])!;
             return coefficient.isEnabled;
         }).map(x => x[1]);
 
         for (const remainingCoefficient of remainingCoefficients) {
-            premium *= remainingCoefficient;
+            premium = +(premium * remainingCoefficient);
         }
+
+        alert(typeof premium);
+        const premiumFormatted = premium.toFixed(2);
 
         setState({
             ...state,
-            premium: `${premium} ${state.package?.basePremiumCurrency}`,
+            premium: premiumFormatted,
             coefficientsErrorMessage: ''
         });
 
     }, [state.type, state.package, state.coefficientValues, state.beginDate]);
 
     const handleSubmit = (event: FormEvent) => {
-        // event.preventDefault();
-        alert("Submit")
+        event.preventDefault();
+        validateCoefficientValues();
+        const isPackageValid = validatePackage();
+        if (!isPackageValid) {
+            return;
+        }
+
+        const policy: Omit<Policy, "id"> = {
+            //ToDo fix policy number and holder id
+            policyNumber: moment().toString(),
+            holderId: "8f51",
+            type: state.type,
+            packageId: state.package?.id!,
+            premium: state.premium,
+            premiumCurrency: state.premiumCurrency,
+            beginDate: state.beginDate,
+            endDate: state.endDate,
+            purchaseDate: moment().format(format).toString(),
+        }
+
+        API.create<Policy>(Tables.POLICIES, policy);
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -119,7 +151,7 @@ const PolicySubmission: React.FC = () => {
             setState({
                 ...state,
                 package: selectedPackage,
-                basePremium: `${selectedPackage.basePremium} ${selectedPackage.basePremiumCurrency}`
+                basePremium: selectedPackage.basePremium.toString()
             });
             return;
         }
@@ -144,7 +176,7 @@ const PolicySubmission: React.FC = () => {
     return (
         <div className="container-md">
             <h2 className="h2 mb-4">Purchase a policy</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-md-5 justify-content-center">
                         <label htmlFor="policy-type" className="form-label">Policy type: </label>
@@ -243,7 +275,7 @@ const PolicySubmission: React.FC = () => {
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
                             <input type="text" className="form-control" id="base-premium" name="basePremium"
-                                   value={state.basePremium}
+                                   value={state.basePremium ? `${state.basePremium} ${state.premiumCurrency}` : ''}
                                    disabled/>
                         </div>
                     </div>
@@ -252,7 +284,7 @@ const PolicySubmission: React.FC = () => {
                         <div className="mb-4 input-group">
                             <span className="input-group-text"><i className="bi bi-braces"></i></span>
                             <input type="text" className="form-control" id="premium" name="premium"
-                                   value={state.premium}
+                                   value={state.premium ? `${state.premium} ${state.premiumCurrency}` : ''}
                                    disabled/>
                         </div>
                     </div>

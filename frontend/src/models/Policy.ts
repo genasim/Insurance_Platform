@@ -7,7 +7,7 @@ export interface Policy extends Identifiable {
     packageId: string,
     premium: string,
     premiumCurrency: string,
-    beginDate: Date,
-    endDate: Date,
-    purchaseDate: Date,
+    beginDate: string,
+    endDate: string,
+    purchaseDate: string,
 }

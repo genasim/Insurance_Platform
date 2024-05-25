@@ -26,9 +26,9 @@ interface PolicyDto {
     premium: string,
     premiumCurrency: string
     coverage: string[]
-    beginDate: Date,
-    endDate: Date,
-    purchaseDate: Date,
+    beginDate: string,
+    endDate: string,
+    purchaseDate: string,
 }
 
 const Policies: React.FC = () => {
@@ -70,6 +70,7 @@ const Policies: React.FC = () => {
                     if (!policyPackage) {
                         console.log(p.packageId)
                     }
+                    debugger;
                     const policyDTO: PolicyDto = {
                         ...p,
                         holderName: user.fullName,
@@ -197,9 +198,9 @@ const Policies: React.FC = () => {
                                 <td>{policy.policyNumber}</td>
                                 <td>{policy.holderName}</td>
                                 <td>{policy.package}</td>
-                                <td>{policy.beginDate.toString()}</td>
-                                <td>{policy.endDate.toString()}</td>
-                                <td>{policy.purchaseDate.toString()}</td>
+                                <td>{policy.beginDate}</td>
+                                <td>{policy.endDate}</td>
+                                <td>{policy.purchaseDate}</td>
                                 <td>{policy.premium} {policy.premiumCurrency}</td>
                                 <td>
                                     {policy.coverage.map(x => <li key={x}>{x}</li>)}
