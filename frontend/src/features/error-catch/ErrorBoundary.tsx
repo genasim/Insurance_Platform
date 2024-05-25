@@ -3,7 +3,7 @@ import { Container, Alert, Button } from "react-bootstrap";
 import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate, useRouteError } from "react-router-dom";
 
-const ErrorBoundry: FC = () => {
+const ErrorBoundary: FC = () => {
     const error = useRouteError() as Error;
     const navigate = useNavigate();
 
@@ -33,4 +33,4 @@ const ErrorBoundry: FC = () => {
     );
 }
  
-export default ErrorBoundry;
+export default ErrorBoundary;

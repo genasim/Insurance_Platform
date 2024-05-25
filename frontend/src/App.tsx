@@ -14,7 +14,7 @@ import ClaimsDashboard from "./features/claims-backoffice/ClaimsDashboard";
 import ClaimDetails from "./features/claims-backoffice/ClaimDetails";
 import Policies from "./features/policies-backoffice/Policies";
 import PolicySubmission from "./features/policies/PolicySubmission";
-import ErrorBoundary from "./features/error-catch/ErrorBoundry";
+import ErrorBoundary from "./features/error-catch/ErrorBoundary";
 import Home from "./features/home/Home";
 import NotFoundPage from "./features/not-found/404";
 import Layout from "./shared/layout/Layout";
