@@ -6,6 +6,7 @@ import { Policy } from "../../models/Policy";
 import API, { Tables } from "../../shared/api-client/ApiClient";
 import Title from "../../shared/components/Title";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
+import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
 
 enum ClaimTabs {
   PEDNING = "Pending Claims",
@@ -14,7 +15,7 @@ enum ClaimTabs {
 
 const ClaimSubmission: FC = () => {
   const [tab, setTab] = useState<ClaimTabs>(ClaimTabs.PEDNING);
-  const userId = sessionStorage.getItem("user-id");
+  const userId = sessionStorage.getItem(AuthStorageKeys.USER_ID);
 
   const [policies, setPolicies] = useState<Policy[]>([]);
   const [claims, setClaims] = useState<Claim[]>([]);

@@ -1,4 +1,5 @@
 export enum AuthStorageKeys {
     TOKEN = "token",
-    RIGHTS = "rights"
+    RIGHTS = "rights",
+    USER_ID = "user-id"
 }

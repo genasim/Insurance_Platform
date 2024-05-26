@@ -22,7 +22,7 @@ const Navbar = ({setLoggedIn}: NavbarProps) => {
     const handleLogout = () => {
         sessionStorage.removeItem(AuthStorageKeys.TOKEN);
         sessionStorage.removeItem(AuthStorageKeys.RIGHTS);
-        sessionStorage.removeItem("user-id");
+        sessionStorage.removeItem(AuthStorageKeys.USER_ID);
         setLoggedIn(false);
     };
 

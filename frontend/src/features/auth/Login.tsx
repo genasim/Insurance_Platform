@@ -1,9 +1,10 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Link, useNavigate} from "react-router-dom";
-import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
+import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
+import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
+
 
 interface LoginState {
     email: string | undefined,
@@ -42,7 +43,7 @@ const Login: React.FC = () => {
                 }
 
                 sessionStorage.setItem(AuthStorageKeys.TOKEN, "PUT TOKEN HERE");
-                sessionStorage.setItem("user-id", user.id);
+                sessionStorage.setItem(AuthStorageKeys.USER_ID, user.id);
                 sessionStorage.setItem(AuthStorageKeys.RIGHTS, user.rights.join(","));
                 navigate("/home");
             }).catch(_ => {
