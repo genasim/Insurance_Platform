@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
-import {IdType} from "../../models/Identifiable";
 import {PolicyType} from "../../models/PolicyType";
 import {CalculationCoefficientValue} from "../../models/CalculationCoefficientValue";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
@@ -24,7 +23,6 @@ interface CoefficientCreateState {
 }
 
 const CreateCoefficient: React.FC = () => {
-    const {coefficientId} = useParams();
     const navigate = useNavigate();
     const [state, setState] = useState<CoefficientCreateState>({
         policyType: PolicyType.CAR_INSURANCE,
