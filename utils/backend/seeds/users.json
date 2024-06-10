@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a38"
+  },
+  "email": "vasko@test",
+  "password": "123",
+  "fullName": "Vasil Egov",
+  "idNumber": "931108",
+  "rights": [
+    "CLIENT",
+    "ADMIN"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a39"
+  },
+  "email": "genasi@mail.co",
+  "password": "Test123!",
+  "fullName": "Genadi Kolev",
+  "idNumber": "1234567890",
+  "rights": [
+    "CLIENT",
+    "ADMIN"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a3a"
+  },
+  "email": "test5-test@test.com",
+  "password": "Parola123!",
+  "fullName": "Vasko - test",
+  "idNumber": "5122334455",
+  "rights": [
+    "ADMIN",
+    "CLIENT",
+    "EXPERT",
+    "ACTUARY"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a3b"
+  },
+  "email": "test6@test.com",
+  "password": "Parola123!",
+  "fullName": "Vasko",
+  "idNumber": "6122334455",
+  "rights": []
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a3c"
+  },
+  "email": "test8@test.com",
+  "password": "Parola123!",
+  "fullName": "Vasko",
+  "idNumber": "9122334455",
+  "rights": [
+    "ADMIN",
+    "CLIENT",
+    "EXPERT"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a3d"
+  },
+  "email": "test10@test.com",
+  "password": "Parola123!",
+  "fullName": "Vasko",
+  "idNumber": "1122334456",
+  "rights": [
+    "CLIENT"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6666199d75750d68ef9e7a3e"
+  },
+  "email": "demo@test.com",
+  "password": "Parola123!",
+  "fullName": "Vasko",
+  "idNumber": "8800112233",
+  "rights": [
+    "ADMIN",
+    "CLIENT",
+    "EXPERT"
+  ]
+}]

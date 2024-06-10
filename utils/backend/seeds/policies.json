@@ -1,0 +1,110 @@
+[{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a20"
+  },
+  "id": "123p",
+  "policyNumber": "0121412",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a38"
+  },
+  "type": "CAR_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a27"
+  },
+  "premium": 123,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-01-05",
+  "endDate": "2025-01-05",
+  "purchaseDate": "2024-01-02"
+},
+{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a21"
+  },
+  "id": "129l",
+  "policyNumber": "0121415",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a39"
+  },
+  "type": "HEALTH_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a2e"
+  },
+  "premium": 123,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-01-05",
+  "endDate": "2025-01-05",
+  "purchaseDate": "2024-01-02"
+},
+{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a22"
+  },
+  "policyNumber": "0121491",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a39"
+  },
+  "type": "CAR_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a29"
+  },
+  "premium": 123,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-01-05",
+  "endDate": "2025-01-05",
+  "purchaseDate": "2024-01-02"
+},
+{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a23"
+  },
+  "policyNumber": "95730132",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a38"
+  },
+  "type": "CAR_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a27"
+  },
+  "premium": 605,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-05-25",
+  "endDate": "2025-05-25",
+  "purchaseDate": "2024-05-25"
+},
+{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a24"
+  },
+  "policyNumber": "19834875",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a38"
+  },
+  "type": "CAR_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a28"
+  },
+  "premium": 32445,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-05-25",
+  "endDate": "2025-05-25",
+  "purchaseDate": "2024-05-25"
+},
+{
+  "_id": {
+    "$oid": "6666193475750d68ef9e7a25"
+  },
+  "policyNumber": "63474100",
+  "holderId": {
+    "$oid": "6666199d75750d68ef9e7a38"
+  },
+  "type": "CAR_INSURANCE",
+  "packageId": {
+    "$oid": "6666194975750d68ef9e7a29"
+  },
+  "premium": 61182,
+  "premiumCurrency": "BGN",
+  "beginDate": "2024-05-25",
+  "endDate": "2025-05-25",
+  "purchaseDate": "2024-05-25"
+}]
