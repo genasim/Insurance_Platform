@@ -2,6 +2,7 @@ import * as cors from "cors";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import { Request, Response } from "express";
+import authRouter from "./routes/auth-router";
 import connectDB from "./db/mongo-connect";
 
 dotenv.config();
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 9001;
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/clients", clientsRouter);
+app.use("/api/auth", authRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.set("Content-Type", "text/html");

@@ -1,0 +1,89 @@
+import mongoose, { Document, Schema } from "mongoose";
+
+// Define the Right enum
+export enum Right {
+  ADMIN = "ADMIN",
+  CLIENT = "CLIENT",
+  EXPERT = "EXPERT",
+  ACTUARY = "ACTUARY",
+}
+
+export interface Identifiable {
+  _id: mongoose.Types.ObjectId;
+}
+
+export interface User extends Identifiable {
+  email: string;
+  password: string;
+  fullName: string;
+  idNumber: string;
+  rights: Right[];
+}
+
+const userSchema: Schema = new Schema<User>(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is invalid"],
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters long"],
+      match: [
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Password must contain one lowercase, one uppercase and one special character",
+      ],
+    },
+    fullName: {
+      type: String,
+      required: [true, "Full name is required"],
+    },
+    idNumber: {
+      type: String,
+      unique: true,
+    },
+    rights: {
+      required: [true, "Rights are required"],
+      type: [
+        {
+          type: String,
+          enum: {
+            values: [...Object.keys(Right)],
+            message: "{VALUE} is not a supported Right",
+          },
+        },
+      ],
+    },
+  },
+  { timestamps: true }
+);
+
+const generateRandomIdNumber = (): string => {
+  return Math.floor(10000000 + Math.random() * 90000000).toString();
+};
+
+userSchema.pre("save", async function (next) {
+  if (!this.idNumber) {
+    let unique = false;
+    while (!unique) {
+      const newIdNumber = generateRandomIdNumber();
+      const existingUser = await userModel.findOne({ idNumber: newIdNumber });
+      if (!existingUser) {
+        this.idNumber = newIdNumber;
+        unique = true;
+      }
+    }
+  }
+
+  if (!this.password) {
+  }
+
+  next();
+});
+
+const userModel = mongoose.model<User & Document>("User", userSchema);
+
+export default userModel;
