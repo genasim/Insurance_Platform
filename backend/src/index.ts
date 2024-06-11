@@ -4,6 +4,7 @@ import * as express from "express";
 import { Request, Response } from "express";
 import authRouter from "./routes/auth-router";
 import connectDB from "./db/mongo-connect";
+import logger from "./middleware/logger";
 
 dotenv.config();
 
@@ -12,13 +13,9 @@ const PORT = process.env.PORT || 9001;
 
 app.use(express.json());
 app.use(cors());
+app.use(logger);
 
 app.use("/api/auth", authRouter);
-
-app.get("/", (req: Request, res: Response) => {
-  res.set("Content-Type", "text/html");
-  res.send("<h1>Hello from ExpressJS!</h1>");
-});
 
 app.on("error", (error) => {
   console.error(error);
