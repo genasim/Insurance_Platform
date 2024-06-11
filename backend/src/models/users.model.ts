@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 export enum Right {
   ADMIN = "ADMIN",
