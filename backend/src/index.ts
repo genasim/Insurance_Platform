@@ -2,7 +2,7 @@ import * as cors from "cors";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import { Request, Response } from "express";
-import clientsRouter from "./routes/clients-router";
+import connectDB from "./db/mongo-connect";
 
 dotenv.config();
 
@@ -28,6 +28,7 @@ app.use((err: Error, req: Request, res: Response, next) => {
   res.status(500).json({ message: err.message });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await connectDB();
   console.log(`Server is running at: http://localhost:${PORT}`);
 });
