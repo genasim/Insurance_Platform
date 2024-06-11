@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
+import * as bcrypt from 'bcrypt'
 
-// Define the Right enum
 export enum Right {
   ADMIN = "ADMIN",
   CLIENT = "CLIENT",
@@ -25,8 +25,14 @@ const userSchema: Schema = new Schema<User>(
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true,
       match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is invalid"],
+      validate: [
+        async function () {
+          const result = await userModel.countDocuments({ email: this.email });
+          return result === 0 ? true : false;
+        },
+        "Email is already in use",
+      ],
     },
     password: {
       type: String,
@@ -62,28 +68,37 @@ const userSchema: Schema = new Schema<User>(
 );
 
 const generateRandomIdNumber = (): string => {
-  return Math.floor(10000000 + Math.random() * 90000000).toString();
+  return Math.floor(1000000000 + Math.random() * 8999999999).toString();
 };
 
 userSchema.pre("save", async function (next) {
-  if (!this.idNumber) {
+  // 'this' refers to the document currently being created and contains the validated values
+  const user = this as unknown as User & Document;
+  
+  if (!user.idNumber) {
     let unique = false;
     while (!unique) {
       const newIdNumber = generateRandomIdNumber();
       const existingUser = await userModel.findOne({ idNumber: newIdNumber });
       if (!existingUser) {
-        this.idNumber = newIdNumber;
+        user.idNumber = newIdNumber;
         unique = true;
       }
     }
   }
 
-  if (!this.password) {
+  if (user.isModified("password") || user.isNew) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    } catch (err) {
+      return next(err);
+    }
   }
 
   next();
 });
 
-const userModel = mongoose.model<User & Document>("User", userSchema);
+const userModel = mongoose.model<User & Document>("users", userSchema);
 
 export default userModel;
