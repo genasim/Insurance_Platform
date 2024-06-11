@@ -6,10 +6,6 @@ const registerClientHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  if (req.method !== "POST") {
-    res.status(400).json({ message: "Invalid HTTP method" });
-    return;
-  }
   const { email, password, fullName } = req.body;
 
   try {

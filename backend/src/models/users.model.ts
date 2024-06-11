@@ -8,11 +8,7 @@ export enum Right {
   ACTUARY = "ACTUARY",
 }
 
-export interface Identifiable {
-  _id: mongoose.Types.ObjectId;
-}
-
-export interface User extends Identifiable {
+export interface User {
   email: string;
   password: string;
   fullName: string;
