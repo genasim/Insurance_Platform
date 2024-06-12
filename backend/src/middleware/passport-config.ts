@@ -1,4 +1,4 @@
-import passport from "passport";
+import passportConfig from "passport";
 import {
   Strategy as JwtStrategy,
   ExtractJwt,
@@ -20,7 +20,7 @@ const options: StrategyOptions = {
   passReqToCallback: true,
 };
 
-passport.use(
+passportConfig.use(
   new JwtStrategy(options, async (req, payload, done) => {
     try {
       const user = await usersModel.findById(payload.id);
@@ -38,4 +38,4 @@ passport.use(
   })
 );
 
-export default passport;
+export default passportConfig;
