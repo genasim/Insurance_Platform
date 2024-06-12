@@ -58,9 +58,10 @@ const userSchema: Schema = new Schema<User>(
           },
         },
       ],
+      default: [Right.EXPERT]
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 const generateRandomIdNumber = (): string => {
