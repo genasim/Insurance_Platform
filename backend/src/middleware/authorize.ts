@@ -13,7 +13,6 @@ const checkRights = (required: Right[]) => {
       rights.includes(right)
     );
 
-    console.log(rights);
     if (!hasAccess) {
       return res.status(403).json({ message: "Forbidden" });
     }
