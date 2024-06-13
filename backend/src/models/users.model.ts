@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
+import generateRandomIdNumber from "../utils/generateRandomIdNumber";
 
 export enum Right {
   ADMIN = "ADMIN",
@@ -12,7 +13,7 @@ export interface User {
   email: string;
   password: string;
   fullName: string;
-  idNumber: string;
+  idNumber: number;
   rights: Right[];
 }
 
@@ -44,7 +45,8 @@ const userSchema: Schema = new Schema<User>(
       required: [true, "Full name is required"],
     },
     idNumber: {
-      type: String,
+      type: Number,
+      required: true,
       unique: true,
     },
     rights: {
@@ -64,10 +66,6 @@ const userSchema: Schema = new Schema<User>(
   { timestamps: true, versionKey: false }
 );
 
-const generateRandomIdNumber = (): string => {
-  return Math.floor(1000000000 + Math.random() * 8999999999).toString();
-};
-
 userSchema.pre("save", async function (next) {
   // 'this' refers to the document currently being created and contains the validated values
   const user = this as unknown as User & Document;
@@ -75,7 +73,7 @@ userSchema.pre("save", async function (next) {
   if (!user.idNumber) {
     let unique = false;
     while (!unique) {
-      const newIdNumber = generateRandomIdNumber();
+      const newIdNumber = generateRandomIdNumber(10);
       const existingUser = await userModel.findOne({ idNumber: newIdNumber });
       if (!existingUser) {
         user.idNumber = newIdNumber;
