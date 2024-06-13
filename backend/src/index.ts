@@ -9,6 +9,7 @@ import passportConfig from "./middleware/passport-config";
 import { Right } from "./models/users.model";
 import authRouter from "./routes/auth-router";
 import usersRouter from "./routes/users-router";
+import clientsRouter from "./routes/clients-router";
 
 dotenv.config();
 
@@ -22,8 +23,9 @@ app.use(passportConfig.initialize());
 
 app.use("/api/auth", authRouter);
 
-app.use(authenticate)
+app.use(authenticate);
 app.use("/api/users", authorize([Right.ADMIN]), usersRouter);
+app.use("/api/clients", authorize([Right.CLIENT]), clientsRouter);
 
 app.on("error", (error) => {
   console.error(error);
