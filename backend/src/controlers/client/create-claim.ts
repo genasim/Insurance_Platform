@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import mongoose from "mongoose";
+import claimDocumentModel from "../../models/claim-documents.model";
 import claimModel from "../../models/claims.model";
 
 const createClaimHandler: RequestHandler = async (
@@ -14,7 +15,7 @@ const createClaimHandler: RequestHandler = async (
     eventType,
     claimedAmount,
     claimedAmountCurrency,
-    documents
+    documents,
   } = req.body;
   const clientId = (req.user as any)._id;
 
@@ -30,10 +31,23 @@ const createClaimHandler: RequestHandler = async (
       claimedAmountCurrency,
     });
 
+    if (documents) {
+      if (!Array.isArray(documents)) {
+        res.status(400).json({ message: "Documents field is not an array" });
+        return;
+      }
+
+      for (const doc of documents) {
+        const documentDto = new claimDocumentModel({
+          claimId: claimDto._id,
+          description: (doc as any).description,
+          document: (doc as any).document,
+        });
+        await documentDto.save();
+      }
+    }
+
     const claim = await claimDto.save();
-
-    
-
     res.status(201).json({ claim });
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
