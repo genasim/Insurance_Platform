@@ -1,0 +1,42 @@
+[
+  {
+    "_id": {
+      "$oid": "6665c8f075750d68ef9e79cd"
+    },
+    "claimedAmountCurrency": "BGN",
+    "claimedAmount": 1251.41,
+    "eventDate": "2024-05-07T21:00:00.000Z",
+    "eventType": "FIRE",
+    "eventDescription": "The most terrible of accidents!!!",
+    "policyId": {
+      "$oid": "6666193475750d68ef9e7a22"
+    },
+    "policyNumber": "0121491",
+    "claimantId": {
+      "$oid": "6666199d75750d68ef9e7a39"
+    },
+    "status": "SUBMITTED",
+    "submissionDate": "2024-05-17T16:53:03.286Z",
+    "claimNumber": "59559782"
+  },
+  {
+    "_id": {
+      "$oid": "6665c8f075750d68ef9e80ef"
+    },
+    "claimedAmountCurrency": "BGN",
+    "claimedAmount": 2000,
+    "eventDate": "2024-06-07T14:00:00.000Z",
+    "eventType": "FIRE",
+    "eventDescription": "A terrible accident!!!",
+    "policyId":  {
+      "$oid": "6666193475750d68ef9e7a21"
+    },
+    "policyNumber": "0121415",
+    "claimantId": {
+      "$oid": "6666199d75750d68ef9e7a39"
+    },
+    "status": "SUBMITTED",
+    "submissionDate": "2024-05-20T08:53:01.286Z",
+    "claimNumber": "70509583"
+  }
+]
