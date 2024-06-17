@@ -1,10 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-export interface ClaimDocument {
-  claimId: mongoose.Types.ObjectId;
-  description: string;
-  document: string;
-}
+import ClaimDocument from "../types/ClaimDocument";
 
 const claimDocumentSchema: Schema = new Schema<ClaimDocument>(
   {
@@ -21,7 +16,7 @@ const claimDocumentSchema: Schema = new Schema<ClaimDocument>(
       required: [true, "Document in base64 is required"],
     },
   },
-  { timestamps: {createdAt: ""}, versionKey: false }
+  { timestamps: { createdAt: "" }, versionKey: false }
 );
 
 const claimDocumentModel = mongoose.model<ClaimDocument & Document>(

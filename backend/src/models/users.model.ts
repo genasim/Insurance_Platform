@@ -1,21 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
 import generateRandomIdNumber from "../utils/generateRandomIdNumber";
-
-export enum Right {
-  ADMIN = "ADMIN",
-  CLIENT = "CLIENT",
-  EXPERT = "EXPERT",
-  ACTUARY = "ACTUARY",
-}
-
-export interface User {
-  email: string;
-  password: string;
-  fullName: string;
-  idNumber: number;
-  rights: Right[];
-}
+import User from "../types/User";
+import Right from "../types/Rigth";
 
 const userSchema: Schema = new Schema<User>(
   {

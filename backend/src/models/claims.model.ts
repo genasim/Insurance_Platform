@@ -1,37 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
 import generateRandomIdNumber from "../utils/generateRandomIdNumber";
-
-export enum EventType {
-  STORM = "STORM",
-  FIRE = "FIRE",
-  //Todo Add other examples
-}
-
-export enum ClaimStatus {
-  SUBMITTED = "SUBMITTED",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
-}
-
-export enum Currency {
-  BGN = "BGN",
-  EUR = "EUR",
-  GBP = "GBP",
-}
-
-export interface Claim {
-  claimNumber: number;
-  policyId: mongoose.Types.ObjectId;
-  policyNumber: number;
-  submissionDate: Date;
-  eventDate: Date;
-  eventType: EventType;
-  eventDescription: string;
-  claimedAmount: number;
-  claimedAmountCurrency: string;
-  claimantId: mongoose.Types.ObjectId;
-  status: ClaimStatus;
-}
+import Currency from "../types/Currency";
+import EventType from "../types/EventType";
+import ClaimStatus from "../types/ClaimStatus";
+import Claim from "../types/Claim";
 
 const claimSchema: Schema = new Schema<Claim>(
   {
