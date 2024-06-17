@@ -46,8 +46,8 @@ const userSchema: Schema = new Schema<User>(
     },
     idNumber: {
       type: Number,
-      required: true,
       unique: true,
+      minlength: 10,
     },
     rights: {
       required: [true, "Rights are required"],

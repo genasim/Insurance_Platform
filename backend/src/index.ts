@@ -1,5 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+
 import express, { Request, Response } from "express";
 import connectDB from "./db/mongo-connect";
 import authenticate from "./middleware/authenticate";
@@ -10,8 +12,6 @@ import { Right } from "./models/users.model";
 import authRouter from "./routes/auth-router";
 import usersRouter from "./routes/users-router";
 import clientsRouter from "./routes/clients-router";
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 9001;

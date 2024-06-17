@@ -1,22 +1,14 @@
 import passportConfig from "passport";
 import {
-  Strategy as JwtStrategy,
   ExtractJwt,
+  Strategy as JwtStrategy,
   StrategyOptions,
 } from "passport-jwt";
 import usersModel from "../models/users.model";
-import fs from "fs";
-import path from "path";
-
-const publicKey = fs.readFileSync(
-  path.join(__dirname, "..", "..", "creds", "public.pem"),
-  "utf8"
-);
 
 const options: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: publicKey,
-  algorithms: ["RS256"],
+  secretOrKey: process.env.JWT_SECRET,
   passReqToCallback: true,
 };
 
