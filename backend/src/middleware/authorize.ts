@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Right } from "../models/users.model";
+import Right from "../types/Right";
 
 const checkRights = (required: Right[]) => {
   return (req: Request, res: Response, next: NextFunction) => {

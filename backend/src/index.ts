@@ -8,10 +8,10 @@ import authenticate from "./middleware/authenticate";
 import authorize from "./middleware/authorize";
 import logger from "./middleware/logger";
 import passportConfig from "./middleware/passport-config";
-import { Right } from "./models/users.model";
 import authRouter from "./routes/auth-router";
 import usersRouter from "./routes/users-router";
 import clientsRouter from "./routes/clients-router";
+import Right from "./types/Right";
 
 const app = express();
 const PORT = process.env.PORT || 9001;

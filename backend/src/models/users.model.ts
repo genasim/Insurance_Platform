@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
 import generateRandomIdNumber from "../utils/generateRandomIdNumber";
 import User from "../types/User";
-import Right from "../types/Rigth";
+import Right from "../types/Right";
 
 const userSchema: Schema = new Schema<User>(
   {
@@ -42,7 +42,7 @@ const userSchema: Schema = new Schema<User>(
         {
           type: String,
           enum: {
-            values: [...Object.keys(Right)],
+            values: Object.values(Right),
             message: "{VALUE} is not a supported Right",
           },
         },

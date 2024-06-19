@@ -1,4 +1,4 @@
-import Right from "./Rigth";
+import Right from "./Right";
 
 export interface User {
   email: string;

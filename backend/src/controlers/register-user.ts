@@ -1,7 +1,8 @@
 import { Request, RequestHandler, Response } from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import usersModel, { Right } from "../models/users.model";
+import usersModel from "../models/users.model";
+import Right from "../types/Right";
 
 const registerClientHandler: RequestHandler = async (
   req: Request,
