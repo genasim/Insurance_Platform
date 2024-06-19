@@ -15,11 +15,14 @@ const getUsersPaginatedHandler: RequestHandler = async (
   }
 
   try {
-    const user = await usersModel.aggregate([
+    const users = await usersModel.aggregate([
       { $skip: (+page - 1) * +size },
       { $limit: +size },
     ]);
-    res.status(200).json({ user });
+    users.forEach((user) => {
+      delete user.password;
+    });
+    res.status(200).json(users);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });

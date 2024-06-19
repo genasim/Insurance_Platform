@@ -48,7 +48,7 @@ const createClaimHandler: RequestHandler = async (
     }
 
     const claim = await claimDto.save();
-    res.status(201).json({ claim });
+    res.status(201).json(claim);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       const validationErrors: { [key: string]: string } = {};

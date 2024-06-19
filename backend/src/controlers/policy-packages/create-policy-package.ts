@@ -30,7 +30,7 @@ const createPolicyPackageHandler: RequestHandler = async (
     });
 
     const policyPackage = await policyPackageDto.save();
-    res.status(201).json({ policyPackage });
+    res.status(201).json(policyPackage);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       const validationErrors: { [key: string]: string } = {};

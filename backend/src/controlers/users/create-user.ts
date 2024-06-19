@@ -17,7 +17,7 @@ const createUserHandler: RequestHandler = async (
     };
     
     const user = await usersModel.create(userDto);
-    res.status(201).json({ user });
+    res.status(201).json(user);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       const validationErrors: { [key: string]: string } = {};
