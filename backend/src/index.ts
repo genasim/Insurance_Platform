@@ -12,6 +12,7 @@ import authRouter from "./routes/auth-router";
 import usersRouter from "./routes/users-router";
 import clientsRouter from "./routes/clients-router";
 import Right from "./types/Right";
+import epxertRouter from "./routes/expert-router";
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -26,6 +27,7 @@ app.use("/api/auth", authRouter);
 app.use(authenticate);
 app.use("/api/users", authorize([Right.ADMIN]), usersRouter);
 app.use("/api/clients", authorize([Right.CLIENT]), clientsRouter);
+app.use("/api/backoffice", authorize([Right.EXPERT]), epxertRouter);
 
 app.on("error", (error) => {
   console.error(error);
