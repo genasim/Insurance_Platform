@@ -65,7 +65,7 @@ const claimSchema: Schema = new Schema<Claim>(
       default: ClaimStatus.SUBMITTED,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: { createdAt: "submissionDate", updatedAt: true }, versionKey: false }
 );
 
 claimSchema.pre("save", async function (next) {

@@ -16,7 +16,7 @@ const claimDocumentSchema: Schema = new Schema<ClaimDocument>(
       required: [true, "Document in base64 is required"],
     },
   },
-  { timestamps: { createdAt: "" }, versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const claimDocumentModel = mongoose.model<ClaimDocument & Document>(
