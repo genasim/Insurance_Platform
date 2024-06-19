@@ -1,6 +1,6 @@
 import { Router } from "express";
-import createClaimHandler from "../controlers/client/create-claim";
-import getClaimsPaginatedHandler from "../controlers/client/get-claims-paginated";
+import createClaimHandler from "../controlers/claims/create-claim";
+import getClaimsPaginatedHandler from "../controlers/claims/get-claims-paginated";
 
 const clientsRouter = Router();
 
