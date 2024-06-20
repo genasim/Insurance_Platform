@@ -1,8 +1,10 @@
-import mongoose, { Schema, Document } from "mongoose";
-import Policy from "../types/Policy";
+import mongoose, { Document, Schema } from "mongoose";
 import Currency from "../types/Currency";
-import generateRandomIdNumber from "../utils/generateRandomIdNumber";
+import Policy from "../types/Policy";
 import PolicyType from "../types/PolicyType";
+import generateRandomIdNumber from "../utils/generateRandomIdNumber";
+import getPolicyEndDate from "../utils/getPolicyEndDate";
+import PolicyPackageModel from "./policy-packages.model";
 
 const policyScema = new Schema<Policy>(
   {
@@ -10,7 +12,7 @@ const policyScema = new Schema<Policy>(
       type: String,
       enum: {
         values: Object.values(PolicyType),
-        message: "{VALUE} is not a supported PolicyType"
+        message: "{VALUE} is not a supported PolicyType",
       },
       required: [true, "Policy type is required"],
     },
@@ -19,8 +21,8 @@ const policyScema = new Schema<Policy>(
       required: [true, "End Date is required"],
     },
     holderId: {
-      text: Schema.Types.ObjectId,
-      ref: "User",
+      type: Schema.Types.ObjectId,
+      ref: "users",
       required: [true, "HolderId is required"],
     },
     packageId: {
@@ -31,6 +33,7 @@ const policyScema = new Schema<Policy>(
     policyNumber: {
       type: Number,
       unique: true,
+      required: [true, "Policy Number is required"],
       minlength: [8, "Policy number {VALUE} must be 8 digits longs"],
       maxlength: [8, "Policy number {VALUE} must be 8 digits longs"],
     },
@@ -54,24 +57,47 @@ const policyScema = new Schema<Policy>(
   }
 );
 
-policyScema.pre("save", async function (next) {
-    // 'this' refers to the document currently being created and contains the validated values
-    const policy = this as unknown as Policy & Document;
-  
-    if (!policy.policyNumber || policy.isNew) {
-      let unique = false;
-      while (!unique) {
-        const policyNumber = generateRandomIdNumber(8);
-        const existingClaim = await policyModel.findOne({ policyNumber });
-        if (!existingClaim) {
-          policy.policyNumber = policyNumber;
-          unique = true;
-        }
+policyScema.pre("validate", async function (next) {
+  const policy = this as unknown as Policy & Document;
+  const polPackage = await PolicyPackageModel.findById(policy.packageId);
+
+  if (!policy.policyNumber || policy.isNew) {
+    let unique = false;
+    while (!unique) {
+      const policyNumber = generateRandomIdNumber(8);
+      const existingClaim = await policyModel.countDocuments({ policyNumber });
+      if (existingClaim === 0) {
+        policy.policyNumber = policyNumber;
+        unique = true;
       }
     }
-  
-    next();
-  });
+  }
+
+  if (!policy.endDate || policy.isNew) {
+    const endDate = getPolicyEndDate(polPackage);
+    policy.endDate = endDate;
+  }
+
+  if (!policy.premium || !policy.premiumCurrency || policy.isNew) {
+    policy.premium = polPackage.basePremium;
+    policy.premiumCurrency = polPackage.basePremiumCurrency;
+  }
+
+  next();
+});
+
+policyScema.pre("save", async function (next) {
+  // 'this' refers to the document currently being created and contains the validated values
+  const policy = this as unknown as Policy & Document;
+
+  const polPackage = await PolicyPackageModel.findById(policy.packageId);
+  if (polPackage.policyType !== policy.type) {
+    next(new Error("Package policy type doesn't match current policy"));
+    return;
+  }
+
+  next();
+});
 
 const policyModel = mongoose.model("policies", policyScema);
 
