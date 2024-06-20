@@ -1,8 +1,0 @@
-[{
-  "_id": {
-    "$oid": "666618f575750d68ef9e7a18"
-  },
-  "amount": 120,
-  "amountCurrency": "BGN",
-  "paymentDate": "2024-04-15"
-}]
