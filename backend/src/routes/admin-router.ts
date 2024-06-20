@@ -4,11 +4,12 @@ import deleteUserHandler from "../controlers/users/delete-user";
 import getUsersPaginatedHandler from "../controlers/users/get-users-paginated";
 import getUserHandler from "../controlers/users/get-user";
 
-const usersRouter = Router()
+const adminRouter = Router()
 
-usersRouter.get("/", getUsersPaginatedHandler)
-usersRouter.get("/:id", getUserHandler)
-usersRouter.post("/", createUserHandler)
-usersRouter.delete("/:id", deleteUserHandler)
+adminRouter.get("/users/", getUsersPaginatedHandler)
+adminRouter.get("/users/:id", getUserHandler)
+adminRouter.post("/users/", createUserHandler)
+adminRouter.delete("/users/:id", deleteUserHandler)
 
-export default usersRouter
+
+export default adminRouter
