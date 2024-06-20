@@ -1,14 +1,13 @@
 [{
   "_id": {
-    "$oid": "6666194975750d68ef9e7a27"
+    "$oid": "6674ab4a3e7557fcc6f4a6e2"
   },
-  "id": "8af2",
   "policyType": "CAR_INSURANCE",
   "name": "Full",
   "type": "FULL",
-  "basePremium": "500",
+  "basePremium": 500,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
+  "duration": 1,
   "durationUnit": "Year",
   "coverage": [
     "Fire, explosion or lightning",
@@ -18,55 +17,70 @@
     "Arson and explosion",
     "Theft",
     "Windows and tires"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:20:58.815Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:20:58.815Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a28"
+    "$oid": "6674ab603e7557fcc6f4a6e5"
   },
-  "id": "8af3",
   "policyType": "CAR_INSURANCE",
   "name": "Partial",
   "type": "PARTIAL",
-  "basePremium": "400",
+  "basePremium": 400,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
-  "durationUnit": "Year",
+  "duration": 10,
+  "durationUnit": "Month",
   "coverage": [
     "Fire, explosion or lightning",
     "Natural disaster",
     "Road accidents",
     "Vandalism"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:21:20.718Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:21:20.718Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a29"
+    "$oid": "6674ab683e7557fcc6f4a6e8"
   },
-  "id": "8af4",
   "policyType": "CAR_INSURANCE",
   "name": "Minimal",
   "type": "MINIMAL",
-  "basePremium": "300",
+  "basePremium": 300,
   "basePremiumCurrency": "EUR",
-  "duration": "2",
-  "durationUnit": "Year",
+  "duration": 6,
+  "durationUnit": "Month",
   "coverage": [
     "Fire, explosion or lightning",
     "Natural disaster"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:21:28.898Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:21:28.898Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a2a"
+    "$oid": "6674ab963e7557fcc6f4a6eb"
   },
-  "id": "7af6",
   "policyType": "PROPERTY_INSURANCE",
   "name": "Elite",
   "type": "ELITE",
-  "basePremium": "250",
+  "basePremium": 250,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
+  "duration": 15,
   "durationUnit": "Year",
   "coverage": [
     "Fire",
@@ -79,19 +93,24 @@
     "Third party liability insurance",
     "Burglary",
     "Electrical short circuit"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:22:14.840Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:22:14.840Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a2b"
+    "$oid": "6674ab9d3e7557fcc6f4a6ee"
   },
-  "id": "7af5",
   "policyType": "PROPERTY_INSURANCE",
   "name": "Super",
   "type": "SUPER",
-  "basePremium": "200",
+  "basePremium": 200,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
+  "duration": 12,
   "durationUnit": "Year",
   "coverage": [
     "Fire",
@@ -102,19 +121,24 @@
     "Glass cracking",
     "Third party malicious actions",
     "Third party liability insurance"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:22:21.864Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:22:21.864Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a2c"
+    "$oid": "6674aba53e7557fcc6f4a6f1"
   },
-  "id": "7af4",
   "policyType": "PROPERTY_INSURANCE",
   "name": "Classic",
   "type": "CLASSIC",
-  "basePremium": "150",
+  "basePremium": 150,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
+  "duration": 10,
   "durationUnit": "Year",
   "coverage": [
     "Fire",
@@ -123,39 +147,55 @@
     "Damages due to natural disasters",
     "Damages due to leaks",
     "Glass cracking"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:22:29.813Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:22:29.813Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a2d"
+    "$oid": "6674abca3e7557fcc6f4a6f4"
   },
-  "id": "6af4",
   "policyType": "HEALTH_INSURANCE",
   "name": "Work related",
   "type": "WORK_RELATED",
-  "basePremium": "200",
+  "basePremium": 200,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
+  "duration": 1,
   "durationUnit": "Year",
   "coverage": [
     "Death during work",
     "Loss of working capacity due to work"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:23:06.076Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:23:06.076Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6666194975750d68ef9e7a2e"
+    "$oid": "6674abd03e7557fcc6f4a6f7"
   },
-  "id": "6af5",
   "policyType": "HEALTH_INSURANCE",
   "name": "Everyday life related",
   "type": "EVERYDAY_LIFE_RELATED",
-  "basePremium": "250",
+  "basePremium": 250,
   "basePremiumCurrency": "EUR",
-  "duration": "1",
-  "durationUnit": "Year",
+  "duration": 18,
+  "durationUnit": "Month",
   "coverage": [
     "Death during everyday life activities",
     "Loss of working capacity due to everyday life activities"
-  ]
+  ],
+  "createdAt": {
+    "$date": "2024-06-20T22:23:12.969Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-20T22:23:12.969Z"
+  }
 }]

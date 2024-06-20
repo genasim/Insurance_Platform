@@ -1,31 +1,24 @@
 import { Request, RequestHandler, Response } from "express";
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import usersModel from "../models/users.model";
-import Right from "../types/Right";
+import policyModel from "../../models/policies.model";
 
-const registerClientHandler: RequestHandler = async (
+const createPolicyHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  const { email, password, fullName } = req.body;
+  const { type, packageId } = req.body;
+
+  const clientId = (req.user as any)._id;
 
   try {
-    const userDto = {
-      email,
-      password,
-      fullName,
-      rights: [Right.CLIENT],
-    };
+    const policyDto = new policyModel({
+      type,
+      holderId: clientId,
+      packageId,
+    });
 
-    const user = await usersModel.create(userDto);
-    const token = jwt.sign(
-      { id: user._id, email: user.email, rights: user.rights },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-
-    res.status(201).json({ token });
+    const policy = await policyDto.save();
+    res.status(201).json(policy);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       const validationErrors: { [key: string]: string } = {};
@@ -43,4 +36,4 @@ const registerClientHandler: RequestHandler = async (
   }
 };
 
-export default registerClientHandler;
+export default createPolicyHandler;

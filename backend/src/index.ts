@@ -1,16 +1,18 @@
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+
 import express, { Request, Response } from "express";
 import connectDB from "./db/mongo-connect";
 import authenticate from "./middleware/authenticate";
 import authorize from "./middleware/authorize";
 import logger from "./middleware/logger";
 import passportConfig from "./middleware/passport-config";
-import { Right } from "./models/users.model";
 import authRouter from "./routes/auth-router";
-import usersRouter from "./routes/users-router";
-
-dotenv.config();
+import adminRouter from "./routes/admin-router";
+import clientsRouter from "./routes/clients-router";
+import Right from "./types/Right";
+import epxertRouter from "./routes/expert-router";
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -22,8 +24,10 @@ app.use(passportConfig.initialize());
 
 app.use("/api/auth", authRouter);
 
-app.use(authenticate)
-app.use("/api/users", authorize([Right.ADMIN]), usersRouter);
+app.use(authenticate);
+app.use("/api/admin", authorize([Right.ADMIN]), adminRouter);
+app.use("/api/clients", authorize([Right.CLIENT, Right.ADMIN]), clientsRouter);
+app.use("/api/backoffice", authorize([Right.EXPERT, Right.ADMIN]), epxertRouter);
 
 app.on("error", (error) => {
   console.error(error);

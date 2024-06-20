@@ -1,31 +1,36 @@
 import { Request, RequestHandler, Response } from "express";
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import usersModel from "../models/users.model";
-import Right from "../types/Right";
+import PolicyPackageModel from "../../models/policy-packages.model";
 
-const registerClientHandler: RequestHandler = async (
+const createPolicyPackageHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  const { email, password, fullName } = req.body;
+  const {
+    policyType,
+    name,
+    type,
+    basePremium,
+    basePremiumCurrency,
+    duration,
+    durationUnit,
+    coverage,
+  } = req.body;
 
   try {
-    const userDto = {
-      email,
-      password,
-      fullName,
-      rights: [Right.CLIENT],
-    };
+    const policyPackageDto = new PolicyPackageModel({
+      policyType,
+      name,
+      type,
+      basePremium,
+      basePremiumCurrency,
+      duration,
+      durationUnit,
+      coverage,
+    });
 
-    const user = await usersModel.create(userDto);
-    const token = jwt.sign(
-      { id: user._id, email: user.email, rights: user.rights },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-
-    res.status(201).json({ token });
+    const policyPackage = await policyPackageDto.save();
+    res.status(201).json(policyPackage);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       const validationErrors: { [key: string]: string } = {};
@@ -43,4 +48,4 @@ const registerClientHandler: RequestHandler = async (
   }
 };
 
-export default registerClientHandler;
+export default createPolicyPackageHandler;

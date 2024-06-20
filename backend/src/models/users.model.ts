@@ -1,21 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
 import generateRandomIdNumber from "../utils/generateRandomIdNumber";
-
-export enum Right {
-  ADMIN = "ADMIN",
-  CLIENT = "CLIENT",
-  EXPERT = "EXPERT",
-  ACTUARY = "ACTUARY",
-}
-
-export interface User {
-  email: string;
-  password: string;
-  fullName: string;
-  idNumber: number;
-  rights: Right[];
-}
+import User from "../types/User";
+import Right from "../types/Right";
 
 const userSchema: Schema = new Schema<User>(
   {
@@ -46,8 +33,8 @@ const userSchema: Schema = new Schema<User>(
     },
     idNumber: {
       type: Number,
-      required: true,
       unique: true,
+      minlength: 10,
     },
     rights: {
       required: [true, "Rights are required"],
@@ -55,7 +42,7 @@ const userSchema: Schema = new Schema<User>(
         {
           type: String,
           enum: {
-            values: [...Object.keys(Right)],
+            values: Object.values(Right),
             message: "{VALUE} is not a supported Right",
           },
         },

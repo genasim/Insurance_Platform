@@ -2,7 +2,6 @@
   "_id": {
     "$oid": "6666197875750d68ef9e7a31"
   },
-  "id": "8af2",
   "name": "Car insurance",
   "meta": "Best there is",
   "type": "CAR_INSURANCE",
@@ -17,7 +16,6 @@
   "_id": {
     "$oid": "6666197875750d68ef9e7a32"
   },
-  "id": "8afc",
   "name": "Property insurance",
   "meta": "Best there is",
   "type": "PROPERTY_INSURANCE",
@@ -32,7 +30,6 @@
   "_id": {
     "$oid": "6666197875750d68ef9e7a33"
   },
-  "id": "8afd",
   "name": "Health insurance",
   "meta": "Best there is",
   "type": "HEALTH_INSURANCE",
