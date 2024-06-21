@@ -5,6 +5,6 @@ import loginUserHandler from "../controlers/login-user";
 const authRouter = Router()
 
 authRouter.post("/register", registerClientHandler)
-authRouter.get("/login", loginUserHandler)
+authRouter.post("/login", loginUserHandler)
 
 export default authRouter
