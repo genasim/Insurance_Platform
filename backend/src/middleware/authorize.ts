@@ -9,7 +9,7 @@ const checkRights = (required: Right[]) => {
 
     const rights: Right[] = (req.user as any).rights;
     
-    const hasAccess = required.every((right) =>
+    const hasAccess = required.some((right) =>
       rights.includes(right)
     );
 
