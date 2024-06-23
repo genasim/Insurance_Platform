@@ -1,88 +1,65 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Policy} from "../../models/Policy";
-import {useNavigate} from "react-router-dom";
 import API, {Tables} from "../../shared/api-client/ApiClient";
+import {ClaimPayment} from "../../models/ClaimPayment";
+import {Claim} from "../../models/Claim";
 import {IdType} from "../../models/Identifiable";
-import {User} from "../../models/User";
-import {PolicyPackage} from "../../models/PolicyPackage";
+import {Currency} from "../../models/Currency";
 
-interface PoliciesState {
-    policies: PolicyDto[];
+interface PaymentsState {
+    payments: ClaimPaymentDto[];
     pageCount: number;
     currentPage: number;
     pageSize: number;
     numberFilter: string;
-    holderFilter: string;
 }
 
-interface PolicyDto {
-    id: IdType;
-    policyNumber: string,
-    holderId: string,
-    holderName: string,
-    type: string,
-    packageId: string,
-    package: string,
-    premium: string,
-    premiumCurrency: string
-    coverage: string[]
-    beginDate: string,
-    endDate: string,
-    purchaseDate: string,
+interface ClaimPaymentDto {
+    id: IdType,
+    claimId: IdType,
+    claimNumber: string,
+    amount: number,
+    amountCurrency: Currency,
+    paymentDate: Date
 }
 
 const ClaimPayments: React.FC = () => {
-    const [state, setState] = useState<PoliciesState>(
+    const [state, setState] = useState<PaymentsState>(
         {
-            policies: [],
+            payments: [],
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
             numberFilter: '',
-            holderFilter: ''
         }
     );
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-        API.findAll<Policy>(Tables.POLICIES)
-            .then(policies => {
-                return API.findAll<User>(Tables.USERS).then(users => ({
-                    users,
-                    policies
-                }))
-            })
-            .then(dto => {
-                return API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
-                    .then(packages => ({
-                    ...dto,
-                    packages
-                }))
-            })
-            .then(dto => {
-                const policyDTOs = dto.policies.map(p => {
-                    const user = dto.users.find(u => u.id === p.holderId)!;
-                    const policyPackage = dto.packages.find(pack =>  pack.id === p.packageId)!;
+        API.findAll<ClaimPayment>(Tables.CLAIM_PAYMENTS)
+            .then(payments =>
+                API.findAll<Claim>(Tables.CLAIMS)
+                    .then(claims => payments.map(p => {
+                        const claim = claims.find(c => c.id === p.claimId);
+                        return {
+                            claimId: p.claimId,
+                            claimNumber: claim?.claimNumber ?? "",
+                            amount: p.amount,
+                            amountCurrency: p.amountCurrency,
+                            paymentDate: p.paymentDate
+                        } as ClaimPaymentDto;
+                    }))
+            )
+            .then(payments => {
 
-                    const policyDTO: PolicyDto = {
-                        ...p,
-                        holderName: user.fullName,
-                        package: policyPackage.name,
-                        coverage: policyPackage.coverage
-                    }
-                    return policyDTO;
-                });
-                const filteredPolicies = filterPolicies(policyDTOs);
+                const filteredPolicies = filterPayments(payments);
                 const pageCount = calculatePageCount(filteredPolicies);
                 setState({
                     ...state,
-                    policies: filteredPolicies,
+                    payments: filteredPolicies,
                     pageCount: pageCount,
                     currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
                 });
             })
-    }, [state.currentPage, state.numberFilter, state.holderFilter]);
+    }, [state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -117,10 +94,10 @@ const ClaimPayments: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (policies: Policy[]) => {
-        const remainingUsers = policies.length % state.pageSize;
+    const calculatePageCount = (payments: ClaimPaymentDto[]) => {
+        const remainingUsers = payments.length % state.pageSize;
         const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(policies.length / state.pageSize + remainingPage);
+        const pageCount: number = Math.trunc(payments.length / state.pageSize + remainingPage);
         return pageCount;
     };
 
@@ -132,16 +109,12 @@ const ClaimPayments: React.FC = () => {
         return state.currentPage * state.pageSize;
     }
 
-    const filterPolicies = (policies: PolicyDto[]) => {
+    const filterPayments = (payments: ClaimPaymentDto[]) => {
         if (!!state.numberFilter) {
-            policies = policies.filter((p: PolicyDto) => p.policyNumber.includes(state.numberFilter));
+            payments = payments.filter((p) => p.claimNumber.includes(state.numberFilter));
         }
 
-        if (!!state.holderFilter) {
-            policies = policies.filter((p: PolicyDto) => p.holderName.includes(state.holderFilter));
-        }
-
-        return policies;
+        return payments;
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -153,52 +126,35 @@ const ClaimPayments: React.FC = () => {
 
     return (
         <div className="container-md">
-            <h2>Policies backoffice</h2>
+            <h2>Claim payments</h2>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by number:</span>
-                <input type="text" className="form-control" id="id-number-filter"
+                <span className="input-group-text">Filter by claim number:</span>
+                <input type="text" className="form-control" id="email-filter"
                        name="numberFilter"
                        onChange={handleOnChange}
-                       placeholder="8804127324"/>
-            </div>
-            <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by holder name:</span>
-                <input type="text" className="form-control" id="email-filter"
-                       name="holderFilter"
-                       onChange={handleOnChange}
-                       placeholder="George Toshov"/>
+                       placeholder="12412"/>
             </div>
             <table className="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Holder</th>
-                    <th scope="col">Package</th>
-                    <th scope="col">Begin date</th>
-                    <th scope="col">End date</th>
-                    <th scope="col">Purchase date</th>
-                    <th scope="col">Premium</th>
-                    <th scope="col">Coverage</th>
+                    <th scope="col">Claim number</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Amount currency</th>
+                    <th scope="col">Payment date</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.policies
+                {state.payments
                     .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
-                    .map((policy, index) => (
-                        <React.Fragment key={policy.id}>
+                    .map((claimPayment, index) => (
+                        <React.Fragment key={claimPayment.id}>
                             <tr>
                                 <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
-                                <td>{policy.policyNumber}</td>
-                                <td>{policy.holderName}</td>
-                                <td>{policy.package}</td>
-                                <td>{policy.beginDate}</td>
-                                <td>{policy.endDate}</td>
-                                <td>{policy.purchaseDate}</td>
-                                <td>{policy.premium} {policy.premiumCurrency}</td>
-                                <td>
-                                    {policy.coverage.map(x => <li key={x}>{x}</li>)}
-                                </td>
+                                <td>{claimPayment.claimNumber}</td>
+                                <td>{claimPayment.amount}</td>
+                                <td>{claimPayment.amountCurrency}</td>
+                                <td>{claimPayment.paymentDate.toString()}</td>
                             </tr>
                         </React.Fragment>
                     ))}
