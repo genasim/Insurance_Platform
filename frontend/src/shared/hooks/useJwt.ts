@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { Right } from "../../models/Rights";
 import { AuthStorageKeys } from "../enums/AuthStorageKeys";
+import { useMemo } from "react";
 
 interface JwtPayload {
   _id: string;
@@ -10,11 +11,12 @@ interface JwtPayload {
 
 const useJwt = () => {
   const token = sessionStorage.getItem(AuthStorageKeys.TOKEN);
-  let decodedToken = undefined;
-
-  if (token !== null) {
-    decodedToken = jwtDecode<JwtPayload>(token);
-  }
+  const decodedToken = useMemo(() => {
+    if (token !== null) {
+      return jwtDecode<JwtPayload>(token);
+    }
+    return undefined;
+  }, [token]);
 
   return decodedToken;
 };
