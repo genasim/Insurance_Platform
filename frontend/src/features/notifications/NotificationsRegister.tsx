@@ -1,45 +1,39 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {User} from "../../models/User";
 import API, {Tables} from "../../shared/api-client/ApiClient";
-import {useNavigate} from "react-router-dom";
+import {Notification} from "../../models/Notification";
 
-interface ManageUserState {
-    users: User[];
+interface NotificationsState {
+    notifications: Notification[];
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    idNumberFilter: string;
-    emailFilter: string;
+    titleFilter: string;
 }
 
-const ManageUsers: React.FC = () => {
-    const [state, setState] = useState<ManageUserState>(
+
+const NotificationRegister: React.FC = () => {
+    const [state, setState] = useState<NotificationsState>(
         {
-            users: [],
+            notifications: [],
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            idNumberFilter: '',
-            emailFilter: ''
+            titleFilter: '',
         }
     );
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-        API.findAll<User>(Tables.USERS)
-            .then(users => {
-                const filteredUsers = filterUsers(users);
-                const pageCount = calculatePageCount(filteredUsers);
+        API.findAll<Notification>(Tables.NOTIFICATIONS)
+            .then(notifications => {
+                const pageCount = calculatePageCount(notifications);
                 setState({
                     ...state,
-                    users: filteredUsers,
+                    notifications: notifications,
                     pageCount: pageCount,
                     currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
                 });
             })
-    }, [state.currentPage, state.idNumberFilter, state.emailFilter]);
+    }, [state.currentPage, state.titleFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -74,10 +68,10 @@ const ManageUsers: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (users: User[]) => {
-        const remainingUsers = users.length % state.pageSize;
+    const calculatePageCount = (notifications: Notification[]) => {
+        const remainingUsers = notifications.length % state.pageSize;
         const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(users.length / state.pageSize + remainingPage);
+        const pageCount: number = Math.trunc(notifications.length / state.pageSize + remainingPage);
         return pageCount;
     };
 
@@ -89,18 +83,6 @@ const ManageUsers: React.FC = () => {
         return state.currentPage * state.pageSize;
     }
 
-    const filterUsers = (users: User[]) => {
-        if (!!state.idNumberFilter) {
-            users = users.filter((c: User) => c.idNumber.includes(state.idNumberFilter));
-        }
-
-        if (!!state.emailFilter) {
-            users = users.filter((c: User) => c.email.includes(state.emailFilter));
-        }
-
-        return users;
-    }
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
             ...prevState,
@@ -109,50 +91,34 @@ const ManageUsers: React.FC = () => {
     }
 
     return (
-        <div>
-            <h2>Manage users</h2>
+        <div className="container-md">
+            <h2>Notifications</h2>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by id number:</span>
-                <input type="text" className="form-control" id="id-number-filter"
-                       name="idNumberFilter"
-                       onChange={handleOnChange}
-                       placeholder="8804127324"/>
-            </div>
-            <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by email:</span>
+                <span className="input-group-text">Filter by title:</span>
                 <input type="text" className="form-control"
-                       name="emailFilter"
+                       name="titleFilter"
                        onChange={handleOnChange}
-                       placeholder="george@domains.com"/>
+                       placeholder="Title"/>
             </div>
             <table className="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Id number</th>
-                    <th scope="col">Full name</th>
-                    <th scope="col">Rights</th>
-                    <th scope="col" className="text-end">
-                        <span className="me-4">Actions</span>
-                    </th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Created at</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.users
+                {state.notifications
                     .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
-                    .map((user, index) => (
-                        <React.Fragment key={user.id}>
+                    .map((claimPayment, index) => (
+                        <React.Fragment key={claimPayment.id}>
                             <tr>
                                 <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
-                                <td>{user.email}</td>
-                                <td>{user.idNumber}</td>
-                                <td>{user.fullName}</td>
-                                <td>{user.rights.join(", ")}</td>
-                                <td className="text-end">
-                                    <button className="btn btn-primary me-3" onClick={() => { navigate(`users/${user.id}`)}}>
-                                        Edit</button>
-                                </td>
+                                <td>{claimPayment.title}</td>
+                                <td>{claimPayment.message}</td>
+                                <td>{claimPayment.createdAt}</td>
                             </tr>
                         </React.Fragment>
                     ))}
@@ -176,4 +142,4 @@ const ManageUsers: React.FC = () => {
     );
 };
 
-export default ManageUsers;
+export default NotificationRegister;

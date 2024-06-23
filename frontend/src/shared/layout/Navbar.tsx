@@ -48,7 +48,7 @@ const Navbar = ({setLoggedIn}: NavbarProps) => {
                 <Link className="nav-link" to="/admin">Admin</Link>
             </li>;
     }
-
+    //ToDo fix auth
     return (
         <nav
             style={{borderRadius: "0 0 8em 8em"}}
@@ -91,6 +91,15 @@ const Navbar = ({setLoggedIn}: NavbarProps) => {
                         </li>
                         <li className="nav-item fs-5">
                             <Link className="nav-link" to="/actuary">Actuary</Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/backoffice/claim-payments">Claim Payments</Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/backoffice/premium-payments">Premium Payments</Link>
+                        </li>
+                        <li className="nav-item fs-5">
+                            <Link className="nav-link" to="/notifications">Notifications</Link>
                         </li>
                         {login}
                         {register}
