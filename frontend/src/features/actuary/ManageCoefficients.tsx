@@ -137,7 +137,7 @@ const ManageCoefficients: React.FC = () => {
             </div>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
                 <span className="input-group-text">Filter by type:</span>
-                <input type="text" className="form-control" id="email-filter"
+                <input type="text" className="form-control"
                        name="typeFilter"
                        onChange={handleOnChange}
                        placeholder="george@domains.com"/>

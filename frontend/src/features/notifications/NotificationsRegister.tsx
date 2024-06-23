@@ -1,65 +1,39 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import API, {Tables} from "../../shared/api-client/ApiClient";
-import { IdType} from "../../models/Identifiable";
-import {PremiumPayments} from "../../models/PremiumPayments";
-import {Policy} from "../../models/Policy";
+import {Notification} from "../../models/Notification";
 
-interface PaymentsState {
-    payments: PremiumPaymentDto[];
+interface NotificationsState {
+    notifications: Notification[];
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    numberFilter: string;
+    titleFilter: string;
 }
 
-interface PremiumPaymentDto {
-    id: IdType,
-    policyId: IdType,
-    policyNumber: string,
-    amount: string,
-    amountCurrency: string,
-    paymentDate: string
-}
 
-const PremiumPaymentsRegister: React.FC = () => {
-    const [state, setState] = useState<PaymentsState>(
+const NotificationRegister: React.FC = () => {
+    const [state, setState] = useState<NotificationsState>(
         {
-            payments: [],
+            notifications: [],
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            numberFilter: '',
+            titleFilter: '',
         }
     );
 
     useEffect(() => {
-        API.findAll<PremiumPayments>(Tables.PREMIUM_PAYMENTS)
-            .then(payments =>
-                API.findAll<Policy>(Tables.POLICIES)
-                    .then(policies => payments.map(payment => {
-                        const policy = policies.find(policy => policy.id === payment.policyId);
-                        return {
-                            id: payment.id,
-                            policyId: payment.policyId,
-                            policyNumber: policy?.policyNumber ?? "",
-                            amount: parseFloat(payment.amount).toFixed(2),
-                            amountCurrency: payment.amountCurrency,
-                            paymentDate: payment.paymentDate,
-                        } as PremiumPaymentDto;
-                    }))
-            )
-            .then(payments => {
-
-                const filteredPolicies = filterPayments(payments);
-                const pageCount = calculatePageCount(filteredPolicies);
+        API.findAll<Notification>(Tables.NOTIFICATIONS)
+            .then(notifications => {
+                const pageCount = calculatePageCount(notifications);
                 setState({
                     ...state,
-                    payments: filteredPolicies,
+                    notifications: notifications,
                     pageCount: pageCount,
                     currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
                 });
             })
-    }, [state.currentPage, state.numberFilter]);
+    }, [state.currentPage, state.titleFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -94,10 +68,10 @@ const PremiumPaymentsRegister: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (payments: PremiumPaymentDto[]) => {
-        const remainingUsers = payments.length % state.pageSize;
+    const calculatePageCount = (notifications: Notification[]) => {
+        const remainingUsers = notifications.length % state.pageSize;
         const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(payments.length / state.pageSize + remainingPage);
+        const pageCount: number = Math.trunc(notifications.length / state.pageSize + remainingPage);
         return pageCount;
     };
 
@@ -109,14 +83,6 @@ const PremiumPaymentsRegister: React.FC = () => {
         return state.currentPage * state.pageSize;
     }
 
-    const filterPayments = (payments: PremiumPaymentDto[]) => {
-        if (!!state.numberFilter) {
-            payments = payments.filter((p) => p.policyNumber.includes(state.numberFilter));
-        }
-
-        return payments;
-    }
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
             ...prevState,
@@ -126,35 +92,33 @@ const PremiumPaymentsRegister: React.FC = () => {
 
     return (
         <div className="container-md">
-            <h2>Premium payments</h2>
+            <h2>Notifications</h2>
             <div className="mb-4 input-group" style={{width: "30%", minWidth: "fit-content"}}>
-                <span className="input-group-text">Filter by policy number:</span>
+                <span className="input-group-text">Filter by title:</span>
                 <input type="text" className="form-control"
-                       name="numberFilter"
+                       name="titleFilter"
                        onChange={handleOnChange}
-                       placeholder="12412"/>
+                       placeholder="Title"/>
             </div>
             <table className="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Policy number</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Amount currency</th>
-                    <th scope="col">Payment date</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Created at</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.payments
+                {state.notifications
                     .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((claimPayment, index) => (
                         <React.Fragment key={claimPayment.id}>
                             <tr>
                                 <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
-                                <td>{claimPayment.policyNumber}</td>
-                                <td>{claimPayment.amount}</td>
-                                <td>{claimPayment.amountCurrency}</td>
-                                <td>{claimPayment.paymentDate.toString()}</td>
+                                <td>{claimPayment.title}</td>
+                                <td>{claimPayment.message}</td>
+                                <td>{claimPayment.createdAt}</td>
                             </tr>
                         </React.Fragment>
                     ))}
@@ -178,4 +142,4 @@ const PremiumPaymentsRegister: React.FC = () => {
     );
 };
 
-export default PremiumPaymentsRegister;
+export default NotificationRegister;
