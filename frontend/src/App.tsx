@@ -21,7 +21,8 @@ import Layout from "./shared/layout/Layout";
 import loadClaimInfo from "./shared/services/load-claim-info";
 import loadPolicy from "./shared/services/load-policy";
 import loadPolicyTemplates from "./shared/services/load-policy-templates";
-import ClaimPayments from "./features/claim-payments/ClaimPayments";
+import ClaimPaymentsRegister from "./features/claim-payments/ClaimPaymentsRegister";
+import PremiumPaymentsRegister from "./features/premium-payments/PremiumPaymentsRegister";
 
 const router = createBrowserRouter([
     {
@@ -111,7 +112,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "backoffice/claim-payments",
-                element: <ClaimPayments/>
+                element: <ClaimPaymentsRegister/>
+            },
+            {
+                path: "backoffice/premium-payments",
+                element: <PremiumPaymentsRegister/>
             }
         ],
     },

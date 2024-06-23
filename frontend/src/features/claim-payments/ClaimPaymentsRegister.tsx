@@ -17,12 +17,12 @@ interface ClaimPaymentDto {
     id: IdType,
     claimId: IdType,
     claimNumber: string,
-    amount: number,
+    amount: string,
     amountCurrency: Currency,
     paymentDate: Date
 }
 
-const ClaimPayments: React.FC = () => {
+const ClaimPaymentsRegister: React.FC = () => {
     const [state, setState] = useState<PaymentsState>(
         {
             payments: [],
@@ -40,9 +40,10 @@ const ClaimPayments: React.FC = () => {
                     .then(claims => payments.map(p => {
                         const claim = claims.find(c => c.id === p.claimId);
                         return {
+                            id: p.id,
                             claimId: p.claimId,
                             claimNumber: claim?.claimNumber ?? "",
-                            amount: p.amount,
+                            amount: parseFloat(p.amount.toString()).toFixed(2),
                             amountCurrency: p.amountCurrency,
                             paymentDate: p.paymentDate
                         } as ClaimPaymentDto;
@@ -178,4 +179,4 @@ const ClaimPayments: React.FC = () => {
     );
 };
 
-export default ClaimPayments;
+export default ClaimPaymentsRegister;
