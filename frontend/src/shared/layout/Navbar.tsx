@@ -1,4 +1,5 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
+import { NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Right } from "../../models/Rights";
 import Logo from "../components/Logo";
@@ -8,8 +9,16 @@ import LoggedInContext from "../hooks/useLoggedIn";
 
 const Navbar = () => {
   const jwt = useJwt();
-  const rights = useRef(jwt.rights);
+  const [rights, setRights] = useState<Right[]>([]);
   const { loggedIn, setLoggedIn } = useContext(LoggedInContext);
+
+  useEffect(() => {
+    if (jwt?.rights) {
+      setRights(jwt.rights);
+    } else {
+      setRights([]);
+    }
+  }, [jwt]);
 
   const handleLogout = () => {
     sessionStorage.removeItem(AuthStorageKeys.TOKEN);
@@ -38,41 +47,51 @@ const Navbar = () => {
         </button>
         <div
           id="main-nav"
-          className="collapse navbar-collapse justify-content-end align-center"
+          className="fs-5 collapse navbar-collapse justify-content-end align-center"
         >
           <ul className="navbar-nav">
-            <li className="nav-item fs-5">
+            <li className="nav-item">
               <Link className="nav-link" to="/">
                 Home
               </Link>
             </li>
-            <li className="nav-item fs-5">
-              <Link to="/client/policies" className="nav-link">
-                Policies
-              </Link>
-            </li>
-            <li className="nav-item fs-5">
-              <Link to="/client/claims" className="nav-link">
-                Claims
-              </Link>
-            </li>
-            <li className="nav-item fs-5">
-              <Link className="nav-link" to="/backoffice/claims">
-                Backoffice
-              </Link>
-            </li>
-            <li className="nav-item fs-5">
-              <Link className="nav-link" to="/backoffice/policies">
-                Policies BO
-              </Link>
-            </li>
-            <li className="nav-item fs-5">
-              <Link className="nav-link" to="/actuary">
-                Actuary
-              </Link>
-            </li>
-            {rights.current.includes(Right.ADMIN) && (
-              <li className="nav-item fs-5">
+            {rights.includes(Right.CLIENT) && (
+              <NavDropdown title="Clients">
+                <NavDropdown.Item>
+                  <Link to="/client/policies" className="nav-link">
+                    Purchase a policy
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/client/claims" className="nav-link">
+                    Submit a claim
+                  </Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
+            {rights.includes(Right.EXPERT) && (
+              <NavDropdown title="Experts">
+                <NavDropdown.Item>
+                  <Link to="/backoffice/claims" className="nav-link">
+                    Claims
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/backoffice/policies" className="nav-link">
+                    Policies
+                  </Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
+            {rights.includes(Right.ACTUARY) && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/actuary">
+                  Actuary
+                </Link>
+              </li>
+            )}
+            {rights.includes(Right.ADMIN) && (
+              <li className="nav-item">
                 <Link className="nav-link" to="/admin">
                   Admin
                 </Link>
@@ -80,12 +99,12 @@ const Navbar = () => {
             )}
             {!loggedIn && (
               <>
-                <li className="nav-item fs-5">
+                <li className="nav-item">
                   <Link className="nav-link" to="/login">
                     Login
                   </Link>
                 </li>
-                <li className="nav-item fs-5">
+                <li className="nav-item">
                   <Link className="nav-link" to="/register">
                     Register
                   </Link>
@@ -93,7 +112,7 @@ const Navbar = () => {
               </>
             )}
             {loggedIn && (
-              <li className="nav-item fs-5">
+              <li className="nav-item">
                 <Link className="nav-link" to="/" onClick={handleLogout}>
                   Logout
                 </Link>

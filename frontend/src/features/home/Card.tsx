@@ -9,8 +9,6 @@ export interface PolicyCardProps {
 }
 
 const PolicyCard: FC<PolicyCardProps> = ({ policy, onButtonClick }) => {
-  console.log(policy);
-
   return (
     <Card className="rounded-5 shadow border">
       <Container>

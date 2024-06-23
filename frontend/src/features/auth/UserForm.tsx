@@ -30,7 +30,7 @@ const UserForm: FC<UserFormProps> = ({ onSubmit, user }) => {
         message: "Invalid email signiture",
       })
       .test(
-        "Email is already in use",
+        "check email validity",
         "Email is already in use",
         async (value, context) => {
           if (value === previousEmail) {
