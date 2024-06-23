@@ -3,6 +3,7 @@ import createClaimHandler from "../controlers/claims/create-claim";
 import getClaimsPaginatedHandler from "../controlers/claims/get-claims-paginated";
 import createPolicyHandler from "../controlers/policies/create-policy";
 import getPolicyTypePackagesHandler from "../controlers/policy-packages/get-policy-type-packages";
+import getPolicyTypeCoefficientsHandler from "../controlers/coefficients/get-policy-type-coefficients";
 
 const clientsRouter = Router();
 
@@ -11,6 +12,7 @@ clientsRouter.post("/claims", createClaimHandler);
 
 clientsRouter.post("/policies", createPolicyHandler)
 clientsRouter.get("/policies/:type/packages", getPolicyTypePackagesHandler)
+clientsRouter.get("/policies/:type/coefficients", getPolicyTypeCoefficientsHandler)
 
 
 export default clientsRouter;
