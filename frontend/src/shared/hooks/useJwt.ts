@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-import { useState } from "react";
 import { Right } from "../../models/Rights";
+import { AuthStorageKeys } from "../enums/AuthStorageKeys";
 
 interface JwtPayload {
   _id: string;
@@ -9,23 +9,14 @@ interface JwtPayload {
 }
 
 const useJwt = () => {
-  const [payload, setPayload] = useState<JwtPayload>({
-    _id: "",
-    email: "",
-    rights: [],
-  });
+  const token = sessionStorage.getItem(AuthStorageKeys.TOKEN);
+  let decodedToken = undefined;
 
-  const token = sessionStorage.getItem("jwtToken");
-
-  if (token) {
-    const decodedToken = jwtDecode<JwtPayload>(token);
-    setPayload({
-      _id: decodedToken._id,
-      email: decodedToken.email,
-      rights: decodedToken.rights,
-    });
+  if (token !== null) {
+    decodedToken = jwtDecode<JwtPayload>(token);
   }
-  return payload;
+
+  return decodedToken;
 };
 
 export default useJwt;

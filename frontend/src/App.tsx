@@ -21,6 +21,8 @@ import Layout from "./shared/layout/Layout";
 import loadClaimInfo from "./shared/services/load-claim-info";
 import loadPolicy from "./shared/services/load-policy";
 import loadPolicyTemplates from "./shared/services/load-policy-templates";
+import ProtectedRoute from "./shared/components/ProtectedRoute";
+import { Right } from "./models/Rights";
 
 const router = createBrowserRouter([
     {
@@ -35,7 +37,16 @@ const router = createBrowserRouter([
                 loader: loadPolicyTemplates
             },
             {
+                path: "login",
+                element: <Login/>
+            },
+            {
+                path: "register",
+                element: <Register/>
+            },
+            {
                 path: "/client",
+                element: <ProtectedRoute requiredRoles={[Right.CLIENT]} />,
                 children: [
                     {
                         path: "claims",
@@ -51,14 +62,15 @@ const router = createBrowserRouter([
                             }
                         ],
                     },
+                    {
+                        path: "policies",
+                        element: <PolicySubmission/>
+                    },
                 ],
             },
             {
-                path: "/client/policies",
-                element: <PolicySubmission/>
-            },
-            {
                 path: "/backoffice",
+                element: <ProtectedRoute requiredRoles={[Right.EXPERT]} />,
                 children: [
                     {
                         path: "claims",
@@ -73,41 +85,45 @@ const router = createBrowserRouter([
                                 loader: loadClaimInfo
                             }
                         ]
+                    },
+                    {
+                        path: "policies",
+                        element: <Policies/>
                     }
                 ]
             },
             {
-                path: "login",
-                element: <Login/>
+                path: "/admin",
+                element: <ProtectedRoute requiredRoles={[Right.ADMIN]} />,
+                children: [
+                    {
+                        index: true,
+                        element: <Admin/>,
+                    },
+                    {
+                        path: "users/:userId",
+                        element: <UpdateUser/>,
+                    },
+                ],
             },
             {
-                path: "register",
-                element: <Register/>
+                path: "/actuary",
+                element: <ProtectedRoute requiredRoles={[Right.ACTUARY]} />,
+                children: [
+                    {
+                        index: true,
+                        element: <ManageCoefficients/>
+                    },
+                    {
+                        path: ":coefficientId",
+                        element: <UpdateCoefficient/>
+                    },
+                    {
+                        path: "create-coefficient",
+                        element: <CreateCoefficient/>
+                    },
+                ],
             },
-            {
-                path: "admin",
-                element: <Admin/>,
-            },
-            {
-                path: "admin/users/:userId",
-                element: <UpdateUser/>
-            },
-            {
-                path: "actuary",
-                element: <ManageCoefficients/>
-            },
-            {
-                path: "actuary/:coefficientId",
-                element: <UpdateCoefficient/>
-            },
-            {
-                path: "actuary/create-coefficient",
-                element: <CreateCoefficient/>
-            },
-            {
-                path: "backoffice/policies",
-                element: <Policies/>
-            }
         ],
     },
     {
