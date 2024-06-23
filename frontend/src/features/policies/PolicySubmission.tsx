@@ -133,14 +133,16 @@ const PolicySubmission: React.FC = () => {
             purchaseDate: moment().format(format).toString(),
         };
 
-        const payment: Omit<PremiumPayments, "id"> = {
-            amount: state.premium,
-            amountCurrency: state.premiumCurrency,
-            paymentDate: moment().format(format).toString(),
-        }
-
         API.create<Policy>(Tables.POLICIES, policy)
-            .then(_ => API.create<PremiumPayments>(Tables.PREMIUM_PAYMENTS, payment))
+            .then(policy => {
+                const payment: Omit<PremiumPayments, "id"> = {
+                    policyId: policy.id,
+                    amount: state.premium,
+                    amountCurrency: state.premiumCurrency,
+                    paymentDate: moment().format(format).toString(),
+                };
+                return API.create<PremiumPayments>(Tables.PREMIUM_PAYMENTS, payment);
+            })
             .then(_ => setState({
                 ...state,
                 message: 'Successfully purchased policy',
