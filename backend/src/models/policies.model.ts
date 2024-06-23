@@ -16,6 +16,10 @@ const policyScema = new Schema<Policy>(
       },
       required: [true, "Policy type is required"],
     },
+    beginDate: {
+      type: Schema.Types.Date,
+      required: [true, "Start Date is required"],
+    },
     endDate: {
       type: Schema.Types.Date,
       required: [true, "End Date is required"],
@@ -74,7 +78,7 @@ policyScema.pre("validate", async function (next) {
   }
 
   if (!policy.endDate || policy.isNew) {
-    const endDate = getPolicyEndDate(polPackage);
+    const endDate = getPolicyEndDate(policy.beginDate, polPackage);
     policy.endDate = endDate;
   }
 

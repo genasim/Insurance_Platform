@@ -1,8 +1,8 @@
 import DurationUnit from "../types/DurationUnit";
 import PolicyPackage from "../types/PolicyPackage";
 
-function getPolicyEndDate(policyPackage: PolicyPackage): Date {
-  const endDate = new Date();
+function getPolicyEndDate(beginDate: Date, policyPackage: PolicyPackage): Date {
+  const endDate = new Date(beginDate);
 
   switch (policyPackage.durationUnit) {
     case DurationUnit.HOUR:

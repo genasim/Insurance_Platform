@@ -8,6 +8,7 @@ interface Policy {
   packageId: mongoose.Types.ObjectId;
   premium: number;
   premiumCurrency: Currency;
+  beginDate: Date;
   endDate: Date;
 }
 
