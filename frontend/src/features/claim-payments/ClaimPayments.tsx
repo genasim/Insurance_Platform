@@ -31,7 +31,7 @@ interface PolicyDto {
     purchaseDate: string,
 }
 
-const Policies: React.FC = () => {
+const ClaimPayments: React.FC = () => {
     const [state, setState] = useState<PoliciesState>(
         {
             policies: [],
@@ -222,4 +222,4 @@ const Policies: React.FC = () => {
     );
 };
 
-export default Policies;
+export default ClaimPayments;
