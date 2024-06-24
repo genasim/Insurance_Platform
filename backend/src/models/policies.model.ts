@@ -82,8 +82,7 @@ policyScema.pre("validate", async function (next) {
     policy.endDate = endDate;
   }
 
-  if (!policy.premium || !policy.premiumCurrency || policy.isNew) {
-    policy.premium = polPackage.basePremium;
+  if (!policy.premiumCurrency || policy.isNew) {
     policy.premiumCurrency = polPackage.basePremiumCurrency;
   }
 
