@@ -64,7 +64,8 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "policies",
-                        element: <PolicySubmission/>
+                        element: <PolicySubmission/>,
+                        loader: loadPolicyTemplates
                     },
                 ],
             },
