@@ -15,7 +15,6 @@ const loadPolicyTemplates = async () => {
         },
       }
     );
-    console.log(await templates.body);
     
     return templates;
   } catch (error) {

@@ -1,7 +1,7 @@
 import PolicyType from "./PolicyType";
 
 export class CoefficientValue {
-  constructor(private name: string, private value: number) {}
+  constructor(public name: string, public value: number) {}
 }
 
 interface Coefficient {

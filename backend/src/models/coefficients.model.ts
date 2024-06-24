@@ -35,7 +35,7 @@ const coefficientSchema: Schema = new Schema<Coefficient>(
   { timestamps: true, versionKey: false }
 );
 
-const coefficientModel = mongoose.model<ClaimDocument & Document>(
+const coefficientModel = mongoose.model<Coefficient & Document>(
   "calculation-coefficients",
   coefficientSchema
 );
