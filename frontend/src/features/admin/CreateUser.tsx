@@ -4,7 +4,7 @@ import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
 import {User} from "../../models/User";
 import {handleRequest} from "../../shared/BackEndFacade";
-import {Toaster} from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 
 interface UserCreateState {
     email: string,
@@ -68,8 +68,9 @@ const CreateUser: React.FC = () => {
 
         handleRequest('POST', '/api/admin/users/', user)
             .then(_ => {
+                toast.success("Successfully created user!");
                 setState({...INITIAL_STATE});
-            });
+            }).catch(_ => {});
     }
 
     const validateRegisterData = useCallback(() => {

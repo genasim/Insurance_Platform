@@ -14,13 +14,12 @@ export function handleRequest(method: string, path: string, body: any): Promise<
         body: JSON.stringify(body),
     }).then(resp => {
         if (resp.status >= 400) {
-            resp.json().then(data => {
-                toast.error(data.message)
+            return resp.json().then(data => {
+                toast.error(data.message);
+                throw new Error(resp.statusText);
             });
-            throw new Error(resp.statusText);
         }
 
-        toast.success("Successful request");
         return resp;
     })
 }
