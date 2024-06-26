@@ -1,4 +1,5 @@
 import {AuthStorageKeys} from "./enums/AuthStorageKeys";
+import toast from "react-hot-toast";
 
 const address = "http://localhost:5000"
 
@@ -11,5 +12,13 @@ export function handleRequest(method: string, path: string, body: any) : Promise
             Authorization: `Bearer ${sessionStorage.getItem(AuthStorageKeys.TOKEN)}`,
         },
         body: JSON.stringify(body),
-    });
+    }).then(resp => {
+        if (resp.status >= 400) {
+            toast.error("Error occurred.");
+            throw new Error(resp.statusText);
+        }
+
+        toast.success("Successful request");
+        return resp;
+    })
 }
