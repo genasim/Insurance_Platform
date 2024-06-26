@@ -1,10 +1,10 @@
-import { LoaderFunctionArgs } from "react-router-dom";
+import { Claim_ } from "../../models/Claim";
 import { AuthStorageKeys } from "../enums/AuthStorageKeys";
 
-const loadClaimInfo = async ({ params }: LoaderFunctionArgs<any>) => {
+const getClaimsPaginated = async (page: number, size: number) => {
   try {
-    const claimInfo = await fetch(
-      `http://localhost:5000/api/backoffice/claims/${params.claimId}`,
+    const claims = await fetch(
+      `http://localhost:5000/api/backoffice/claims?page=${page}&size=${size}`,
       {
         method: "GET",
         headers: {
@@ -17,11 +17,11 @@ const loadClaimInfo = async ({ params }: LoaderFunctionArgs<any>) => {
       }
     );
 
-    return claimInfo;
+    return (await claims.json()) as Claim_[];
   } catch (error) {
     console.error(error);
-    return { error };
+    return [];
   }
 };
 
-export default loadClaimInfo;
+export default getClaimsPaginated;

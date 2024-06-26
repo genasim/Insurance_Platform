@@ -1,12 +1,13 @@
+import moment from "moment";
 import { FunctionComponent } from "react";
 import { Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
-import { Claim } from "../../../models/Claim";
+import { Claim_ } from "../../../models/Claim";
 import { ClaimDocument_ } from "../../../models/ClaimDocument";
 import { PolicyPackage } from "../../../models/PolicyPackage";
 import DocumentPreviewer from "./DocumentPreviewer";
 
 interface ClaimInfoProps {
-  claim: Claim;
+  claim: Claim_;
   docs: ClaimDocument_[];
   policyPackage: PolicyPackage;
 }
@@ -35,7 +36,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
             <InputGroup.Text>
               <i className="bi bi-calendar3"></i>
             </InputGroup.Text>
-            <Form.Control disabled value={claim.submissionDate.toString()} />
+            <Form.Control disabled value={moment(claim.submissionDate).format("MM-DD-YYYY")} />
           </InputGroup>
         </Form.Group>
       </Row>
@@ -53,7 +54,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
           <Form.Label>Event Date</Form.Label>
-          <Form.Control disabled value={claim.eventDate.toString()} />
+          <Form.Control disabled value={moment(claim.eventDate).format("MM-DD-YYYY")} />
         </Form.Group>
       </Row>
       <Form.Group className="mb-4">

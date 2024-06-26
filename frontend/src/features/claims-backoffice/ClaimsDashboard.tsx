@@ -1,22 +1,17 @@
 import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import Title from "../../shared/components/Title";
-import { Claim } from "../../models/Claim";
-import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
-import API, { Tables } from "../../shared/api-client/ApiClient";
 import { useNavigate } from "react-router-dom";
+import { Claim_ } from "../../models/Claim";
+import Title from "../../shared/components/Title";
+import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
+import getClaimsPaginated from "../../shared/services/get-claims-paginated";
 
 const ClaimsDashboard: FC = () => {
-    const [claims, setClaims] = useState<Claim[]>([])
-    const [error, setError] = useState<Error>()
+    const [claims, setClaims] = useState<Claim_[]>([])
 
     useAsyncEffect(async () => {
-        try {
-            const _claims = await API.findAll<Claim>(Tables.CLAIMS)
-            setClaims(_claims)
-        } catch (error) {
-            setError(error as Error)
-        }
+        const claims = await getClaimsPaginated(1,20);
+        setClaims(claims)        
     },[])
 
     const navigate = useNavigate()
@@ -40,7 +35,7 @@ const ClaimsDashboard: FC = () => {
               </thead>
               <tbody>
                 {claims.map((claim) => (
-                  <tr className="align-middle" key={claim.id}>
+                  <tr className="align-middle" key={claim._id}>
                     <th scope="row">{claim.claimNumber}</th>
                     <td>{claim.policyNumber}</td>
                     <td>{claim.submissionDate.toString()}</td>
@@ -48,7 +43,7 @@ const ClaimsDashboard: FC = () => {
                     <td>{claim.claimedAmountCurrency}</td>
                     <td>{claim.eventType}</td>
                     <td className="text-end">
-                      <Button variant="primary" onClick={() => navigate(claim.id)}>
+                      <Button variant="primary" onClick={() => navigate(claim._id)}>
                         Details
                       </Button>
                     </td>

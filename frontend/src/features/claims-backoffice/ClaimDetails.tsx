@@ -2,18 +2,17 @@ import { FC, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { RxCross1 } from "react-icons/rx";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { Claim } from "../../models/Claim";
+import { Claim_ } from "../../models/Claim";
 import { ClaimDocument_ } from "../../models/ClaimDocument";
-import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { PolicyPackage } from "../../models/PolicyPackage";
-import API, { Tables } from "../../shared/api-client/ApiClient";
+import updateClaim from "../../shared/services/update-claim";
 import ClaimInfo from "./components/ClaimInfo";
 import ResolveClaimForm from "./components/ResolveClaimForm";
 
 type LoaderData = {
-  claim: Claim;
-  docs: ClaimDocument_[];
+  claim: Claim_;
+  documents: ClaimDocument_[];
   policyPackage: PolicyPackage;
 };
 
@@ -21,34 +20,18 @@ const ClaimDetails: FC = () => {
   const [error, setError] = useState<Error>();
   const [willApprove, setWillApprove] = useState<boolean>(false);
 
-  const { claim, docs, policyPackage } = useLoaderData() as LoaderData;
+  const { claim, documents, policyPackage } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
-  const handleReject = async () => {
-    try {
-      await API.update<Claim>(Tables.CLAIMS, {
-        ...claim,
-        status: ClaimStatus.REJECTED,
-      });
-    } catch (error) {
-      setError(error as Error);
-    } finally {
-      navigate("..");
-    }
-  };
-
-  const handleApprove = async (payment: ClaimPaymentDTO) => {
-    try {
-      await API.update<Claim>(Tables.CLAIMS, {
-        ...claim,
-        status: ClaimStatus.APPROVED,
-      });
-      await API.create<ClaimPayment>(Tables.CLAIM_PAYMENTS, payment);
-    } catch (error) {
-      setError(error as Error);
-    } finally {
-      navigate("..");
-    }
+  const handleUpdate = (status: ClaimStatus) => {
+    claim.status = status;
+    updateClaim(claim)
+      .then((claim) => {
+        console.log(claim);
+        
+        navigate("..");
+      })
+      .catch((error) => setError(error));
   };
 
   return (
@@ -62,7 +45,11 @@ const ClaimDetails: FC = () => {
         Go back
       </Button>
       <div className="my-5">
-        <ClaimInfo claim={claim} docs={docs} policyPackage={policyPackage} />
+        <ClaimInfo
+          claim={claim}
+          docs={documents}
+          policyPackage={policyPackage}
+        />
         <hr />
         <div className="d-flex gap-4 px-4">
           <Button
@@ -75,7 +62,7 @@ const ClaimDetails: FC = () => {
           </Button>
           <Button
             className="d-inline-flex align-items-center"
-            onClick={handleReject}
+            onClick={() => handleUpdate(ClaimStatus.REJECTED)}
             variant="danger"
           >
             Reject
@@ -85,7 +72,10 @@ const ClaimDetails: FC = () => {
         </div>
         {willApprove && (
           <div className="my-5">
-            <ResolveClaimForm claim={claim} onSubmit={handleApprove} />
+            <ResolveClaimForm
+              claim={claim}
+              onSubmit={() => handleUpdate(ClaimStatus.APPROVED)}
+            />
           </div>
         )}
       </div>
