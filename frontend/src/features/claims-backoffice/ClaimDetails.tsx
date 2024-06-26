@@ -7,7 +7,7 @@ import { ClaimDocument } from "../../models/ClaimDocument";
 import ClaimInfo from "./components/ClaimInfo";
 import API, { Tables } from "../../shared/api-client/ApiClient";
 import { ClaimStatus } from "../../models/ClaimStatus";
-import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
+import {ClaimPayment, ClaimPaymentDTO} from "../../models/ClaimPayment";
 import ResolveClaimForm from "./components/ResolveClaimForm";
 import {PolicyPackage} from "../../models/PolicyPackage";
 

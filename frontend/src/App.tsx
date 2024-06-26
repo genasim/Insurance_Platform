@@ -23,6 +23,9 @@ import loadPolicy from "./shared/services/load-policy";
 import loadPolicyTemplates from "./shared/services/load-policy-templates";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import { Right } from "./models/Rights";
+import ClaimPaymentsRegister from "./features/claim-payments/ClaimPaymentsRegister";
+import PremiumPaymentsRegister from "./features/premium-payments/PremiumPaymentsRegister";
+import NotificationRegister from "./features/notifications/NotificationsRegister";
 
 const router = createBrowserRouter([
     {
@@ -125,6 +128,22 @@ const router = createBrowserRouter([
                     },
                 ],
             },
+            {
+                path: "backoffice/policies",
+                element: <Policies/>
+            },
+            {
+                path: "backoffice/claim-payments",
+                element: <ClaimPaymentsRegister/>
+            },
+            {
+                path: "backoffice/premium-payments",
+                element: <PremiumPaymentsRegister/>
+            },
+            {
+                path: "notifications",
+                element: <NotificationRegister/>
+            }
         ],
     },
     {
