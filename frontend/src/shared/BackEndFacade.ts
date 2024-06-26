@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 const address = "http://localhost:5000"
 
-export function handleRequest(method: string, path: string, body: any) : Promise<Response> {
+export function handleRequest(method: string, path: string, body: any): Promise<Response> {
     return fetch(`${address}${path}`, {
         method: method.toUpperCase(),
         headers: {
@@ -14,7 +14,9 @@ export function handleRequest(method: string, path: string, body: any) : Promise
         body: JSON.stringify(body),
     }).then(resp => {
         if (resp.status >= 400) {
-            toast.error("Error occurred.");
+            resp.json().then(data => {
+                toast.error(data.message)
+            });
             throw new Error(resp.statusText);
         }
 

@@ -17,9 +17,7 @@ interface UserCreateState {
     emailErrors: string[],
     passwordErrors: string[],
     fullNameErrors: string[],
-    idNumberErrors: string[],
-    error: string,
-    message: string,
+    idNumberErrors: string[]
 }
 
 const CreateUser: React.FC = () => {
@@ -34,9 +32,7 @@ const CreateUser: React.FC = () => {
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
-        idNumberErrors: [],
-        error: '',
-        message: '',
+        idNumberErrors: []
     };
 
     const [state, setState] = useState<UserCreateState>(INITIAL_STATE);
@@ -72,17 +68,7 @@ const CreateUser: React.FC = () => {
 
         handleRequest('POST', '/api/admin/users/', user)
             .then(_ => {
-                setState({
-                    ...INITIAL_STATE,
-                    message: "Created user successfully!"
-                });
-            })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                    message: ''
-                });
+                setState({...INITIAL_STATE});
             });
     }
 
@@ -224,10 +210,6 @@ const CreateUser: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {state.error &&
-                    <div className="mb-4 text-danger text-center">{state.error}</div>}
-                {state.message &&
-                    <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="mb-4 text-center">
                     <button type="submit" className="btn btn-primary">Create user</button>
                 </div>

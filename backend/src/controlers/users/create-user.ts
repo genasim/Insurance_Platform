@@ -11,12 +11,14 @@ const createUserHandler: RequestHandler = async (
     try {
         const userWithSameEmail = await usersModel.findOne({email});
         if (userWithSameEmail) {
-            throw new Error(`User with email ${email} already exists`);
+            res.status(400).json({message: `User with email ${email} already exists`});
+            return;
         }
 
         const userWithSameIdNumber = await usersModel.findOne({idNumber});
         if (userWithSameIdNumber) {
-            throw new Error(`User with id number ${idNumber} already exists`);
+            res.status(400).json({message: `User with id number ${idNumber} already exists`});
+            return;
         }
 
         const userDto = {
