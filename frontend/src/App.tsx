@@ -93,6 +93,14 @@ const router = createBrowserRouter([
                     {
                         path: "policies",
                         element: <Policies/>
+                    },
+                    {
+                        path: "claim-payments",
+                        element: <ClaimPaymentsRegister/>,
+                    },
+                    {
+                        path: "premium-payments",
+                        element: <PremiumPaymentsRegister/>,
                     }
                 ]
             },
@@ -127,18 +135,6 @@ const router = createBrowserRouter([
                         element: <CreateCoefficient/>
                     },
                 ],
-            },
-            {
-                path: "backoffice/policies",
-                element: <Policies/>
-            },
-            {
-                path: "backoffice/claim-payments",
-                element: <ClaimPaymentsRegister/>
-            },
-            {
-                path: "backoffice/premium-payments",
-                element: <PremiumPaymentsRegister/>
             },
             {
                 path: "notifications",
