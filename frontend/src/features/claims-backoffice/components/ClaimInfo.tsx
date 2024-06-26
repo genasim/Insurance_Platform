@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
 import { Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { Claim } from "../../../models/Claim";
-import { ClaimDocument } from "../../../models/ClaimDocument";
+import { ClaimDocument_ } from "../../../models/ClaimDocument";
+import { PolicyPackage } from "../../../models/PolicyPackage";
 import DocumentPreviewer from "./DocumentPreviewer";
-import {PolicyPackage} from "../../../models/PolicyPackage";
 
 interface ClaimInfoProps {
   claim: Claim;
-  docs: ClaimDocument[];
+  docs: ClaimDocument_[];
   policyPackage: PolicyPackage;
 }
 
@@ -117,7 +117,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
         <>
           <h4>Attached files:</h4>
           {docs.map((doc) => (
-            <DocumentPreviewer key={doc.id} document={doc} />
+            <DocumentPreviewer key={doc._id} document={doc} />
           ))}
         </>
       ) : (

@@ -3,17 +3,17 @@ import { Button, Container } from "react-bootstrap";
 import { RxCross1 } from "react-icons/rx";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Claim } from "../../models/Claim";
-import { ClaimDocument } from "../../models/ClaimDocument";
-import ClaimInfo from "./components/ClaimInfo";
-import API, { Tables } from "../../shared/api-client/ApiClient";
+import { ClaimDocument_ } from "../../models/ClaimDocument";
+import { ClaimPayment, ClaimPaymentDTO } from "../../models/ClaimPayment";
 import { ClaimStatus } from "../../models/ClaimStatus";
-import {ClaimPayment, ClaimPaymentDTO} from "../../models/ClaimPayment";
+import { PolicyPackage } from "../../models/PolicyPackage";
+import API, { Tables } from "../../shared/api-client/ApiClient";
+import ClaimInfo from "./components/ClaimInfo";
 import ResolveClaimForm from "./components/ResolveClaimForm";
-import {PolicyPackage} from "../../models/PolicyPackage";
 
 type LoaderData = {
   claim: Claim;
-  docs: ClaimDocument[];
+  docs: ClaimDocument_[];
   policyPackage: PolicyPackage;
 };
 
