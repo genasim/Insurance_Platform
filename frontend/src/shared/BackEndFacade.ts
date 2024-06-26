@@ -1,8 +1,8 @@
 import {AuthStorageKeys} from "./enums/AuthStorageKeys";
 
-const address = "localhost:5000"
+const address = "http://localhost:5000"
 
-export function handleRequest(path: string, method: string, body: any) : Promise<Response> {
+export function handleRequest(method: string, path: string, body: any) : Promise<Response> {
     return fetch(`${address}${path}`, {
         method: method.toUpperCase(),
         headers: {
