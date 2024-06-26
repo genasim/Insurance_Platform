@@ -1,29 +1,26 @@
 import { LoaderFunctionArgs } from "react-router-dom";
-import { Claim } from "../../models/Claim";
-import { ClaimDocument } from "../../models/ClaimDocument";
-import { Policy } from "../../models/Policy";
-import API, { Tables } from "../api-client/ApiClient";
-import {PolicyPackage} from "../../models/PolicyPackage";
+import { AuthStorageKeys } from "../enums/AuthStorageKeys";
 
 const loadClaimInfo = async ({ params }: LoaderFunctionArgs<any>) => {
   try {
-    const claim = await API.findById<Claim>(
-      Tables.CLAIMS,
-      params.claimId ?? ""
-    );
-    const docs = (
-      await API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS)
-    ).filter((doc) => doc.claimId === claim.id);
-    const policy = await API.findById<Policy>(Tables.POLICIES, claim.policyId);
-    const policyPackage = await API.findById<PolicyPackage>(
-      Tables.POLICY_PACKAGES,
-      policy.packageId
+    const claimInfo = await fetch(
+      `http://localhost:5000/api/backoffice/claim/${params.claimId}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem(
+            AuthStorageKeys.TOKEN
+          )}`,
+        },
+      }
     );
 
-    return { claim, docs, policyPackage };
+    return claimInfo;
   } catch (error) {
     console.error(error);
-    return { error }
+    return { error };
   }
 };
 
