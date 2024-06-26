@@ -27,8 +27,6 @@ const ClaimDetails: FC = () => {
     claim.status = status;
     updateClaim(claim)
       .then((claim) => {
-        console.log(claim);
-        
         navigate("..");
       })
       .catch((error) => setError(error));

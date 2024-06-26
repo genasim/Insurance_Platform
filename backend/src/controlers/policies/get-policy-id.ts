@@ -7,8 +7,6 @@ const getPolicyHandler: RequestHandler = async (
   res: Response
 ) => {
   const { id } = req.params;
-  console.log(id);
-  
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({ message: "Invalid id" });
