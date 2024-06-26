@@ -1,9 +1,8 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.css'
+import React, {ChangeEvent, FormEvent, useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import API, {Tables} from "../../shared/api-client/ApiClient";
-import {User} from "../../models/User";
 import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
+import loginUser from '../../shared/services/login-user';
+import LoggedInContext from '../../shared/hooks/useLoggedIn';
 
 
 interface LoginState {
@@ -18,6 +17,7 @@ const Login: React.FC = () => {
         password: undefined,
         error: undefined,
     });
+    const { setLoggedIn } = useContext(LoggedInContext);
 
     const navigate = useNavigate();
 
@@ -31,26 +31,13 @@ const Login: React.FC = () => {
             return;
         }
 
-        API.findAll<User>(Tables.USERS)
-            .then(x => {
-                const user = x.find(x => x.email === state.email);
-                if (!user) {
-                    throw new Error("Invalid username or password");
-                }
-
-                if (user.password !== state.password) {
-                    throw new Error("Invalid username or password");
-                }
-
-                sessionStorage.setItem(AuthStorageKeys.TOKEN, "PUT TOKEN HERE");
-                sessionStorage.setItem(AuthStorageKeys.USER_ID, user.id);
-                sessionStorage.setItem(AuthStorageKeys.RIGHTS, user.rights.join(","));
-                navigate("/home");
-            }).catch(_ => {
-            setState({
-                ...state,
-                error: "Invalid username or password"
-            });
+        loginUser(state.email, state.password).then(token => {
+            setState({...state, error: undefined});
+            sessionStorage.setItem(AuthStorageKeys.TOKEN, token);
+            setLoggedIn(true);
+            navigate("/");
+        }).catch(err => {
+            setState({...state, error: err.message});
         });
     }
 
@@ -74,7 +61,7 @@ const Login: React.FC = () => {
                                                  <i className="bi bi-envelope"></i></span>
                             <input type="email" className="form-control" id="login-email" name="email"
                                    onChange={handleOnChange}
-                                   placeholder="e.g. mario@example.com"/>
+                                   placeholder="e.g. mario@mail.co"/>
                         </div>
                         <label htmlFor="login-password" className="form-label">Password: </label>
                         <div className="mb-4 input-group">

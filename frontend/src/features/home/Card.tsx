@@ -9,8 +9,6 @@ export interface PolicyCardProps {
 }
 
 const PolicyCard: FC<PolicyCardProps> = ({ policy, onButtonClick }) => {
-  console.log(policy);
-
   return (
     <Card className="rounded-5 shadow border">
       <Container>
@@ -19,7 +17,7 @@ const PolicyCard: FC<PolicyCardProps> = ({ policy, onButtonClick }) => {
             <Card.Img src={policy.imgSrc} className="p-4" />
           </Col>
           <Col className="col d-flex flex-column">
-            <Card.Title className="fs-3 mb-0 mt-3">{policy.type}</Card.Title>
+            <Card.Title className="fs-3 mb-0 mt-3">{policy.name}</Card.Title>
             <Card.Text className="my-1">{policy.meta}</Card.Text>
             <Card.Body className="d-flex flex-column justify-content-between">
               <div className="my-0">

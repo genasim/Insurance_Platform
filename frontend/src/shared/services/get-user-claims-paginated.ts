@@ -1,11 +1,10 @@
-import { LoaderFunctionArgs } from "react-router-dom";
-import { Policy_ } from "../../models/Policy";
+import { Claim_ } from "../../models/Claim";
 import { AuthStorageKeys } from "../enums/AuthStorageKeys";
 
-const loadPolicy = async ({ params }: LoaderFunctionArgs) => {
+const getUserClaimsPaginated = async (page: number, size: number) => {
   try {
-    const policy = await fetch(
-      `http://localhost:5000/api/clients/policies/${params.policyId}`,
+    const policies = await fetch(
+      `http://localhost:5000/api/clients/claims?page=${page}&size=${size}`,
       {
         method: "GET",
         headers: {
@@ -18,11 +17,11 @@ const loadPolicy = async ({ params }: LoaderFunctionArgs) => {
       }
     );
 
-    return (await policy.json()) as Policy_;
+    return (await policies.json()) as Claim_[];
   } catch (error) {
     console.error(error);
-    return undefined;
+    return [];
   }
 };
 
-export default loadPolicy;
+export default getUserClaimsPaginated;

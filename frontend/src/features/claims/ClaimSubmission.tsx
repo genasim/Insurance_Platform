@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
 import { Button, Container, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Claim } from "../../models/Claim";
-import { Policy } from "../../models/Policy";
-import API, { Tables } from "../../shared/api-client/ApiClient";
+import { Claim_ } from "../../models/Claim";
+import { Policy_ } from "../../models/Policy";
 import Title from "../../shared/components/Title";
+import { AuthStorageKeys } from "../../shared/enums/AuthStorageKeys";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
-import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
+import getUserClaimsPaginated from "../../shared/services/get-user-claims-paginated";
+import getUserPoliciesPaginated from "../../shared/services/get-user-policies-paginated";
 
 enum ClaimTabs {
   PEDNING = "Pending Claims",
@@ -17,22 +18,18 @@ const ClaimSubmission: FC = () => {
   const [tab, setTab] = useState<ClaimTabs>(ClaimTabs.PEDNING);
   const userId = sessionStorage.getItem(AuthStorageKeys.USER_ID);
 
-  const [policies, setPolicies] = useState<Policy[]>([]);
-  const [claims, setClaims] = useState<Claim[]>([]);
+  const [policies, setPolicies] = useState<Policy_[]>([]);
+  const [claims, setClaims] = useState<Claim_[]>([]);
 
   const navigate = useNavigate();
   useAsyncEffect(async () => {
-    const _policies = (await API.findAll<Policy>(Tables.POLICIES)).filter(
-      (policy) => policy.holderId === userId
-    );
-    setPolicies(_policies);
+    const policies = await getUserPoliciesPaginated(1, 20);
+    setPolicies(policies);
   }, [userId]);
 
   useAsyncEffect(async () => {
-    const _claims = (await API.findAll<Claim>(Tables.CLAIMS)).filter(
-      (claim) => claim.claimantId === userId
-    );
-    setClaims(_claims);
+    const claims = await getUserClaimsPaginated(1, 20);
+    setClaims(claims);
   }, [userId]);
 
   return (
@@ -45,7 +42,9 @@ const ClaimSubmission: FC = () => {
         <Nav
           variant="tabs"
           activeKey={tab}
-          onSelect={(eventKey) => setTab(eventKey as ClaimTabs)}
+          onSelect={(eventKey) => {
+            setTab(eventKey as ClaimTabs);
+          }}
         >
           <Nav.Item>
             <Nav.Link eventKey={ClaimTabs.PEDNING}>Pending Claims</Nav.Link>
@@ -71,7 +70,7 @@ const ClaimSubmission: FC = () => {
               </thead>
               <tbody>
                 {claims.map((claim, idx) => (
-                  <tr className="align-middle" key={claim.id}>
+                  <tr className="align-middle" key={claim._id}>
                     <th scope="row">{claim.claimNumber}</th>
                     <td>{claim.policyNumber}</td>
                     <td>{claim.submissionDate.toString()}</td>
@@ -106,7 +105,7 @@ const ClaimSubmission: FC = () => {
               </thead>
               <tbody>
                 {policies.map((policy, idx) => (
-                  <tr className="align-middle" key={policy.id}>
+                  <tr className="align-middle" key={policy._id}>
                     <th scope="row">{idx + 1}</th>
                     <td>{policy.policyNumber}</td>
                     <td>{policy.type}</td>
@@ -116,7 +115,7 @@ const ClaimSubmission: FC = () => {
                     <td className="text-end">
                       <Button
                         variant="primary"
-                        onClick={() => navigate({ pathname: policy.id })}
+                        onClick={() => navigate({ pathname: policy._id })}
                       >
                         Select
                       </Button>

@@ -15,17 +15,17 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { ClaimDTO } from "../../models/Claim";
+import { ClaimDTO_ } from "../../models/Claim";
 import { ClaimDocumentDTO } from "../../models/ClaimDocument";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { Currency } from "../../models/Currency";
 import { EventType } from "../../models/EventType";
 import { IdType } from "../../models/Identifiable";
-import { Policy } from "../../models/Policy";
+import { Policy_ } from "../../models/Policy";
 
 interface SubmitFormProps {
-  onSubmit: (claim: ClaimDTO, docs: ClaimDocumentDTO[]) => void;
-  policy: Policy;
+  onSubmit: (claim: ClaimDTO_, docs: ClaimDocumentDTO[]) => void;
+  policy: Policy_;
 }
 
 interface FormData {
@@ -63,7 +63,7 @@ const SubmitForm: FC<SubmitFormProps> = ({ policy, onSubmit }) => {
     useForm<FormData>({
       defaultValues: {
         currencry: Currency.BGN,
-        policyId: policy.id,
+        policyId: policy._id,
         description: "",
         amount: "",
         eventDate: null,
@@ -74,17 +74,16 @@ const SubmitForm: FC<SubmitFormProps> = ({ policy, onSubmit }) => {
   const { fields, append, remove } = useFieldArray({ control, name: "files" });
 
   const processFormData: SubmitHandler<FormData> = async (formData) => {
-    const claim: ClaimDTO = {
+    const claim: ClaimDTO_ = {
       claimedAmountCurrency: formData.currencry,
       claimedAmount: +formData.amount,
       eventDate: formData.eventDate!,
       eventType: formData.type,
       eventDescription: formData.description,
-      policyId: policy.id,
-      policyNumber: policy.policyNumber,
+      policyId: policy._id,
+      policyNumber: +policy.policyNumber,
       claimantId: policy.holderId,
       status: ClaimStatus.SUBMITTED,
-      submissionDate: new Date(),
     };
 
     const docs: ClaimDocumentDTO[] = await Promise.all(

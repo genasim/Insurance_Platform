@@ -1,8 +1,8 @@
 import { Request, RequestHandler, Response } from "express";
 import mongoose from "mongoose";
-import claimModel from "../../models/claims.model";
+import policyModel from "../../models/policies.model";
 
-const getClaimsPaginatedHandler: RequestHandler = async (
+const getPoliciesPaginatedHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
@@ -22,20 +22,20 @@ const getClaimsPaginatedHandler: RequestHandler = async (
   const clientId: string = (req.user as any)._id;
 
   try {
-    const claims = await claimModel.aggregate([
+    const policies = await policyModel.aggregate([
       {
         $match: {
-          claimantId: new mongoose.Types.ObjectId(clientId),
+          holderId: new mongoose.Types.ObjectId(clientId),
         },
       },
       { $skip: (+page - 1) * +size },
       { $limit: +size },
     ]);
-    res.status(200).json(claims);
+    res.status(200).json(policies);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 };
 
-export default getClaimsPaginatedHandler;
+export default getPoliciesPaginatedHandler;

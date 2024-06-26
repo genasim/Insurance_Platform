@@ -1,0 +1,20 @@
+[
+  {
+    "_id": {
+      "$oid": "6666191375750d68ef9e7a1c"
+    },
+    "message": "Hello there, general Kenobi",
+    "recipientId": {
+      "$oid": "6666199d75750d68ef9e7a39"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66675c454497964d0337b08b"
+    },
+    "message": "You again, general Kenobi?",
+    "recipientId": {
+      "$oid": "6666199d75750d68ef9e7a38"
+    }
+  }
+]
