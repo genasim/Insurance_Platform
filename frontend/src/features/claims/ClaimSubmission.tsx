@@ -63,6 +63,7 @@ const ClaimSubmission: FC = () => {
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">Claim Number</th>
                   <th scope="col">Policy</th>
                   <th scope="col">Submitted on</th>
                   <th scope="col">Amount</th>
@@ -74,7 +75,8 @@ const ClaimSubmission: FC = () => {
               <tbody>
                 {claims.map((claim, idx) => (
                   <tr className="align-middle" key={claim._id}>
-                    <th scope="row">{claim.claimNumber}</th>
+                    <th scope="row">{idx + 1}</th>
+                    <td>{claim.claimNumber}</td>
                     <td>{claim.policyNumber}</td>
                     <td>{moment(claim.submissionDate).format(format)}</td>
                     <td>{claim.claimedAmount}</td>
