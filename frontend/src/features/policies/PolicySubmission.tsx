@@ -11,7 +11,6 @@ const PolicySubmission: React.FC = () => {
   const onPolicySubmit = (policyDto: PolicyDto) => {
     createPolicy(policyDto)
       .then((policy) => {
-        console.log(policy);
         navigate("/");
       })
       .catch((err) => {

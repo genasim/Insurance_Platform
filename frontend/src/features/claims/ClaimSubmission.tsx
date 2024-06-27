@@ -8,11 +8,14 @@ import { AuthStorageKeys } from "../../shared/enums/AuthStorageKeys";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
 import getUserClaimsPaginated from "../../shared/services/get-user-claims-paginated";
 import getUserPoliciesPaginated from "../../shared/services/get-user-policies-paginated";
+import moment from "moment";
 
 enum ClaimTabs {
   PEDNING = "Pending Claims",
   SUBMIT = "Submit Claim",
 }
+
+const format = "MM-DD-YYYY"
 
 const ClaimSubmission: FC = () => {
   const [tab, setTab] = useState<ClaimTabs>(ClaimTabs.PEDNING);
@@ -60,6 +63,7 @@ const ClaimSubmission: FC = () => {
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">Claim Number</th>
                   <th scope="col">Policy</th>
                   <th scope="col">Submitted on</th>
                   <th scope="col">Amount</th>
@@ -71,9 +75,10 @@ const ClaimSubmission: FC = () => {
               <tbody>
                 {claims.map((claim, idx) => (
                   <tr className="align-middle" key={claim._id}>
-                    <th scope="row">{claim.claimNumber}</th>
+                    <th scope="row">{idx + 1}</th>
+                    <td>{claim.claimNumber}</td>
                     <td>{claim.policyNumber}</td>
-                    <td>{claim.submissionDate.toString()}</td>
+                    <td>{moment(claim.submissionDate).format(format)}</td>
                     <td>{claim.claimedAmount}</td>
                     <td>{claim.claimedAmountCurrency}</td>
                     <td>{claim.eventType}</td>
@@ -109,9 +114,9 @@ const ClaimSubmission: FC = () => {
                     <th scope="row">{idx + 1}</th>
                     <td>{policy.policyNumber}</td>
                     <td>{policy.type}</td>
-                    <td>{policy.beginDate.toString()}</td>
-                    <td>{policy.endDate.toString()}</td>
-                    <td>{policy.purchaseDate.toString()}</td>
+                    <td>{moment(policy.beginDate).format(format)}</td>
+                    <td>{moment(policy.endDate).format(format)}</td>
+                    <td>{moment(policy.purchaseDate).format(format)}</td>
                     <td className="text-end">
                       <Button
                         variant="primary"

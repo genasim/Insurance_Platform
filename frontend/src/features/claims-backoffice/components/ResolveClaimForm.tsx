@@ -10,12 +10,12 @@ import {
 } from "react-bootstrap";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SiTicktick } from "react-icons/si";
-import { Claim } from "../../../models/Claim";
+import { Claim_ } from "../../../models/Claim";
 import { ClaimPaymentDTO } from "../../../models/ClaimPayment";
 import { Currency } from "../../../models/Currency";
 
 interface ResolveClaimFormProps {
-  claim: Claim;
+  claim: Claim_;
   onSubmit: (payment: ClaimPaymentDTO) => void;
 }
 
@@ -38,7 +38,7 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
     const payment: ClaimPaymentDTO = {
       amount: formData.amount,
       amountCurrency: formData.currency,
-      claimId: claim.id,
+      claimId: claim._id,
       paymentDate: new Date(),
     };
     onSubmit(payment);
