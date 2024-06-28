@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import usersModel from "../../models/users.model";
+import Right from "../../types/Right";
 
 type QueryParams = {
     page: string | number;
@@ -35,9 +36,6 @@ const getUsersPaginatedHandler: RequestHandler = async (
             .skip((page - 1) * size)
             .limit(size);
 
-        users.forEach((user) => {
-            delete user.password;
-        });
 
         const userCount = await usersModel.countDocuments({
             email: { $regex: emailRegex },
@@ -48,7 +46,16 @@ const getUsersPaginatedHandler: RequestHandler = async (
         const remainingPage: number = remainingUsers > 0 ? 1 : 0;
         const pageCount: number = Math.trunc(userCount / size + remainingPage);
 
-        res.status(200).json({ users, pageCount });
+        const userDtos = users.map((user) => ({
+            id: user._id,
+            idNumber: user.idNumber,
+            email: user.email,
+            fullName: user.fullName,
+            rights: user.rights,
+        }));
+
+
+        res.status(200).json({ users: userDtos, pageCount });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server Error" });
