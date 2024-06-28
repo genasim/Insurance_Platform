@@ -33,9 +33,9 @@ const getUsersPaginatedHandler: RequestHandler = async (
                 email: { $regex: emailRegex },
                 idNumber: { $regex: numberRegex },
             })
+            .sort()
             .skip((page - 1) * size)
             .limit(size);
-
 
         const userCount = await usersModel.countDocuments({
             email: { $regex: emailRegex },

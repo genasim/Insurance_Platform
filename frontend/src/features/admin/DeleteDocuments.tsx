@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {ClaimDocument} from "../../models/ClaimDocument";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {handleRequest} from "../../shared/BackEndFacade";
 
 interface DeleteDocumentState {
@@ -8,7 +7,8 @@ interface DeleteDocumentState {
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    claimNumberFilter: string
+    claimNumberFilter: string,
+    isDeleted: boolean
 }
 
 const DeleteDocuments: React.FC = () => {
@@ -18,7 +18,8 @@ const DeleteDocuments: React.FC = () => {
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            claimNumberFilter: ''
+            claimNumberFilter: '',
+            isDeleted: false
         }
     );
 
@@ -28,29 +29,28 @@ const DeleteDocuments: React.FC = () => {
         handleRequest("GET", "/api/admin/claim-documents" + query)
             .then(resp => resp.json())
             .then(resp => {
+                debugger;
                 setState({
                     ...state,
                     documents: resp.documents,
                     pageCount: resp.pageCount,
+                    isDeleted: false,
                 });
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.claimNumberFilter]);
+    }, [state.currentPage, state.claimNumberFilter, state.isDeleted]);
 
     const handleOnDelete = (id: string) => {
-        // API.deleteById<ClaimDocument>(Tables.CLAIM_DOCUMENTS, id)
-        //     .then(() => {
-        //         const remainingDocuments = state.documents
-        //             .filter((c: ClaimDocument) => c.id !== id);
-        //         const filteredDocuments = filterDocuments(remainingDocuments);
-        //         const pageCount = calculatePageCount(filteredDocuments);
-        //         setState({
-        //             ...state,
-        //             documents: filteredDocuments,
-        //             pageCount: pageCount,
-        //         });
-        //     });
+        handleRequest("DELETE", `/api/admin/claim-documents/${id}`)
+            .then(() => {
+                setState({
+                    ...state,
+                    isDeleted: true
+                });
+            })
+            .catch(err => {
+            });
     }
 
     const handleSelectedPageClick = (pageNumber: number) => {
@@ -61,6 +61,7 @@ const DeleteDocuments: React.FC = () => {
         setState({
             ...state,
             currentPage: pageNumber,
+            documents: []
         })
     };
 
@@ -72,6 +73,7 @@ const DeleteDocuments: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage - 1,
+            documents: []
         })
     };
 
@@ -85,14 +87,6 @@ const DeleteDocuments: React.FC = () => {
             currentPage: state.currentPage + 1,
         })
     };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
 
     const filterDocuments = (documents: ClaimDocument[]) => {
         if (!!state.claimNumberFilter) {
@@ -131,7 +125,6 @@ const DeleteDocuments: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.documents
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
                         <React.Fragment key={doc.id}>
                             <tr>

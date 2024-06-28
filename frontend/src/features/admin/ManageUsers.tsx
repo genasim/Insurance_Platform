@@ -61,6 +61,7 @@ const ManageUsers: React.FC = () => {
         setState({
             ...state,
             currentPage: pageNumber,
+            users: [],
         })
     };
 
@@ -72,16 +73,9 @@ const ManageUsers: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage + 1,
+            users: [],
         })
     };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
@@ -122,7 +116,6 @@ const ManageUsers: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.users
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((user, index) => (
                         <React.Fragment key={user.id}>
                             <tr>

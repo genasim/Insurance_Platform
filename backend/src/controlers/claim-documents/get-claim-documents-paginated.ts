@@ -34,6 +34,7 @@ const getClaimDocumentsHandler: RequestHandler = async (
                 // email: { $regex: emailRegex },
                 // idNumber: { $regex: numberRegex },
             })
+            .sort()
             .skip((page - 1) * size)
             .limit(size);
 
