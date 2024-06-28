@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
 import {IdType} from "../../models/Identifiable";
 import {handleRequest} from "../../shared/BackEndFacade";
-import {debug} from "node:util";
-import {PolicyType} from "../../models/PolicyType";
-import {CalculationCoefficientValue} from "../../models/CalculationCoefficientValue";
+import toast, {Toaster} from "react-hot-toast";
 
 interface ManageCoefficientState {
     coefficients: CalculationCoefficient[];
@@ -16,6 +13,7 @@ interface ManageCoefficientState {
     pageSize: number;
     policyTypeFilter: string;
     typeFilter: string;
+    isDeleted: boolean
 }
 
 const ManageCoefficients: React.FC = () => {
@@ -26,7 +24,8 @@ const ManageCoefficients: React.FC = () => {
             currentPage: 1,
             pageSize: 5,
             policyTypeFilter: '',
-            typeFilter: ''
+            typeFilter: '',
+            isDeleted: false
         }
     );
 
@@ -41,11 +40,12 @@ const ManageCoefficients: React.FC = () => {
                     ...state,
                     coefficients: resp.coefficients,
                     pageCount: resp.pageCount,
+                    isDeleted: false
                 });
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.policyTypeFilter, state.typeFilter]);
+    }, [state.currentPage, state.policyTypeFilter, state.typeFilter, state.isDeleted]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -66,7 +66,8 @@ const ManageCoefficients: React.FC = () => {
         setState({
             ...state,
             currentPage: pageNumber,
-        })
+            coefficients: []
+        });
     };
 
     const handleOnNextPageClick = () => {
@@ -77,15 +78,21 @@ const ManageCoefficients: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage + 1,
-        })
+            coefficients: []
+        });
     };
 
     const handleDelete = (id: IdType) => {
-        API.deleteById<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, id)
-            .then(_ => setState({
-                ...state,
-                coefficients: state.coefficients.filter(coefficient => coefficient.id !== id)
-            }));
+        handleRequest('DELETE', '/api/actuaries/coefficients/' + id)
+            .then(_ => {
+                setState({
+                    ...state,
+                    isDeleted: true
+                });
+            })
+            .then(_ => toast.success("Deleted coefficient"))
+            .catch(err => {
+            });
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -175,6 +182,7 @@ const ManageCoefficients: React.FC = () => {
                     </li>
                 </ul>
             </nav>
+            <Toaster/>
         </div>
     );
 };
