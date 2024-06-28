@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {ClaimDocument} from "../../models/ClaimDocument";
 import API, {Tables} from "../../shared/api-client/ApiClient";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface DeleteDocumentState {
     documents: ClaimDocument[];
@@ -21,33 +22,35 @@ const DeleteDocuments: React.FC = () => {
         }
     );
 
+    //ToDo check filter
     useEffect(() => {
-        API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS)
-            .then(docs => {
-                const filteredDocuments = filterDocuments(docs);
-                const pageCount = calculatePageCount(filteredDocuments);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&claimNumber=${state.claimNumberFilter}`;
+        handleRequest("GET", "/api/admin/claim-documents" + query)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    documents: filteredDocuments,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    documents: resp.documents,
+                    pageCount: resp.pageCount,
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.claimNumberFilter]);
 
     const handleOnDelete = (id: string) => {
-        API.deleteById<ClaimDocument>(Tables.CLAIM_DOCUMENTS, id)
-            .then(() => {
-                const remainingDocuments = state.documents
-                    .filter((c: ClaimDocument) => c.id !== id);
-                const filteredDocuments = filterDocuments(remainingDocuments);
-                const pageCount = calculatePageCount(filteredDocuments);
-                setState({
-                    ...state,
-                    documents: filteredDocuments,
-                    pageCount: pageCount,
-                });
-            });
+        // API.deleteById<ClaimDocument>(Tables.CLAIM_DOCUMENTS, id)
+        //     .then(() => {
+        //         const remainingDocuments = state.documents
+        //             .filter((c: ClaimDocument) => c.id !== id);
+        //         const filteredDocuments = filterDocuments(remainingDocuments);
+        //         const pageCount = calculatePageCount(filteredDocuments);
+        //         setState({
+        //             ...state,
+        //             documents: filteredDocuments,
+        //             pageCount: pageCount,
+        //         });
+        //     });
     }
 
     const handleSelectedPageClick = (pageNumber: number) => {
@@ -81,13 +84,6 @@ const DeleteDocuments: React.FC = () => {
             ...state,
             currentPage: state.currentPage + 1,
         })
-    };
-
-    const calculatePageCount = (documents: ClaimDocument[]) => {
-        const remainingDocuments = documents.length % state.pageSize;
-        const remainingPage: number = remainingDocuments > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(documents.length / state.pageSize + remainingPage);
-        return pageCount;
     };
 
     const getBeginIndex = (): number => {

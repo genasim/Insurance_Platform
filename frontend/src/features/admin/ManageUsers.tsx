@@ -3,7 +3,6 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {User} from "../../models/User";
 import {useNavigate} from "react-router-dom";
 import {handleRequest} from "../../shared/BackEndFacade";
-import toast, {Toaster} from "react-hot-toast";
 
 interface ManageUserState {
     users: User[];
