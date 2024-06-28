@@ -1,9 +1,9 @@
 import { FC, useMemo, useState } from "react";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
-import { ClaimDocument } from "../../../models/ClaimDocument";
+import { ClaimDocument_ } from "../../../models/ClaimDocument";
 
 interface DocumentPreviewerProps {
-  document: ClaimDocument;
+  document: ClaimDocument_;
 }
 
 const DocumentPreviewer: FC<DocumentPreviewerProps> = ({ document }) => {
