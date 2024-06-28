@@ -5,15 +5,15 @@ import PolicyType from "../../types/PolicyType";
 type QueryParams = {
     page: string | number;
     size: string | number;
-    email: string;
-    idNumber: string;
+    type: string;
+    policyType: string;
 };
 
 const getCoefficientsPaginatedHandler: RequestHandler = async (
     req: Request,
     res: Response
 ) => {
-    let { page, size, email, idNumber } = req.query as QueryParams;
+    let { page, size, type, policyType } = req.query as QueryParams;
     page = page === "" || !page ? "1" : page;
     size = page === "" || !size ? "10" : size;
 
@@ -24,22 +24,22 @@ const getCoefficientsPaginatedHandler: RequestHandler = async (
     page = Number(page);
     size = Number(size);
 
-    const emailRegex = new RegExp(email || ".*", "i");
-    const numberRegex = new RegExp(idNumber || ".*", "i");
+    const typeRegex = new RegExp(type || ".*", "i");
+    const policyTypeRegex = new RegExp(policyType || ".*", "i");
 
     try {
         const users = await coefficientModel
             .find({
-                // email: { $regex: emailRegex },
-                // idNumber: { $regex: numberRegex },
+                type: { $regex: typeRegex },
+                policyType: { $regex: policyTypeRegex },
             })
             .sort()
             .skip((page - 1) * size)
             .limit(size);
 
         const coefficientsCount = await coefficientModel.countDocuments({
-            // email: { $regex: emailRegex },
-            // idNumber: { $regex: numberRegex },
+            type: { $regex: typeRegex },
+            policyType: { $regex: policyTypeRegex },
         });
 
         const remainingUsers = coefficientsCount % size;
@@ -48,7 +48,7 @@ const getCoefficientsPaginatedHandler: RequestHandler = async (
 
         const coefficientsDtos = users.map((coefficient) => ({
             id: coefficient._id,
-            policyType: PolicyType,
+            policyType: coefficient.policyType,
             type: coefficient.type,
             description: coefficient.description,
             values: coefficient.values,
