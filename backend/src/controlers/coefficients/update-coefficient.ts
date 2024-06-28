@@ -8,10 +8,10 @@ const updateCoefficientHandler: RequestHandler = async (
 ) => {
     try {
         const id = req.params.id;
-        const {policyType, type, description, values} = req.body;
+        const {policyType, type, description, values, isEnabled} = req.body;
 
         await coefficientModel.findByIdAndUpdate(id,{
-            policyType, type, description, values
+            policyType, type, description, values, isEnabled
         });
 
         res.status(200).send();
