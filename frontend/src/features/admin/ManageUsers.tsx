@@ -32,12 +32,11 @@ const ManageUsers: React.FC = () => {
         const query = `?page=${state.currentPage}&size=${state.pageSize}&idNumber=${state.idNumberFilter}&email=${state.emailFilter}`;
         handleRequest('GET', '/api/admin/users' + query)
             .then(resp => resp.json())
-            .then(users => {
-                const pageCount = calculatePageCount(users);
+            .then(resp => {
                 setState({
                     ...state,
-                    users: users,
-                    pageCount: pageCount,
+                    users: resp.users,
+                    pageCount: resp.pageCount,
                 });
             })
             .catch(err => {
@@ -75,13 +74,6 @@ const ManageUsers: React.FC = () => {
             ...state,
             currentPage: state.currentPage + 1,
         })
-    };
-
-    const calculatePageCount = (users: User[]) => {
-        const remainingUsers = users.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(users.length / state.pageSize + remainingPage);
-        return pageCount;
     };
 
     const getBeginIndex = (): number => {

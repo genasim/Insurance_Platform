@@ -34,10 +34,10 @@ const Admin: React.FC = () => {
                      aria-labelledby="nav-create-user-tab">
                     <CreateUser/>
                 </div>
-                <div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"
-                     aria-labelledby="nav-delete-document-tab">
-                    <DeleteDocuments/>
-                </div>
+                {/*<div className="tab-pane fade p-3" id="nav-delete-document" role="tabpanel"*/}
+                {/*     aria-labelledby="nav-delete-document-tab">*/}
+                {/*    <DeleteDocuments/>*/}
+                {/*</div>*/}
             </div>
         </div>
     </>;
