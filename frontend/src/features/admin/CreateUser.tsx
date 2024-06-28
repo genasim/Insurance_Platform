@@ -2,8 +2,9 @@
 import React, {ChangeEvent, FormEvent, useCallback, useEffect, useState} from 'react';
 import {Right} from "../../models/Rights";
 import {validateUser} from "../../shared/user-validation/UserValidationUtil";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {User} from "../../models/User";
+import {handleRequest} from "../../shared/BackEndFacade";
+import toast, {Toaster} from "react-hot-toast";
 
 interface UserCreateState {
     email: string,
@@ -16,9 +17,7 @@ interface UserCreateState {
     emailErrors: string[],
     passwordErrors: string[],
     fullNameErrors: string[],
-    idNumberErrors: string[],
-    error: string,
-    message: string,
+    idNumberErrors: string[]
 }
 
 const CreateUser: React.FC = () => {
@@ -33,9 +32,7 @@ const CreateUser: React.FC = () => {
         emailErrors: [],
         passwordErrors: [],
         fullNameErrors: [],
-        idNumberErrors: [],
-        error: '',
-        message: '',
+        idNumberErrors: []
     };
 
     const [state, setState] = useState<UserCreateState>(INITIAL_STATE);
@@ -61,41 +58,19 @@ const CreateUser: React.FC = () => {
             return;
         }
 
-        API.findAll<User>(Tables.USERS)
-            .then((x) => {
-                const isEmailTaken = x.some(x => x.email === state.email);
-                if (isEmailTaken) {
-                    throw new Error(`User with email ${state.email} already exists`);
-                }
+        const user: Omit<User, "id"> = {
+            email: state.email!,
+            password: state.password!,
+            fullName: state.fullName!,
+            idNumber: state.idNumber!,
+            rights: Array.from(state.rights.values())
+        }
 
-                const isIdNumberTaken = x.some(x => x.idNumber === state.idNumber);
-                if (isIdNumberTaken) {
-                    throw new Error(`User with id number ${state.idNumber} already exists`);
-                }
-            })
-            .then(() => {
-                const user: Omit<User, "id"> = {
-                    email: state.email!,
-                    password: state.password!,
-                    fullName: state.fullName!,
-                    idNumber: state.idNumber!,
-                    rights: Array.from(state.rights.values())
-                }
-                return API.create(Tables.USERS, user);
-            })
+        handleRequest('POST', '/api/admin/users/', user)
             .then(_ => {
-                setState({
-                    ...INITIAL_STATE,
-                    message: "Created user successfully!"
-                });
-            })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                    message: ''
-                });
-            });
+                toast.success("Successfully created user!");
+                setState({...INITIAL_STATE});
+            }).catch(_ => {});
     }
 
     const validateRegisterData = useCallback(() => {
@@ -236,14 +211,11 @@ const CreateUser: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {state.error &&
-                    <div className="mb-4 text-danger text-center">{state.error}</div>}
-                {state.message &&
-                    <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="mb-4 text-center">
                     <button type="submit" className="btn btn-primary">Create user</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };

@@ -2,27 +2,32 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {Right} from "../../models/Rights";
-import API, {Tables} from "../../shared/api-client/ApiClient";
-import {User} from "../../models/User";
-import {IdType} from "../../models/Identifiable";
+import {handleRequest} from "../../shared/BackEndFacade";
+import toast, {Toaster} from "react-hot-toast";
 
 interface UserUpdateState {
     email: string,
-    password: string,
-    passwordConfirm: string,
     fullName: string,
     idNumber: string,
     rights: Set<Right>,
     isEdited: boolean,
     emailErrors: string[],
     fullNameErrors: string[],
-    error: string,
-    message: string,
 }
 
 const UpdateUser: React.FC = () => {
     const {userId} = useParams();
     const navigate = useNavigate();
+
+    const [state, setState] = useState<UserUpdateState>({
+        email: '',
+        fullName: '',
+        idNumber: '',
+        rights: new Set<Right>(Array.from([Right.CLIENT])),
+        isEdited: false,
+        emailErrors: [],
+        fullNameErrors: [],
+    });
 
     const handleUserUpdate = (event: FormEvent) => {
         event.preventDefault();
@@ -41,58 +46,31 @@ const UpdateUser: React.FC = () => {
             return;
         }
 
-        API.findById<User>(Tables.USERS, userId as IdType)
-            .then(user => {
-                user.email = state.email;
-                user.fullName = state.fullName;
-                user.rights = Array.from(state.rights);
-                return API.update<User>(Tables.USERS, user);
-            })
-            .then(_ => {
-                setState({
-                    ...state,
-                    message: "Successfully updated user!"
-                });
-            })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                });
-            });
+        const updatedUserInfo = {
+            email: state.email,
+            fullName: state.fullName,
+            rights: Array.from(state.rights)
+        };
+
+        handleRequest("PATCH", `/api/admin/users/${userId}`, updatedUserInfo)
+            .then(_ => toast.success("Successfully updated user!"))
+            .catch(_ => {});
     };
 
-    const [state, setState] = useState<UserUpdateState>({
-        email: '',
-        password: '',
-        passwordConfirm: '',
-        fullName: '',
-        idNumber: '',
-        rights: new Set<Right>(Array.from([Right.CLIENT])),
-        isEdited: false,
-        emailErrors: [],
-        fullNameErrors: [],
-        error: '',
-        message: '',
-    });
-
     useEffect(() => {
-        API.findById<User>(Tables.USERS, userId as IdType)
-            .then(user => {
+        debugger;
+        handleRequest("GET", `/api/admin/users/${userId}`)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    email: user.email,
-                    idNumber: user.idNumber,
-                    fullName: user.fullName,
-                    rights: new Set<Right>(user.rights)
-                });
+                    email: resp.email,
+                    fullName: resp.fullName,
+                    idNumber: resp.idNumber,
+                    rights: new Set<Right>(Array.from(resp.rights)),
+                })
             })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                });
-            });
+            .catch(_ => {});
     }, []);
 
     const validateUser = () => {
@@ -215,14 +193,11 @@ const UpdateUser: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {state.error &&
-                    <div className="mb-4 text-danger text-center">{state.error}</div>}
-                {state.message &&
-                    <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="mb-4 text-center">
                     <button type="submit" className="btn btn-primary">Update user</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };

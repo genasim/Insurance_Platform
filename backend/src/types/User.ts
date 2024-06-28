@@ -4,7 +4,7 @@ export interface User {
   email: string;
   password: string;
   fullName: string;
-  idNumber: number;
+  idNumber: string;
   rights: Right[];
 }
 

@@ -1,13 +1,14 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {ClaimDocument} from "../../models/ClaimDocument";
-import API, {Tables} from "../../shared/api-client/ApiClient";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface DeleteDocumentState {
     documents: ClaimDocument[];
     pageCount: number;
     currentPage: number;
     pageSize: number;
-    claimNumberFilter: string
+    claimNumberFilter: string,
+    isDeleted: boolean
 }
 
 const DeleteDocuments: React.FC = () => {
@@ -17,36 +18,38 @@ const DeleteDocuments: React.FC = () => {
             pageCount: 1,
             currentPage: 1,
             pageSize: 5,
-            claimNumberFilter: ''
+            claimNumberFilter: '',
+            isDeleted: false
         }
     );
 
+    //ToDo check filter
     useEffect(() => {
-        API.findAll<ClaimDocument>(Tables.CLAIM_DOCUMENTS)
-            .then(docs => {
-                const filteredDocuments = filterDocuments(docs);
-                const pageCount = calculatePageCount(filteredDocuments);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&claimNumber=${state.claimNumberFilter}`;
+        handleRequest("GET", "/api/admin/claim-documents" + query)
+            .then(resp => resp.json())
+            .then(resp => {
+                debugger;
                 setState({
                     ...state,
-                    documents: filteredDocuments,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    documents: resp.documents,
+                    pageCount: resp.pageCount,
+                    isDeleted: false,
                 });
             })
-    }, [state.currentPage, state.claimNumberFilter]);
+            .catch(err => {
+            });
+    }, [state.currentPage, state.claimNumberFilter, state.isDeleted]);
 
     const handleOnDelete = (id: string) => {
-        API.deleteById<ClaimDocument>(Tables.CLAIM_DOCUMENTS, id)
+        handleRequest("DELETE", `/api/admin/claim-documents/${id}`)
             .then(() => {
-                const remainingDocuments = state.documents
-                    .filter((c: ClaimDocument) => c.id !== id);
-                const filteredDocuments = filterDocuments(remainingDocuments);
-                const pageCount = calculatePageCount(filteredDocuments);
                 setState({
                     ...state,
-                    documents: filteredDocuments,
-                    pageCount: pageCount,
+                    isDeleted: true
                 });
+            })
+            .catch(err => {
             });
     }
 
@@ -58,6 +61,7 @@ const DeleteDocuments: React.FC = () => {
         setState({
             ...state,
             currentPage: pageNumber,
+            documents: []
         })
     };
 
@@ -69,6 +73,7 @@ const DeleteDocuments: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage - 1,
+            documents: []
         })
     };
 
@@ -82,21 +87,6 @@ const DeleteDocuments: React.FC = () => {
             currentPage: state.currentPage + 1,
         })
     };
-
-    const calculatePageCount = (documents: ClaimDocument[]) => {
-        const remainingDocuments = documents.length % state.pageSize;
-        const remainingPage: number = remainingDocuments > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(documents.length / state.pageSize + remainingPage);
-        return pageCount;
-    };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
 
     const filterDocuments = (documents: ClaimDocument[]) => {
         if (!!state.claimNumberFilter) {
@@ -135,7 +125,6 @@ const DeleteDocuments: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.documents
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((doc, index) => (
                         <React.Fragment key={doc.id}>
                             <tr>

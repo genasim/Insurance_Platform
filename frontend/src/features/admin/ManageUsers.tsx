@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {User} from "../../models/User";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {useNavigate} from "react-router-dom";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface ManageUserState {
     users: User[];
@@ -28,17 +28,18 @@ const ManageUsers: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        API.findAll<User>(Tables.USERS)
-            .then(users => {
-                const filteredUsers = filterUsers(users);
-                const pageCount = calculatePageCount(filteredUsers);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&idNumber=${state.idNumberFilter}&email=${state.emailFilter}`;
+        handleRequest('GET', '/api/admin/users' + query)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    users: filteredUsers,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    users: resp.users,
+                    pageCount: resp.pageCount,
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.idNumberFilter, state.emailFilter]);
 
     const handleOnPreviousPageClick = () => {
@@ -60,6 +61,7 @@ const ManageUsers: React.FC = () => {
         setState({
             ...state,
             currentPage: pageNumber,
+            users: [],
         })
     };
 
@@ -71,35 +73,9 @@ const ManageUsers: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage + 1,
+            users: [],
         })
     };
-
-    const calculatePageCount = (users: User[]) => {
-        const remainingUsers = users.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(users.length / state.pageSize + remainingPage);
-        return pageCount;
-    };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
-
-    const filterUsers = (users: User[]) => {
-        if (!!state.idNumberFilter) {
-            users = users.filter((c: User) => c.idNumber.includes(state.idNumberFilter));
-        }
-
-        if (!!state.emailFilter) {
-            users = users.filter((c: User) => c.email.includes(state.emailFilter));
-        }
-
-        return users;
-    }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
@@ -140,7 +116,6 @@ const ManageUsers: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.users
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((user, index) => (
                         <React.Fragment key={user.id}>
                             <tr>
@@ -150,8 +125,11 @@ const ManageUsers: React.FC = () => {
                                 <td>{user.fullName}</td>
                                 <td>{user.rights.join(", ")}</td>
                                 <td className="text-end">
-                                    <button className="btn btn-primary me-3" onClick={() => { navigate(`users/${user.id}`)}}>
-                                        Edit</button>
+                                    <button className="btn btn-primary me-3" onClick={() => {
+                                        navigate(`users/${user.id}`)
+                                    }}>
+                                        Edit
+                                    </button>
                                 </td>
                             </tr>
                         </React.Fragment>
