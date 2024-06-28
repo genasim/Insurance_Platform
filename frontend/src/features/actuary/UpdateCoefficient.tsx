@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import API, {Tables} from "../../shared/api-client/ApiClient";
-import {IdType} from "../../models/Identifiable";
 import {PolicyType} from "../../models/PolicyType";
 import {CalculationCoefficientValue} from "../../models/CalculationCoefficientValue";
-import {CalculationCoefficient} from "../../models/CalculationCoefficient";
+import toast, {Toaster} from "react-hot-toast";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface CoefficientUpdateState {
     policyType: PolicyType,
@@ -18,9 +17,7 @@ interface CoefficientUpdateState {
     isEdited: boolean,
     typeErrors: string[],
     descriptionErrors: string[],
-    coefficientErrors: string[],
-    error: string,
-    message: string,
+    coefficientErrors: string[]
 }
 
 const UpdateCoefficient: React.FC = () => {
@@ -37,9 +34,7 @@ const UpdateCoefficient: React.FC = () => {
         isEdited: false,
         typeErrors: [],
         descriptionErrors: [],
-        coefficientErrors: [],
-        error: '',
-        message: ''
+        coefficientErrors: []
     });
 
     const handleCoefficientUpdate = (event: FormEvent) => {
@@ -59,27 +54,17 @@ const UpdateCoefficient: React.FC = () => {
                 return;
             }
 
-            API.findById<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficientId as IdType)
-                .then(coefficient => {
-                    coefficient.type = state.type;
-                    coefficient.description = state.description;
-                    coefficient.policyType = state.policyType;
-                    coefficient.values = state.values;
-                    coefficient.isEnabled = state.isEnabled;
-                    return API.update<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficient);
-                })
-                .then(_ => {
-                    setState({
-                        ...state,
-                        message: "Successfully updated coefficient!"
-                    });
-                })
-                .catch(err => {
-                    setState({
-                        ...state,
-                        error: err.message,
-                    });
-                });
+        const coefficient = {
+            type: state.type,
+            description: state.description,
+            policyType: state.policyType,
+            values: state.values,
+            isEnabled: state.isEnabled
+        };
+
+        handleRequest("PATCH", `/api/actuaries/coefficients/${coefficientId}`, coefficient)
+            .then(_ => toast.success("Successfully updated coefficient!"))
+            .catch(_ => {});
     };
 
     const handleCoefficientDelete = (name: string) => {
@@ -118,23 +103,19 @@ const UpdateCoefficient: React.FC = () => {
     }
 
     useEffect(() => {
-        API.findById<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficientId as IdType)
-            .then(coefficient => {
+        handleRequest("GET", `/api/actuaries/coefficients/${coefficientId}`)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    policyType: coefficient.policyType,
-                    type: coefficient.type,
-                    description: coefficient.description,
-                    values: coefficient.values,
-                    isEnabled: coefficient.isEnabled,
-                });
+                    policyType: resp.policyType,
+                    type: resp.type,
+                    description: resp.description,
+                    values: resp.values,
+                    isEnabled: resp.isEnabled
+                })
             })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                });
-            });
+            .catch(_ => {});
     }, []);
 
     const validateCoefficient = () => {
@@ -277,14 +258,11 @@ const UpdateCoefficient: React.FC = () => {
                 {state.isEdited && state.coefficientErrors && <ul className="mb-4 text-danger">
                     {state.coefficientErrors.map(e => <li key={e}>{e}</li>)}
                 </ul>}
-                {state.error &&
-                    <div className="mb-4 text-danger text-center">{state.error}</div>}
-                {state.message &&
-                    <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="text-center">
                     <button type="submit" className="btn btn-primary">Update coefficient</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };

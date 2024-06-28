@@ -58,7 +58,6 @@ const UpdateUser: React.FC = () => {
     };
 
     useEffect(() => {
-        debugger;
         handleRequest("GET", `/api/admin/users/${userId}`)
             .then(resp => resp.json())
             .then(resp => {

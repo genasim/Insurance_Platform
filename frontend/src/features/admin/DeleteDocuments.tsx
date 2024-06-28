@@ -29,7 +29,6 @@ const DeleteDocuments: React.FC = () => {
         handleRequest("GET", "/api/admin/claim-documents" + query)
             .then(resp => resp.json())
             .then(resp => {
-                debugger;
                 setState({
                     ...state,
                     documents: resp.documents,

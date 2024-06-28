@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {PolicyType} from "../../models/PolicyType";
 import {CalculationCoefficientValue} from "../../models/CalculationCoefficientValue";
 import {CalculationCoefficient} from "../../models/CalculationCoefficient";
+import {handleRequest} from "../../shared/BackEndFacade";
+import toast, {Toaster} from "react-hot-toast";
 
 interface CoefficientCreateState {
     policyType: PolicyType,
@@ -18,8 +19,6 @@ interface CoefficientCreateState {
     typeErrors: string[],
     descriptionErrors: string[],
     coefficientErrors: string[],
-    error: string,
-    message: string,
 }
 
 const CreateCoefficient: React.FC = () => {
@@ -36,8 +35,6 @@ const CreateCoefficient: React.FC = () => {
         typeErrors: [],
         descriptionErrors: [],
         coefficientErrors: [],
-        error: '',
-        message: ''
     });
 
     const handleCoefficientCreate = (event: FormEvent) => {
@@ -65,26 +62,21 @@ const CreateCoefficient: React.FC = () => {
             isEnabled: state.isEnabled,
         };
 
-        API.findAll<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS)
-            .then(coefficients => {
-                const exists = coefficients
-                    .some(x => x.type === state.type && x.policyType === state.policyType);
-                if (exists) {
-                    throw new Error("Coefficient coefficient already exists!");
-                }
+        handleRequest('POST', '/api/actuaries/coefficients/', coefficientEntity)
+            .then(_ => {
+                toast.success("Successfully created coefficient!");
             })
-            .then(_ => API.create<CalculationCoefficient>(Tables.CALCULATION_COEFFICIENTS, coefficientEntity))
             .then(_ => {
                 setState({
                     ...state,
-                    message: "Successfully created coefficient!"
-                });
+                    policyType: PolicyType.CAR_INSURANCE,
+                    type: '',
+                    description: '',
+                    values: [],
+                    isEnabled: true,
+                })
             })
-            .catch(err => {
-                setState({
-                    ...state,
-                    error: err.message,
-                });
+            .catch(_ => {
             });
     };
 
@@ -263,14 +255,11 @@ const CreateCoefficient: React.FC = () => {
                 {state.isEdited && state.coefficientErrors && <ul className="mb-4 text-danger">
                     {state.coefficientErrors.map(e => <li key={e}>{e}</li>)}
                 </ul>}
-                {state.error &&
-                    <div className="mb-4 text-danger text-center">{state.error}</div>}
-                {state.message &&
-                    <div className="mb-4 text-success text-center">{state.message}</div>}
                 <div className="text-center">
                     <button type="submit" className="btn btn-primary">Create coefficient</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };
