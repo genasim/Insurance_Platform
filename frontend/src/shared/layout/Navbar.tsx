@@ -81,6 +81,16 @@ const Navbar = () => {
                     Policies
                   </Link>
                 </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/backoffice/claim-payments" className="nav-link">
+                    Claim payments
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/backoffice/premium-payments" className="nav-link">
+                    Premium payments
+                  </Link>
+                </NavDropdown.Item>
               </NavDropdown>
             )}
             {rights.includes(Right.ACTUARY) && (
