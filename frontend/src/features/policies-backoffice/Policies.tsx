@@ -47,24 +47,9 @@ const Policies: React.FC = () => {
         handleRequest('GET', '/api/backoffice/policies' + query)
             .then(resp => resp.json())
             .then(resp => {
-                const policyDtos: PolicyDto[] = resp.policies.map((p: any) => ({
-                    id: p._id,
-                    policyNumber: p.policyNumber,
-                    holderId: p.holderId,
-                    holderName: p.holder[0]?.fullName ?? "",
-                    type: p.type,
-                    packageId: p.packageId,
-                    package: p.package[0]?.name ?? "",
-                    premium: p.premium,
-                    premiumCurrency: p.premiumCurrency,
-                    coverage: p.package[0]?.coverage ?? [],
-                    beginDate: p.beginDate,
-                    endDate: p.endDate,
-                    purchaseDate: p.purchaseDate
-                }));
                 setState({
                     ...state,
-                    policies: policyDtos,
+                    policies: resp.policies,
                     pageCount: resp.pageCount,
                 });
             })

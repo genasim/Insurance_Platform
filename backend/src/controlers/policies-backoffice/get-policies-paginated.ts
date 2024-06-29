@@ -120,7 +120,22 @@ const getPoliciesPaginated: RequestHandler = async (
         const remainingPage: number = remaining > 0 ? 1 : 0;
         const pageCount: number = Math.trunc(count / size + remainingPage);
 
-        res.status(200).json({policies, pageCount});
+        const policiesDto = policies.map((p: any) => ({
+            id: p._id,
+            policyNumber: p.policyNumber,
+            holderId: p.holderId,
+            holderName: p.holder[0]?.fullName ?? "",
+            type: p.type,
+            packageId: p.packageId,
+            package: p.package[0]?.name ?? "",
+            premium: p.premium,
+            premiumCurrency: p.premiumCurrency,
+            coverage: p.package[0]?.coverage ?? [],
+            beginDate: p.beginDate,
+            endDate: p.endDate,
+            purchaseDate: p.purchaseDate
+        }));
+        res.status(200).json({policies: policiesDto, pageCount});
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server Error"});

@@ -56,67 +56,82 @@ const Navbar = () => {
               </Link>
             </li>
             {rights.includes(Right.CLIENT) && (
-              <NavDropdown title="Clients">
-                <NavDropdown.Item>
-                  <Link to="/client/policies" className="nav-link">
-                    Purchase a policy
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/client/claims" className="nav-link">
-                    Submit a claim
-                  </Link>
-                </NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown title="Clients">
+                  <NavDropdown.Item>
+                    <Link to="/client/policies" className="nav-link">
+                      Purchase a policy
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/client/claims" className="nav-link">
+                      Submit a claim
+                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
             )}
             {rights.includes(Right.EXPERT) && (
-              <NavDropdown title="Experts">
-                <NavDropdown.Item>
-                  <Link to="/backoffice/claims" className="nav-link">
-                    Claims
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/backoffice/policies" className="nav-link">
-                    Policies
-                  </Link>
-                </NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown title="Experts">
+                  <NavDropdown.Item>
+                    <Link to="/backoffice/claims" className="nav-link">
+                      Claims
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/backoffice/policies" className="nav-link">
+                      Policies
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/backoffice/claim-payments" className="nav-link">
+                      Claim payments
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/backoffice/premium-payments" className="nav-link">
+                      Premium payments
+                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
             )}
             {rights.includes(Right.ACTUARY) && (
-              <li className="nav-item">
-                <Link className="nav-link" to="/actuary">
-                  Actuary
-                </Link>
-              </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/actuary">
+                    Actuary
+                  </Link>
+                </li>
             )}
             {rights.includes(Right.ADMIN) && (
-              <li className="nav-item">
-                <Link className="nav-link" to="/admin">
-                  Admin
-                </Link>
-              </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    Admin
+                  </Link>
+                </li>
             )}
+            <li className="nav-item">
+              <Link className="nav-link" to="/notifications">
+                Notifications
+              </Link>
+            </li>
             {!loggedIn && (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
-                    Login
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register">
-                    Register
-                  </Link>
-                </li>
-              </>
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/register">
+                      Register
+                    </Link>
+                  </li>
+                </>
             )}
             {loggedIn && (
-              <li className="nav-item">
-                <Link className="nav-link" to="/" onClick={handleLogout}>
-                  Logout
-                </Link>
-              </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </li>
             )}
           </ul>
         </div>

@@ -8,7 +8,7 @@ import Claim from "../types/Claim";
 const claimSchema: Schema = new Schema<Claim>(
   {
     claimNumber: {
-      type: Number,
+      type: String,
       minlength: 8,
       unique: true,
     },
@@ -78,7 +78,7 @@ claimSchema.pre("save", async function (next) {
       const claimNumber = generateRandomIdNumber(8);
       const existingClaim = await claimModel.findOne({ claimNumber });
       if (!existingClaim) {
-        claim.claimNumber = claimNumber;
+        // claim.claimNumber = claimNumber;
         unique = true;
       }
     }
