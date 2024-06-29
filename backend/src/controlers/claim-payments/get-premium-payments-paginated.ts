@@ -1,6 +1,7 @@
 import {Request, RequestHandler, Response} from "express";
 import premiumPaymentModel from "../../models/premium-payments.model";
 import policyModel from "../../models/policies.model";
+import premiumPaymentsModel from "../../models/premium-payments.model";
 
 type QueryParams = {
     page: string | number;
@@ -58,7 +59,7 @@ const getPremiumPaymentsPaginated: RequestHandler = async (
             }
         ]);
 
-        const policiesCount: any = await policyModel.aggregate([
+        const policiesCount: any = await premiumPaymentsModel.aggregate([
             {
                 $lookup:
                     {
@@ -85,16 +86,16 @@ const getPremiumPaymentsPaginated: RequestHandler = async (
         const policyCountValue = policiesCount[0]?.count ?? 0;
         const remaining = policyCountValue % size;
         const remainingPage: number = remaining > 0 ? 1 : 0;
-        const count: number = Math.trunc(policyCountValue / size + remainingPage);
+        const pageCount: number = Math.trunc(policyCountValue / size + remainingPage);
         const paymentDtos = payments.map(p => ({
             policyId: p.policyId,
-            policyNumber: p.policy?.policyNumber ?? "",
+            policyNumber: p.policy[0]?.policyNumber ?? "",
             amount: p.amount,
             amountCurrency: p.amountCurrency,
             paymentDate: p.paymentDate,
         }));
 
-        res.status(200).json({payments: paymentDtos, count});
+        res.status(200).json({payments: paymentDtos, pageCount});
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server Error"});

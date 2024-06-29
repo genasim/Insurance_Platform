@@ -3,6 +3,7 @@ import API, {Tables} from "../../shared/api-client/ApiClient";
 import { IdType} from "../../models/Identifiable";
 import {PremiumPayments} from "../../models/PremiumPayments";
 import {Policy} from "../../models/Policy";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface PaymentsState {
     payments: PremiumPaymentDto[];
@@ -33,32 +34,18 @@ const PremiumPaymentsRegister: React.FC = () => {
     );
 
     useEffect(() => {
-        API.findAll<PremiumPayments>(Tables.PREMIUM_PAYMENTS)
-            .then(payments =>
-                API.findAll<Policy>(Tables.POLICIES)
-                    .then(policies => payments.map(payment => {
-                        const policy = policies.find(policy => policy.id === payment.policyId);
-                        return {
-                            id: payment.id,
-                            policyId: payment.policyId,
-                            policyNumber: policy?.policyNumber ?? "",
-                            amount: parseFloat(payment.amount).toFixed(2),
-                            amountCurrency: payment.amountCurrency,
-                            paymentDate: payment.paymentDate,
-                        } as PremiumPaymentDto;
-                    }))
-            )
-            .then(payments => {
-
-                const filteredPolicies = filterPayments(payments);
-                const pageCount = calculatePageCount(filteredPolicies);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&policyNumber=${state.numberFilter}`;
+        handleRequest("GET", "/api/backoffice/premium-payments" + query)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    payments: filteredPolicies,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    payments: resp.payments,
+                    pageCount: resp.count
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
@@ -101,22 +88,6 @@ const PremiumPaymentsRegister: React.FC = () => {
         return pageCount;
     };
 
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
-
-    const filterPayments = (payments: PremiumPaymentDto[]) => {
-        if (!!state.numberFilter) {
-            payments = payments.filter((p) => p.policyNumber.includes(state.numberFilter));
-        }
-
-        return payments;
-    }
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
             ...prevState,
@@ -146,7 +117,6 @@ const PremiumPaymentsRegister: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.payments
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((claimPayment, index) => (
                         <React.Fragment key={claimPayment.id}>
                             <tr>
