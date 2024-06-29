@@ -70,7 +70,7 @@ const getPremiumPaymentsPaginated: RequestHandler = async (
             {
                 $match:
                     {
-                        policyNumber: {
+                        "policy.policyNumber": {
                             $regex: policyNumber ?? ".*",
                             $options: "i"
                         }

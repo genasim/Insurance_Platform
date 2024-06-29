@@ -1,8 +1,4 @@
 import mongoose, {Document, Schema} from "mongoose";
-import Currency from "../types/Currency";
-import DurationUnit from "../types/DurationUnit";
-import PolicyPackage from "../types/PolicyPackage";
-import PolicyType from "../types/PolicyType";
 import {PremiumPayment} from "../types/PremiumPayments";
 
 const premiumPaymentSchema = new Schema<PremiumPayment>(
