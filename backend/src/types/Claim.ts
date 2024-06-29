@@ -3,7 +3,7 @@ import ClaimStatus from "./ClaimStatus";
 import EventType from "./EventType";
 
 interface Claim {
-  claimNumber: number;
+  claimNumber: string;
   policyId: mongoose.Types.ObjectId;
   policyNumber: number;
   submissionDate: Date;
