@@ -107,16 +107,18 @@ const Navbar = () => {
                   </Link>
                 </li>
             )}
-            <li className="nav-item">
-              <Link className="nav-link" to="/notifications">
-                Notifications
-              </Link>
-            </li>
+            {rights.length > 0 && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/notifications">
+                    Notifications
+                  </Link>
+                </li>
+            )}
             {!loggedIn && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/login">
-                      Login
+                    Login
                     </Link>
                   </li>
                   <li className="nav-item">
