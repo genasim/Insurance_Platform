@@ -14,6 +14,7 @@ import clientsRouter from "./routes/clients-router";
 import Right from "./types/Right";
 import epxertRouter from "./routes/expert-router";
 import actuariesRouter from "./routes/actuaries-router";
+import notificationRouter from "./routes/notifications-router";
 
 const app = express();
 const PORT = process.env.PORT || 9001;
@@ -31,6 +32,7 @@ app.use("/api/admin", authorize([Right.ADMIN]), adminRouter);
 app.use("/api/clients", authorize([Right.CLIENT, Right.ADMIN]), clientsRouter);
 app.use("/api/backoffice", authorize([Right.EXPERT, Right.ADMIN]), epxertRouter);
 app.use("/api/actuaries", authorize([Right.ACTUARY, Right.ADMIN]), actuariesRouter);
+app.use("/api/notifications", authorize([Right.ACTUARY, Right.ADMIN, Right.EXPERT, Right.CLIENT]), notificationRouter);
 
 app.on("error", (error) => {
   console.error(error);
