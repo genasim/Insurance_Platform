@@ -5,6 +5,7 @@ import getPolicyPackageHandler from "../controlers/policy-packages/get-policy-pa
 import getClaimInfoHandler from "../controlers/claims/get-claim-info";
 import getClaimsPaginatedHandler from "../controlers/claims/get-claims-paginated";
 import updateClaimHandler from "../controlers/claims/update-claim";
+import getPoliciesPaginated from "../controlers/policies-backoffice/get-policies-paginated";
 
 const epxertRouter = Router()
 
@@ -15,5 +16,7 @@ epxertRouter.delete("/policy-packages/:id", deletePolicyPackageHandler)
 epxertRouter.get("/claims/:id", getClaimInfoHandler)
 epxertRouter.get("/claims", getClaimsPaginatedHandler)
 epxertRouter.put("/claims", updateClaimHandler)
+
+epxertRouter.get("/policies", getPoliciesPaginated)
 
 export default epxertRouter;

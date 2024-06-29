@@ -1,10 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Policy} from "../../models/Policy";
 import {useNavigate} from "react-router-dom";
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {IdType} from "../../models/Identifiable";
-import {User} from "../../models/User";
-import {PolicyPackage} from "../../models/PolicyPackage";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface PoliciesState {
     policies: PolicyDto[];
@@ -46,42 +43,33 @@ const Policies: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        API.findAll<Policy>(Tables.POLICIES)
-            .then(policies => {
-                return API.findAll<User>(Tables.USERS).then(users => ({
-                    users,
-                    policies
-                }))
-            })
-            .then(dto => {
-                return API.findAll<PolicyPackage>(Tables.POLICY_PACKAGES)
-                    .then(packages => ({
-                    ...dto,
-                    packages
-                }))
-            })
-            .then(dto => {
-                const policyDTOs = dto.policies.map(p => {
-                    const user = dto.users.find(u => u.id === p.holderId)!;
-                    const policyPackage = dto.packages.find(pack =>  pack.id === p.packageId)!;
-
-                    const policyDTO: PolicyDto = {
-                        ...p,
-                        holderName: user.fullName,
-                        package: policyPackage.name,
-                        coverage: policyPackage.coverage
-                    }
-                    return policyDTO;
-                });
-                const filteredPolicies = filterPolicies(policyDTOs);
-                const pageCount = calculatePageCount(filteredPolicies);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&number=${state.numberFilter}&holderName=${state.holderFilter}`;
+        handleRequest('GET', '/api/backoffice/policies' + query)
+            .then(resp => resp.json())
+            .then(resp => {
+                const policyDtos: PolicyDto[] = resp.policies.map((p: any) => ({
+                    id: p._id,
+                    policyNumber: p.policyNumber,
+                    holderId: p.holderId,
+                    holderName: p.holder[0]?.fullName ?? "",
+                    type: p.type,
+                    packageId: p.packageId,
+                    package: p.package[0]?.name ?? "",
+                    premium: p.premium,
+                    premiumCurrency: p.premiumCurrency,
+                    coverage: p.package[0]?.coverage ?? [],
+                    beginDate: p.beginDate,
+                    endDate: p.endDate,
+                    purchaseDate: p.purchaseDate
+                }));
                 setState({
                     ...state,
-                    policies: filteredPolicies,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    policies: policyDtos,
+                    pageCount: resp.pageCount,
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.numberFilter, state.holderFilter]);
 
     const handleOnPreviousPageClick = () => {
@@ -92,6 +80,7 @@ const Policies: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage - 1,
+            policies: []
         })
     };
 
@@ -102,7 +91,7 @@ const Policies: React.FC = () => {
 
         setState({
             ...state,
-            currentPage: pageNumber,
+            currentPage: pageNumber
         })
     };
 
@@ -114,35 +103,9 @@ const Policies: React.FC = () => {
         setState({
             ...state,
             currentPage: state.currentPage + 1,
+            policies: []
         })
     };
-
-    const calculatePageCount = (policies: Policy[]) => {
-        const remainingUsers = policies.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(policies.length / state.pageSize + remainingPage);
-        return pageCount;
-    };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
-
-    const filterPolicies = (policies: PolicyDto[]) => {
-        if (!!state.numberFilter) {
-            policies = policies.filter((p: PolicyDto) => p.policyNumber.includes(state.numberFilter));
-        }
-
-        if (!!state.holderFilter) {
-            policies = policies.filter((p: PolicyDto) => p.holderName.includes(state.holderFilter));
-        }
-
-        return policies;
-    }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
@@ -184,7 +147,6 @@ const Policies: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.policies
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((policy, index) => (
                         <React.Fragment key={policy.id}>
                             <tr>
