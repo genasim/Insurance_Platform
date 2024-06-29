@@ -115,10 +115,10 @@ const getPoliciesPaginated: RequestHandler = async (
             }
         ]);
 
-        const remaining = policiesCount[0].count % size;
+        let count = policiesCount[0]?.count ?? 0;
+        const remaining = count % size;
         const remainingPage: number = remaining > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(policiesCount[0].count / size + remainingPage);
-
+        const pageCount: number = Math.trunc(count / size + remainingPage);
 
         res.status(200).json({policies, pageCount});
     } catch (error) {
