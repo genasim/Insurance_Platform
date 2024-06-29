@@ -4,6 +4,7 @@ import {ClaimPayment} from "../../models/ClaimPayment";
 import {Claim} from "../../models/Claim";
 import {IdType} from "../../models/Identifiable";
 import {Currency} from "../../models/Currency";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface PaymentsState {
     payments: ClaimPaymentDto[];
@@ -34,32 +35,18 @@ const ClaimPaymentsRegister: React.FC = () => {
     );
 
     useEffect(() => {
-        API.findAll<ClaimPayment>(Tables.CLAIM_PAYMENTS)
-            .then(payments =>
-                API.findAll<Claim>(Tables.CLAIMS)
-                    .then(claims => payments.map(p => {
-                        const claim = claims.find(c => c.id === p.claimId);
-                        return {
-                            id: p.id,
-                            claimId: p.claimId,
-                            claimNumber: claim?.claimNumber ?? "",
-                            amount: parseFloat(p.amount.toString()).toFixed(2),
-                            amountCurrency: p.amountCurrency,
-                            paymentDate: p.paymentDate
-                        } as ClaimPaymentDto;
-                    }))
-            )
-            .then(payments => {
-
-                const filteredPolicies = filterPayments(payments);
-                const pageCount = calculatePageCount(filteredPolicies);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&claimNumber=${state.numberFilter}`;
+        handleRequest('GET', '/api/backoffice/claim-payments' + query)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    payments: filteredPolicies,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    payments: resp.payments,
+                    pageCount: resp.pageCount,
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
