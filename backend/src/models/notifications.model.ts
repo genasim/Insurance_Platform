@@ -4,7 +4,8 @@ import {Notification} from "../types/Notification";
 const notificationSchema = new Schema<Notification>(
     {
         recipientId: {
-            type: Schema.Types.ObjectId
+            type: Schema.Types.ObjectId,
+            required: true,
         },
         title: {
             type: String,

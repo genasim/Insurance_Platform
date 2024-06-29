@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import {Notification} from "../../models/Notification";
+import {handleRequest} from "../../shared/BackEndFacade";
 
 interface NotificationsState {
     notifications: Notification[];
@@ -21,18 +21,20 @@ const NotificationRegister: React.FC = () => {
             titleFilter: '',
         }
     );
-
+    debugger;
     useEffect(() => {
-        API.findAll<Notification>(Tables.NOTIFICATIONS)
-            .then(notifications => {
-                const pageCount = calculatePageCount(notifications);
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&title=${state.titleFilter}`;
+        handleRequest('GET', '/api/notifications' + query)
+            .then(resp => resp.json())
+            .then(resp => {
                 setState({
                     ...state,
-                    notifications: notifications,
-                    pageCount: pageCount,
-                    currentPage: state.currentPage <= pageCount ? state.currentPage : 1,
+                    notifications: resp.notifications,
+                    pageCount: resp.pageCount,
                 });
             })
+            .catch(err => {
+            });
     }, [state.currentPage, state.titleFilter]);
 
     const handleOnPreviousPageClick = () => {
@@ -68,21 +70,6 @@ const NotificationRegister: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (notifications: Notification[]) => {
-        const remainingUsers = notifications.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(notifications.length / state.pageSize + remainingPage);
-        return pageCount;
-    };
-
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
             ...prevState,
@@ -111,7 +98,6 @@ const NotificationRegister: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.notifications
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((claimPayment, index) => (
                         <React.Fragment key={claimPayment.id}>
                             <tr>
