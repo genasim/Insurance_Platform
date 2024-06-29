@@ -1,8 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import API, {Tables} from "../../shared/api-client/ApiClient";
 import { IdType} from "../../models/Identifiable";
-import {PremiumPayments} from "../../models/PremiumPayments";
-import {Policy} from "../../models/Policy";
+
 import {handleRequest} from "../../shared/BackEndFacade";
 
 interface PaymentsState {
@@ -79,13 +77,6 @@ const PremiumPaymentsRegister: React.FC = () => {
             ...state,
             currentPage: state.currentPage + 1,
         })
-    };
-
-    const calculatePageCount = (payments: PremiumPaymentDto[]) => {
-        const remainingUsers = payments.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(payments.length / state.pageSize + remainingPage);
-        return pageCount;
     };
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {

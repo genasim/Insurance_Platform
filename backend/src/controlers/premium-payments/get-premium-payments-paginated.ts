@@ -1,7 +1,5 @@
 import {Request, RequestHandler, Response} from "express";
 import premiumPaymentModel from "../../models/premium-payments.model";
-import policyModel from "../../models/policies.model";
-import premiumPaymentsModel from "../../models/premium-payments.model";
 
 type QueryParams = {
     page: string | number;
@@ -59,7 +57,7 @@ const getPremiumPaymentsPaginated: RequestHandler = async (
             }
         ]);
 
-        const policiesCount: any = await premiumPaymentsModel.aggregate([
+        const policiesCount: any = await premiumPaymentModel.aggregate([
             {
                 $lookup:
                     {
