@@ -29,7 +29,6 @@ import NotificationRegister from "./features/notifications/NotificationsRegister
 
 const router = createBrowserRouter([
     {
-        //ToDo use navlinks
         path: "/",
         element: <Layout/>,
         errorElement: <ErrorBoundary/>,

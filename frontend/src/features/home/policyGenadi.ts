@@ -10,7 +10,7 @@ export interface PolicyDTO {
 export interface PolicyGenadi extends PolicyDTO {
   id: PolicyCardId;
 }
-//ToDo Genadi, tuk ti si znaesh kakva ti e ideqta. Podrejdai gi na volq svobodno.
+
 export const mock_policies = [
   {
     id: "1",
