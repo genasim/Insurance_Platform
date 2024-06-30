@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import policyModel from "../../models/policies.model";
 import coefficientModel from "../../models/coefficients.model";
 import PolicyPackageModel from "../../models/policy-packages.model";
+import premiumPaymentModel from "../../models/premium-payments.model";
 
 const createPolicyHandler: RequestHandler = async (
   req: Request,
@@ -39,6 +40,13 @@ const createPolicyHandler: RequestHandler = async (
       premium,
     });
 
+    const paymentDto = new premiumPaymentModel({
+      policyId: policyDto.id,
+      amount: policyDto.premium,
+      amountCurrency: polPackage.basePremiumCurrency,
+      paymentDate: new Date(),
+    });
+    await paymentDto.save()
 
     const policy = await policyDto.save();
     res.status(201).json(policy);
