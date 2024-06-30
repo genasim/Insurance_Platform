@@ -65,17 +65,17 @@ policyScema.pre("validate", async function (next) {
   const policy = this as unknown as Policy & Document;
   const polPackage = await PolicyPackageModel.findById(policy.packageId);
 
-  // if (!policy.policyNumber || policy.isNew) {
-  //   let unique = false;
-  //   while (!unique) {
-  //     const policyNumber = generateRandomIdNumber(8);
-  //     const existingClaim = await policyModel.countDocuments({ policyNumber });
-  //     if (existingClaim === 0) {
-  //       policy.policyNumber = policyNumber;
-  //       unique = true;
-  //     }
-  //   }
-  // }
+  if (!policy.policyNumber || policy.isNew) {
+    let unique = false;
+    while (!unique) {
+      const policyNumber = generateRandomIdNumber(8);
+      const existingClaim = await policyModel.countDocuments({ policyNumber });
+      if (existingClaim === 0) {
+        policy.policyNumber = policyNumber;
+        unique = true;
+      }
+    }
+  }
 
   if (!policy.endDate || policy.isNew) {
     const endDate = getPolicyEndDate(policy.beginDate, polPackage);

@@ -8,7 +8,7 @@
   "basePremium": 500,
   "basePremiumCurrency": "EUR",
   "duration": 1,
-  "durationUnit": "Year",
+  "durationUnit": "years",
   "coverage": [
     "Fire, explosion or lightning",
     "Natural disaster",
@@ -35,7 +35,7 @@
   "basePremium": 400,
   "basePremiumCurrency": "EUR",
   "duration": 10,
-  "durationUnit": "Month",
+  "durationUnit": "months",
   "coverage": [
     "Fire, explosion or lightning",
     "Natural disaster",
@@ -59,7 +59,7 @@
   "basePremium": 300,
   "basePremiumCurrency": "EUR",
   "duration": 6,
-  "durationUnit": "Month",
+  "durationUnit": "months",
   "coverage": [
     "Fire, explosion or lightning",
     "Natural disaster"
@@ -81,7 +81,7 @@
   "basePremium": 250,
   "basePremiumCurrency": "EUR",
   "duration": 15,
-  "durationUnit": "Year",
+  "durationUnit": "years",
   "coverage": [
     "Fire",
     "Explosion",
@@ -111,7 +111,7 @@
   "basePremium": 200,
   "basePremiumCurrency": "EUR",
   "duration": 12,
-  "durationUnit": "Year",
+  "durationUnit": "years",
   "coverage": [
     "Fire",
     "Explosion",
@@ -139,7 +139,7 @@
   "basePremium": 150,
   "basePremiumCurrency": "EUR",
   "duration": 10,
-  "durationUnit": "Year",
+  "durationUnit": "years",
   "coverage": [
     "Fire",
     "Explosion",
@@ -165,7 +165,7 @@
   "basePremium": 200,
   "basePremiumCurrency": "EUR",
   "duration": 1,
-  "durationUnit": "Year",
+  "durationUnit": "years",
   "coverage": [
     "Death during work",
     "Loss of working capacity due to work"
@@ -187,7 +187,7 @@
   "basePremium": 250,
   "basePremiumCurrency": "EUR",
   "duration": 18,
-  "durationUnit": "Month",
+  "durationUnit": "months",
   "coverage": [
     "Death during everyday life activities",
     "Loss of working capacity due to everyday life activities"
