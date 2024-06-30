@@ -4,25 +4,25 @@ import claimModel from "../../models/claims.model";
 import policyModel from "../../models/policies.model";
 import notificationModel from "../../models/notifications.model";
 import claimPaymentModel from "../../models/claim-payments.model";
+import ClaimStatus from "../../types/ClaimStatus";
 
 const updateClaimHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  const { claim } = req.body;
+  const { claim, approvedAmount, approvedAmountCurrency } = req.body;
 
   try {
     await claimModel.validate(claim)    
     const updated = await claimModel.findByIdAndUpdate(claim._id, claim);
     const policy = await policyModel.findOne({policyNumber: claim.policyNumber});
 
-    if(claim.status == "APPROVED") {
+    if (claim.status === ClaimStatus.APPROVED) {
       const payment = {
         claimId: claim._id,
         claimNumber: claim.claimNumber,
-        amount: claim.claimedAmount,
-        amountCurrency: claim.claimedAmountCurrency,
-        paymentDate: new Date(),
+        amount: approvedAmount,
+        amountCurrency: approvedAmountCurrency,
       };
       await claimPaymentModel.create(payment);
     }

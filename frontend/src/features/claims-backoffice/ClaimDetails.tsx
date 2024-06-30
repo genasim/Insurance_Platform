@@ -24,23 +24,17 @@ const ClaimDetails: FC = () => {
   const { claim, documents, policyPackage } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
-  const handleUpdate = async (status: ClaimStatus, claimPayment?: ClaimPaymentDTO) => {
+  const handleUpdate = async (
+    status: ClaimStatus,
+    claimPayment?: ClaimPaymentDTO
+  ) => {
     claim.status = status;
-
     try {
-      const updatedClaim: Claim_ = await handleRequest(
-        "PUT",
-        "/api/backoffice/claims",
-        { claim }
-      ).then((res) => res.json());
-      
-      if (updatedClaim.status === ClaimStatus.APPROVED && claimPayment) {
-        await handleRequest("POST", "/api/backoffice/claim-payments", {
-          claimId: claimPayment.claimId,
-          amount: claimPayment.amount,
-          amountCurrency: claimPayment.amountCurrency,
-        });
-      }
+      await handleRequest("PUT", "/api/backoffice/claims", {
+        claim,
+        approvedAmount: claimPayment?.amount,
+        approvedAmountCurrency: claimPayment?.amountCurrency,
+      });
 
       navigate("..");
     } catch (error) {
@@ -89,7 +83,9 @@ const ClaimDetails: FC = () => {
           <div className="my-5">
             <ResolveClaimForm
               claim={claim}
-              onSubmit={(payment) => handleUpdate(ClaimStatus.APPROVED, payment)}
+              onSubmit={(payment) =>
+                handleUpdate(ClaimStatus.APPROVED, payment)
+              }
             />
           </div>
         )}

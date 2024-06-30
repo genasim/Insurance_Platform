@@ -8,7 +8,6 @@ import updateClaimHandler from "../controlers/claims/update-claim";
 import getPoliciesPaginated from "../controlers/policies-backoffice/get-policies-paginated";
 import getPremiumPaymentsPaginated from "../controlers/premium-payments/get-premium-payments-paginated";
 import getClaimPaymentsPaginated from "../controlers/claim-payments/get-claim-payments-paginated";
-import createClaimPaymentHandler from "../controlers/claim-payments/create-claim-payment";
 
 const epxertRouter = Router()
 
@@ -24,6 +23,5 @@ epxertRouter.get("/policies", getPoliciesPaginated)
 
 epxertRouter.get("/premium-payments", getPremiumPaymentsPaginated)
 epxertRouter.get("/claim-payments", getClaimPaymentsPaginated)
-epxertRouter.post("/claim-payments", createClaimPaymentHandler)
 
 export default epxertRouter;
