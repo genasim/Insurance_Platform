@@ -1,21 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import InsurancesGrid from "./InsuransesGrid";
-
-const insuranceItems = [
-  "Car insurance",
-  "Health insurance",
-  "Life insurance",
-  "Travel insurance",
-  "Home insurance",
-  "Home insurance",
-  "Home insurance",
-  "Home insurance",
-];
+import { handleRequest } from "../BackEndFacade";
+import useAsyncEffect from "../hooks/useAsyncEffect";
+import { PolicyTemplate } from "../../models/PolicyTemplate";
 
 const Footer: FC = () => {
+  const [insuranceItems, setInsuranceItems] = useState<string[]>([])
+  useAsyncEffect(async () => {
+    const templates = await handleRequest("GET", "/api/auth/policy-types").then(result => result.json());
+    setInsuranceItems((templates as PolicyTemplate[]).map(template => template.name));
+  }, [])
+
   return (
     <footer
       style={{ borderRadius: "8em 8em 0 0" }}
