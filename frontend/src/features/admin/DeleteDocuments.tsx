@@ -23,9 +23,8 @@ const DeleteDocuments: React.FC = () => {
         }
     );
 
-    //ToDo check filter
     useEffect(() => {
-        const query = `?page=${state.currentPage}&size=${state.pageSize}&claimNumber=${state.claimNumberFilter}`;
+        const query = `?page=${state.currentPage}&size=${state.pageSize}&number=${state.claimNumberFilter}`;
         handleRequest("GET", "/api/admin/claim-documents" + query)
             .then(resp => resp.json())
             .then(resp => {
@@ -148,7 +147,7 @@ const DeleteDocuments: React.FC = () => {
                                                             aria-label="Close"></button>
                                                 </div>
                                                 <div className="modal-body text-center">
-                                                    <img src={doc.document} alt="document"></img>
+                                                    <img src={doc.document} alt="document" className="img-fluid"></img>
                                                 </div>
                                             </div>
                                         </div>
