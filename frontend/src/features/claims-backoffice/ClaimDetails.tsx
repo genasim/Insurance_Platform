@@ -6,9 +6,10 @@ import { Claim_ } from "../../models/Claim";
 import { ClaimDocument_ } from "../../models/ClaimDocument";
 import { ClaimStatus } from "../../models/ClaimStatus";
 import { PolicyPackage } from "../../models/PolicyPackage";
-import updateClaim from "../../shared/services/update-claim";
 import ClaimInfo from "./components/ClaimInfo";
 import ResolveClaimForm from "./components/ResolveClaimForm";
+import { handleRequest } from "../../shared/BackEndFacade";
+import { ClaimPaymentDTO } from "../../models/ClaimPayment";
 
 type LoaderData = {
   claim: Claim_;
@@ -23,13 +24,29 @@ const ClaimDetails: FC = () => {
   const { claim, documents, policyPackage } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
-  const handleUpdate = (status: ClaimStatus) => {
+  const handleUpdate = async (status: ClaimStatus, claimPayment?: ClaimPaymentDTO) => {
     claim.status = status;
-    updateClaim(claim)
-      .then((claim) => {
-        navigate("..");
-      })
-      .catch((error) => setError(error));
+
+    try {
+      const updatedClaim: Claim_ = await handleRequest(
+        "PUT",
+        "/api/backoffice/claims",
+        { claim }
+      ).then((res) => res.json());
+      
+      if (updatedClaim.status === ClaimStatus.APPROVED && claimPayment) {
+        await handleRequest("POST", "/api/backoffice/claim-payments", {
+          claimId: claimPayment.claimId,
+          amount: claimPayment.amount,
+          amountCurrency: claimPayment.amountCurrency,
+        });
+      }
+
+      navigate("..");
+    } catch (error) {
+      console.error(error as Error);
+      setError(error as Error);
+    }
   };
 
   return (
@@ -72,7 +89,7 @@ const ClaimDetails: FC = () => {
           <div className="my-5">
             <ResolveClaimForm
               claim={claim}
-              onSubmit={() => handleUpdate(ClaimStatus.APPROVED)}
+              onSubmit={(payment) => handleUpdate(ClaimStatus.APPROVED, payment)}
             />
           </div>
         )}
