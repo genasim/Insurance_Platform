@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 
 const address = "http://localhost:5000"
 
-//ToDo auth toaster if not valid token
 export function handleRequest(method: string, path: string, body: any = null): Promise<Response> {
     const request : any = {
         method: method.toUpperCase(),
@@ -18,6 +17,13 @@ export function handleRequest(method: string, path: string, body: any = null): P
     }
 
     return fetch(`${address}${path}`, request).then(resp => {
+        if (resp.status == 401 || resp.status == 403) {
+            return resp.json().then(data => {
+                toast.error("Вашата сесия е изтекла или нямате необходимите права");
+                throw new Error(resp.statusText);
+            });
+        }
+
         if (resp.status >= 400) {
             return resp.json().then(data => {
                 toast.error(data.message);
