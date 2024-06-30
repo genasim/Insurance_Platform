@@ -39,7 +39,6 @@ const ResolveClaimForm: FC<ResolveClaimFormProps> = ({ claim, onSubmit }) => {
       amount: formData.amount,
       amountCurrency: formData.currency,
       claimId: claim._id,
-      paymentDate: new Date(),
     };
     onSubmit(payment);
   };

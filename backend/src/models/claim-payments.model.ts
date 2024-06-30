@@ -1,24 +1,28 @@
 import mongoose, {Document, Schema} from "mongoose";
 import {ClaimPayment} from "../types/ClaimPayments";
+import Currency from "../types/Currency";
 
 const claimPaymentSchema = new Schema<ClaimPayment>(
     {
         claimId: {
-            type: Schema.Types.ObjectId
+            type: Schema.Types.ObjectId,
+            ref: "Claims",
+            required: [true, "ClaimId is required"]
         },
         amount: {
-            type: String,
-            required: true,
+            type: Number,
+            required: [true, "Amount is required"],
         },
         amountCurrency: {
             type: String,
-            required: true,
+            enum: {
+                values: Object.values(Currency),
+                message: "{VALUE} is not a supported Currency",
+            },
+            required: [true, "Amount Currency is required"],
         },
-        paymentDate: {
-            type: Schema.Types.Date,
-            required: true,
-        }
-    }
+    },
+    { timestamps: { createdAt: "paymentDate", updatedAt: true }, versionKey: false },
 );
 
 const claimPaymentModel = mongoose.model<ClaimPayment & Document>(
