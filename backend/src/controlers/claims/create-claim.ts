@@ -1,7 +1,9 @@
 import { Request, RequestHandler, Response } from "express";
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 import claimDocumentModel from "../../models/claim-documents.model";
 import claimModel from "../../models/claims.model";
+import userModel from "../../models/users.model";
+import notificationModel from "../../models/notifications.model";
 
 const createClaimHandler: RequestHandler = async (
   req: Request,
@@ -48,6 +50,20 @@ const createClaimHandler: RequestHandler = async (
     }
 
     const claim = await claimDto.save();
+    const users = await userModel
+        .find({rights: "EXPERT"}).exec();
+    const userIds: Schema.Types.ObjectId[] = users.map(u => u._id as Schema.Types.ObjectId);
+
+    for (const userId of userIds) {
+      const notification =  {
+        title: `Claim ${claim.claimNumber} submitted!`,
+        message: `Claim ${claim.claimNumber} submitted!`,
+        recipientId: userId,
+        createdAt: new Date()
+      };
+      await notificationModel.create(notification);
+    }
+
     res.status(201).json(claim);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
