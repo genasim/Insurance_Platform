@@ -1,24 +1,32 @@
 import mongoose, {Document, Schema} from "mongoose";
 import {PremiumPayment} from "../types/PremiumPayments";
+import Currency from "../types/Currency";
 
 const premiumPaymentSchema = new Schema<PremiumPayment>(
     {
         policyId: {
-            type: Schema.Types.ObjectId
+            type: Schema.Types.ObjectId,
+            ref: "Policy",
+            required: [true, "PolicyId is required"]
         },
         amount: {
             type: String,
-            required: true,
+            required: [true, "Amount is required"],
         },
         amountCurrency: {
             type: String,
-            required: true,
+            enum: {
+                values: Object.values(Currency),
+                message: "{VALUE} is not a supported Currency",
+            },
+            required: [true, "Ammount Currency is required"],
         },
         paymentDate: {
             type: Schema.Types.Date,
-            required: true,
+            required: [true, "Payment Date is required"],
         }
-    }
+    },
+    { timestamps: true, versionKey: false },
 );
 
 const premiumPaymentModel = mongoose.model<PremiumPayment & Document>(
