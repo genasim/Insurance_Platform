@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export interface ClaimPayment {
     claimId: mongoose.Types.ObjectId,
-    amount: string,
+    amount: number,
     amountCurrency: string,
     paymentDate: Date
 }
