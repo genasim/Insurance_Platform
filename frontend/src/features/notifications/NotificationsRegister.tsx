@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Notification} from "../../models/Notification";
 import {handleRequest} from "../../shared/BackEndFacade";
+import moment from "moment";
 
 interface NotificationsState {
     notifications: Notification[];
@@ -12,6 +13,8 @@ interface NotificationsState {
 
 
 const NotificationRegister: React.FC = () => {
+    const format = "YYYY-MM-DD";
+
     const [state, setState] = useState<NotificationsState>(
         {
             notifications: [],
@@ -21,7 +24,7 @@ const NotificationRegister: React.FC = () => {
             titleFilter: '',
         }
     );
-    debugger;
+
     useEffect(() => {
         const query = `?page=${state.currentPage}&size=${state.pageSize}&title=${state.titleFilter}`;
         handleRequest('GET', '/api/notifications' + query)
@@ -99,12 +102,12 @@ const NotificationRegister: React.FC = () => {
                 <tbody>
                 {state.notifications
                     .map((claimPayment, index) => (
-                        <React.Fragment key={claimPayment.id}>
+                        <React.Fragment key={claimPayment._id}>
                             <tr>
                                 <th scope="row">{(state.currentPage - 1) * state.pageSize + index + 1}</th>
                                 <td>{claimPayment.title}</td>
                                 <td>{claimPayment.message}</td>
-                                <td>{claimPayment.createdAt}</td>
+                                <td>{moment(claimPayment.createdAt).format(format)}</td>
                             </tr>
                         </React.Fragment>
                     ))}
