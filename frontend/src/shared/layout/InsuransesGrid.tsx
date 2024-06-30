@@ -1,6 +1,7 @@
 import { FC, useCallback } from "react";
 import { Col, Row } from "react-bootstrap";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 interface InsuranceGridProps {
   items: string[];
@@ -25,9 +26,9 @@ const InsurancesGrid: FC<InsuranceGridProps> = ({ items, cols }) => {
       {itemGroups.map((group, index) => (
         <Col key={index}>
           {group.map((item, idx) => (
-            <p className="fs-6" key={idx}>
+            <Link className="fs-6 text-decoration-none" key={idx} to="/client/policies" >
               <MdOutlineKeyboardDoubleArrowRight /> {item}
-            </p>
+            </Link>
           ))}
         </Col>
       ))}
