@@ -55,7 +55,7 @@ const Policies: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.numberFilter, state.holderFilter, state]);
+    }, [state.currentPage, state.numberFilter, state.holderFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {

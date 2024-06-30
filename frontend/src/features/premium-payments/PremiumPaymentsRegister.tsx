@@ -47,7 +47,7 @@ const PremiumPaymentsRegister: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state, state.currentPage, state.numberFilter]);
+    }, [state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
