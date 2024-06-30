@@ -47,7 +47,7 @@ const ClaimPaymentsRegister: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state, state.currentPage, state.numberFilter]);
+    }, [state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -82,14 +82,6 @@ const ClaimPaymentsRegister: React.FC = () => {
         })
     };
 
-    const getBeginIndex = (): number => {
-        return (state.currentPage - 1) * state.pageSize;
-    }
-
-    const getEndIndex = (): number => {
-        return state.currentPage * state.pageSize;
-    }
-
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         setState(prevState => ({
             ...prevState,
@@ -119,7 +111,6 @@ const ClaimPaymentsRegister: React.FC = () => {
                 </thead>
                 <tbody>
                 {state.payments
-                    .filter((_, index) => getBeginIndex() <= index && index < getEndIndex())
                     .map((claimPayment, index) => (
                         <React.Fragment key={claimPayment.id}>
                             <tr>
