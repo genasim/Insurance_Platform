@@ -10,7 +10,7 @@ const premiumPaymentSchema = new Schema<PremiumPayment>(
             required: [true, "PolicyId is required"]
         },
         amount: {
-            type: String,
+            type: Number,
             required: [true, "Amount is required"],
         },
         amountCurrency: {
@@ -20,13 +20,9 @@ const premiumPaymentSchema = new Schema<PremiumPayment>(
                 message: "{VALUE} is not a supported Currency",
             },
             required: [true, "Ammount Currency is required"],
-        },
-        paymentDate: {
-            type: Schema.Types.Date,
-            required: [true, "Payment Date is required"],
         }
     },
-    { timestamps: true, versionKey: false },
+    { timestamps: { createdAt: "PaymentDate", updatedAt: true }, versionKey: false },
 );
 
 const premiumPaymentModel = mongoose.model<PremiumPayment & Document>(
