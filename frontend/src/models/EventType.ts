@@ -1,4 +1,4 @@
-enum EventType {
+export enum EventType {
     STORM = "STORM",
     FIRE = "FIRE",
     STRONG_WIND="STRONG_WIND",
