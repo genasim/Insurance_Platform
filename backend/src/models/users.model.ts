@@ -57,17 +57,17 @@ userSchema.pre("save", async function (next) {
   // 'this' refers to the document currently being created and contains the validated values
   const user = this as unknown as User & Document;
   
-  // if (!user.idNumber) {
-  //   let unique = false;
-  //   while (!unique) {
-  //     const newIdNumber = generateRandomIdNumber(10);
-  //     const existingUser = await userModel.findOne({ idNumber: newIdNumber });
-  //     if (!existingUser) {
-  //       user.idNumber = newIdNumber;
-  //       unique = true;
-  //     }
-  //   }
-  // }
+  if (!user.idNumber) {
+    let unique = false;
+    while (!unique) {
+      const newIdNumber = generateRandomIdNumber(10);
+      const existingUser = await userModel.findOne({ idNumber: newIdNumber });
+      if (!existingUser) {
+        user.idNumber = newIdNumber;
+        unique = true;
+      }
+    }
+  }
 
   if (user.isModified("password") || user.isNew) {
     try {
