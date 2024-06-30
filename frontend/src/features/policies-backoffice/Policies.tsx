@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
 import {IdType} from "../../models/Identifiable";
 import {handleRequest} from "../../shared/BackEndFacade";
+import moment from 'moment';
 
 interface PoliciesState {
     policies: PolicyDto[];
@@ -28,6 +28,8 @@ interface PolicyDto {
     purchaseDate: string,
 }
 
+const format = "MM-DD-YYYY";
+
 const Policies: React.FC = () => {
     const [state, setState] = useState<PoliciesState>(
         {
@@ -39,8 +41,6 @@ const Policies: React.FC = () => {
             holderFilter: ''
         }
     );
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         const query = `?page=${state.currentPage}&size=${state.pageSize}&number=${state.numberFilter}&holderName=${state.holderFilter}`;
@@ -55,7 +55,7 @@ const Policies: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.numberFilter, state.holderFilter]);
+    }, [state.currentPage, state.numberFilter, state.holderFilter, state]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -139,9 +139,9 @@ const Policies: React.FC = () => {
                                 <td>{policy.policyNumber}</td>
                                 <td>{policy.holderName}</td>
                                 <td>{policy.package}</td>
-                                <td>{policy.beginDate}</td>
-                                <td>{policy.endDate}</td>
-                                <td>{policy.purchaseDate}</td>
+                                <td>{moment(policy.beginDate).format(format)}</td>
+                                <td>{moment(policy.endDate).format(format)}</td>
+                                <td>{moment(policy.purchaseDate).format(format)}</td>
                                 <td>{policy.premium} {policy.premiumCurrency}</td>
                                 <td>
                                     {policy.coverage.map(x => <li key={x}>{x}</li>)}
@@ -153,15 +153,15 @@ const Policies: React.FC = () => {
             </table>
             <nav aria-label="Manage users pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item" key={0}><a className="page-link"
-                                                         onClick={handleOnPreviousPageClick}>Previous</a></li>
+                    <li className="page-item" key={0}><div className="page-link"
+                                                         onClick={handleOnPreviousPageClick}>Previous</div></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
                         (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
-                            <a className="page-link">{number}</a>
+                            <div className="page-link">{number}</div>
                         </li>))
                     }
-                    <li className="page-item" key={state.pageCount + 1}><a className="page-link"
-                                                                           onClick={handleOnNextPageClick}>Next</a>
+                    <li className="page-item" key={state.pageCount + 1}><div className="page-link"
+                                                                           onClick={handleOnNextPageClick}>Next</div>
                     </li>
                 </ul>
             </nav>

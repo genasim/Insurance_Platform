@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import { IdType} from "../../models/Identifiable";
 
 import {handleRequest} from "../../shared/BackEndFacade";
+import moment from 'moment';
 
 interface PaymentsState {
     payments: PremiumPaymentDto[];
@@ -19,6 +20,8 @@ interface PremiumPaymentDto {
     amountCurrency: string,
     paymentDate: string
 }
+
+const format = "MM-DD-YYYY";
 
 const PremiumPaymentsRegister: React.FC = () => {
     const [state, setState] = useState<PaymentsState>(
@@ -44,7 +47,7 @@ const PremiumPaymentsRegister: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.numberFilter]);
+    }, [state, state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -115,7 +118,7 @@ const PremiumPaymentsRegister: React.FC = () => {
                                 <td>{claimPayment.policyNumber}</td>
                                 <td>{claimPayment.amount}</td>
                                 <td>{claimPayment.amountCurrency}</td>
-                                <td>{claimPayment.paymentDate.toString()}</td>
+                                <td>{moment(claimPayment.paymentDate).format(format)}</td>
                             </tr>
                         </React.Fragment>
                     ))}
@@ -123,15 +126,15 @@ const PremiumPaymentsRegister: React.FC = () => {
             </table>
             <nav aria-label="Manage users pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item" key={0}><a className="page-link"
-                                                         onClick={handleOnPreviousPageClick}>Previous</a></li>
+                    <li className="page-item" key={0}><div className="page-link"
+                                                         onClick={handleOnPreviousPageClick}>Previous</div></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
                         (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
-                            <a className="page-link">{number}</a>
+                            <div className="page-link">{number}</div>
                         </li>))
                     }
-                    <li className="page-item" key={state.pageCount + 1}><a className="page-link"
-                                                                           onClick={handleOnNextPageClick}>Next</a>
+                    <li className="page-item" key={state.pageCount + 1}><div className="page-link"
+                                                                           onClick={handleOnNextPageClick}>Next</div>
                     </li>
                 </ul>
             </nav>

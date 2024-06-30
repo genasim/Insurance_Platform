@@ -1,10 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import API, {Tables} from "../../shared/api-client/ApiClient";
-import {ClaimPayment} from "../../models/ClaimPayment";
-import {Claim} from "../../models/Claim";
 import {IdType} from "../../models/Identifiable";
 import {Currency} from "../../models/Currency";
 import {handleRequest} from "../../shared/BackEndFacade";
+import moment from 'moment';
 
 interface PaymentsState {
     payments: ClaimPaymentDto[];
@@ -22,6 +20,8 @@ interface ClaimPaymentDto {
     amountCurrency: Currency,
     paymentDate: Date
 }
+
+const format = "MM-DD-YYYY";
 
 const ClaimPaymentsRegister: React.FC = () => {
     const [state, setState] = useState<PaymentsState>(
@@ -47,7 +47,7 @@ const ClaimPaymentsRegister: React.FC = () => {
             })
             .catch(err => {
             });
-    }, [state.currentPage, state.numberFilter]);
+    }, [state, state.currentPage, state.numberFilter]);
 
     const handleOnPreviousPageClick = () => {
         if (state.currentPage <= 1) {
@@ -82,27 +82,12 @@ const ClaimPaymentsRegister: React.FC = () => {
         })
     };
 
-    const calculatePageCount = (payments: ClaimPaymentDto[]) => {
-        const remainingUsers = payments.length % state.pageSize;
-        const remainingPage: number = remainingUsers > 0 ? 1 : 0;
-        const pageCount: number = Math.trunc(payments.length / state.pageSize + remainingPage);
-        return pageCount;
-    };
-
     const getBeginIndex = (): number => {
         return (state.currentPage - 1) * state.pageSize;
     }
 
     const getEndIndex = (): number => {
         return state.currentPage * state.pageSize;
-    }
-
-    const filterPayments = (payments: ClaimPaymentDto[]) => {
-        if (!!state.numberFilter) {
-            payments = payments.filter((p) => p.claimNumber.includes(state.numberFilter));
-        }
-
-        return payments;
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -142,7 +127,7 @@ const ClaimPaymentsRegister: React.FC = () => {
                                 <td>{claimPayment.claimNumber}</td>
                                 <td>{claimPayment.amount}</td>
                                 <td>{claimPayment.amountCurrency}</td>
-                                <td>{claimPayment.paymentDate.toString()}</td>
+                                <td>{moment(claimPayment.paymentDate).format(format)}</td>
                             </tr>
                         </React.Fragment>
                     ))}
@@ -150,15 +135,15 @@ const ClaimPaymentsRegister: React.FC = () => {
             </table>
             <nav aria-label="Manage users pagination" className="navbar justify-content-end">
                 <ul className="pagination">
-                    <li className="page-item" key={0}><a className="page-link"
-                                                         onClick={handleOnPreviousPageClick}>Previous</a></li>
+                    <li className="page-item" key={0}><div className="page-link"
+                                                         onClick={handleOnPreviousPageClick}>Previous</div></li>
                     {Array.from({length: state.pageCount}, (_, i) => i + 1).map(number =>
                         (<li key={number} className="page-item" onClick={() => handleSelectedPageClick(number)}>
-                            <a className="page-link">{number}</a>
+                            <div className="page-link">{number}</div>
                         </li>))
                     }
-                    <li className="page-item" key={state.pageCount + 1}><a className="page-link"
-                                                                           onClick={handleOnNextPageClick}>Next</a>
+                    <li className="page-item" key={state.pageCount + 1}><div className="page-link"
+                                                                           onClick={handleOnNextPageClick}>Next</div>
                     </li>
                 </ul>
             </nav>
