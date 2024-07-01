@@ -1,0 +1,7 @@
+enum PolicyType {
+  CAR_INSURANCE = "CAR_INSURANCE",
+  PROPERTY_INSURANCE = "PROPERTY_INSURANCE",
+  HEALTH_INSURANCE = "HEALTH_INSURANCE",
+}
+
+export default PolicyType;

@@ -1,0 +1,72 @@
+[{
+  "_id": {
+    "$oid": "667c6535e694c2b0c4df934b"
+  },
+  "email": "vasil@test.com",
+  "password": "$2b$10$hNKMbkdkwwk/qjFEa1VQROwxeK3q9znvm0/8v6UI3RU7td524Puiu",
+  "fullName": "Vasil Egov",
+  "rights": [
+    "ADMIN"
+  ],
+  "createdAt": {
+    "$date": "2024-06-26T19:00:05.662Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-30T08:47:21.708Z"
+  },
+  "idNumber": "99611380068"
+},
+{
+  "_id": {
+    "$oid": "66811958757b7d8209a89d65"
+  },
+  "email": "expert@test.com",
+  "password": "$2b$10$9IUXjTmoxgiY5Z/iWww.CuVplWSEF1oLt8Ni6A5SV5Sc8ylY0KaGy",
+  "fullName": "Expert",
+  "idNumber": "1122334455",
+  "rights": [
+    "EXPERT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-30T08:37:44.130Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-30T08:37:44.130Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66811974757b7d8209a89d6e"
+  },
+  "email": "actuary@test.com",
+  "password": "$2b$10$9tjBAKsvXqjmhHe7zdIh7OlfrWTogz2CuTk30eMvWL0RwZvbJaX6K",
+  "fullName": "Actuary",
+  "idNumber": "1122334456",
+  "rights": [
+    "ACTUARY"
+  ],
+  "createdAt": {
+    "$date": "2024-06-30T08:38:12.479Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-30T08:38:12.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66811b73757b7d8209a89d74"
+  },
+  "email": "client@test.com",
+  "password": "$2b$10$UwlrMZoXH7n1xkMja2Uhke832RQE/hBJftvWJ8tNyKrduJUjuurSe",
+  "fullName": "Client",
+  "idNumber": "1122334457",
+  "rights": [
+    "CLIENT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-30T08:46:43.408Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-30T08:46:43.408Z"
+  }
+}]

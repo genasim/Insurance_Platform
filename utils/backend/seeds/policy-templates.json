@@ -1,0 +1,42 @@
+[{
+  "_id": {
+    "$oid": "6666197875750d68ef9e7a31"
+  },
+  "name": "Car insurance",
+  "meta": "Best there is",
+  "type": "CAR_INSURANCE",
+  "description": [
+    "Insure your car with us",
+    "Best car insurence there is",
+    "Up to 7000 BGN in reimbursment"
+  ],
+  "imgSrc": "/car-insurance.svg"
+},
+{
+  "_id": {
+    "$oid": "6666197875750d68ef9e7a32"
+  },
+  "name": "Property insurance",
+  "meta": "Best there is",
+  "type": "PROPERTY_INSURANCE",
+  "description": [
+    "Insure your property with us",
+    "Safe against nature's forces",
+    "Theft and burglery included"
+  ],
+  "imgSrc": "/car-insurance.svg"
+},
+{
+  "_id": {
+    "$oid": "6666197875750d68ef9e7a33"
+  },
+  "name": "Health insurance",
+  "meta": "Best there is",
+  "type": "HEALTH_INSURANCE",
+  "description": [
+    "You can trust us with your health",
+    "Dental services included",
+    "Premium healthcare"
+  ],
+  "imgSrc": "/medical-insurance.svg"
+}]

@@ -1,0 +1,125 @@
+[{
+  "_id": {
+    "$oid": "66703defce2fe1bd1409bb1b"
+  },
+  "email": "genata@mail.co",
+  "password": "$2b$10$aK3cex2hZxlAL8Uc5VaibuAf/QZio2thJ6jUMdscWe25GowgUeA/S",
+  "fullName": "Genata",
+  "rights": [
+    "CLIENT",
+    "EXPERT",
+    "ADMIN"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:45:19.827Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:45:19.827Z"
+  },
+  "idNumber": {
+    "$numberLong": "93565789832"
+  }
+},
+{
+  "_id": {
+    "$oid": "66704031ce2fe1bd1409bb25"
+  },
+  "email": "kolio@mail.co",
+  "password": "$2b$10$XF/gmFDg.UeR9qpRqQJTTuFs1rJ2MvIsWSCdhCFW8L5qD9uw7T7HO",
+  "fullName": "Kolio Grozdanov",
+  "rights": [
+    "CLIENT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:54:57.099Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:54:57.099Z"
+  },
+  "idNumber": {
+    "$numberLong": "54925033420"
+  }
+},
+{
+  "_id": {
+    "$oid": "66704049ce2fe1bd1409bb2a"
+  },
+  "email": "client@mail.co",
+  "password": "$2b$10$GZoNyOIbavrtaYCSTyZFGeH5xdOTw99qEIsK9QzjFPXLD25kH2Yc6",
+  "fullName": "Client Client",
+  "rights": [
+    "CLIENT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:55:21.297Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:55:21.297Z"
+  },
+  "idNumber": {
+    "$numberLong": "25308662100"
+  }
+},
+{
+  "_id": {
+    "$oid": "6670405fce2fe1bd1409bb2f"
+  },
+  "email": "expert@mail.co",
+  "password": "$2b$10$4X/oGUPOL6ZGSUmbTfRTQunQDwKqi6zeDrpb26sYPoK5FmDLasNw.",
+  "fullName": "Expert Expert",
+  "rights": [
+    "EXPERT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:55:43.189Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:55:43.189Z"
+  },
+  "idNumber": {
+    "$numberLong": "75225282142"
+  }
+},
+{
+  "_id": {
+    "$oid": "66704078ce2fe1bd1409bb37"
+  },
+  "email": "actuary@mail.co",
+  "password": "$2b$10$9rFvWqAFwB3aaTjezhn12e0r8zYwWJe8lGKBBhs4t2Cr15U6uWX9C",
+  "fullName": "Actuary Actuary",
+  "rights": [
+    "ACTUARY"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:56:08.782Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:56:08.782Z"
+  },
+  "idNumber": {
+    "$numberLong": "58285020542"
+  }
+},
+{
+  "_id": {
+    "$oid": "667040aace2fe1bd1409bb3c"
+  },
+  "email": "vasko@mail.co",
+  "password": "$2b$10$41NRafvWJC7oWZfOhT3I2OcnTkxOKF97gRPWJ77ufePwPj.5bAe9i",
+  "fullName": "Vasil Egov",
+  "rights": [
+    "ACTUARY",
+    "CLIENT",
+    "ADMIN",
+    "EXPERT"
+  ],
+  "createdAt": {
+    "$date": "2024-06-17T13:56:58.585Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-17T13:56:58.585Z"
+  },
+  "idNumber": {
+    "$numberLong": "73729463453"
+  }
+}]
