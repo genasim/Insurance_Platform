@@ -1,8 +1,6 @@
-import {Request, RequestHandler, Response} from "express";
+import { Request, RequestHandler, Response } from "express";
+import mongoose from "mongoose";
 import notificationModel from "../../models/notifications.model";
-import {JwtPayload} from "jsonwebtoken";
-import {jwtDecode} from "jwt-decode";
-import mongoose, {Schema} from "mongoose";
 
 type QueryParams = {
     page: string | number;
@@ -18,8 +16,8 @@ const getNotificationsPaginated: RequestHandler = async (
     page = page === "" || !page ? "1" : page;
     size = page === "" || !size ? "10" : size;
 
-    const jwt = req.headers.authorization.replace("Bearer ", "");
-    const userId = jwtDecode<JwtPayload>(jwt).id;
+    const userId: string = (req.user as any)._id;
+
     if (isNaN(+page) || isNaN(+size)) {
         res.status(400).json({message: "Invalid page or size info"});
         return;
