@@ -2,8 +2,10 @@ import { AuthStorageKeys } from "./enums/AuthStorageKeys";
 
 const baseUrl = "http://localhost:5000/api/";
 
+export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
+
 export function handleRequest(
-  method: string,
+  method: RestMethod,
   path: string,
   body: any = null
 ): Promise<Response> {

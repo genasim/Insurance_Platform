@@ -1,18 +1,15 @@
-const checkValidEmail = async (email: string) => {
-  const resp = await fetch("http://localhost:5000/api/auth/valid-email", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
+import { handleRequest } from "../handle-request";
 
-  if (resp.status === 200) {
-    return true;
+const checkValidEmail = async (email: string): Promise<boolean> => {
+  try {
+    const resp = await handleRequest("POST", "auth/valid-email", { email });
+    if (resp.status === 200) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
   }
-
-  return false;
 };
 
 export default checkValidEmail;

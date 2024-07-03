@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { handleRequest } from "../handle-request";
+import { RestMethod, handleRequest } from "../handle-request";
 import { ModalContext } from "../layout/Layout";
 
-type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 type ApiErrorsResponse = {
   message?: string;
   error?: any;
