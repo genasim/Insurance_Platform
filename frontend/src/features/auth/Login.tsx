@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
 import loginUser from '../../shared/services/login-user';
-import LoggedInContext from '../../shared/hooks/useLoggedIn';
+import { LoggedInContext } from '../../shared/layout/Layout';
 
 
 interface LoginState {

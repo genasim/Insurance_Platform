@@ -5,7 +5,7 @@ import { Right } from "../../models/Rights";
 import Logo from "../components/Logo";
 import { AuthStorageKeys } from "../enums/AuthStorageKeys";
 import useJwt from "../hooks/useJwt";
-import LoggedInContext from "../hooks/useLoggedIn";
+import { LoggedInContext } from "./Layout";
 
 const Navbar = () => {
   const jwt = useJwt();
