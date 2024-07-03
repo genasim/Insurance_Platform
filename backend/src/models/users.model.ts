@@ -33,8 +33,10 @@ const userSchema: Schema = new Schema<User>(
     },
     idNumber: {
       type: String,
+      required: [true, "IdNumber is required"],
       unique: true,
       minlength: 10,
+      maxlength: 10,
     },
     rights: {
       required: [true, "Rights are required"],
@@ -53,11 +55,10 @@ const userSchema: Schema = new Schema<User>(
   { timestamps: true, versionKey: false }
 );
 
-userSchema.pre("save", async function (next) {
-  // 'this' refers to the document currently being created and contains the validated values
+userSchema.pre("validate", async function(next) {
   const user = this as unknown as User & Document;
-  
-  if (!user.idNumber) {
+
+  if (user.isNew || !user.idNumber) {
     let unique = false;
     while (!unique) {
       const newIdNumber = generateRandomIdNumber(10);
@@ -69,6 +70,13 @@ userSchema.pre("save", async function (next) {
     }
   }
 
+  next();
+})
+
+userSchema.pre("save", async function (next) {
+  // 'this' refers to the document currently being created and contains the validated values
+  const user = this as unknown as User & Document;
+  
   if (user.isModified("password") || user.isNew) {
     try {
       const salt = await bcrypt.genSalt(10);

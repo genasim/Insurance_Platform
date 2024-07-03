@@ -34,12 +34,12 @@ const registerClientHandler: RequestHandler = async (
           validationErrors[key] = error.errors[key].message;
         }
       }
-      res.status(400).json({ errors: validationErrors });
+      res.status(400).json({ error: validationErrors });
       return;
     }
 
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ error: "Server Error" });
   }
 };
 
