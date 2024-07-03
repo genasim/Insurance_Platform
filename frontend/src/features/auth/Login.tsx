@@ -20,10 +20,7 @@ const Login: React.FC = () => {
     const { setLoggedIn } = useContext(LoggedInContext);
 
     const navigate = useNavigate();
-    const loginUser = useEndpoint<{token: string}>("POST", "auth/login", {
-        email: state.email,
-        password: state.password
-    }, "Welcome back!");
+    const loginUser = useEndpoint<{token: string}>("POST", "auth/login", "Welcome back!");
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
@@ -36,7 +33,10 @@ const Login: React.FC = () => {
         }
 
         try {
-            const result = await loginUser()
+            const result = await loginUser({
+                email: state.email,
+                password: state.password
+            })
             setState({...state, error: undefined});
             sessionStorage.setItem(AuthStorageKeys.TOKEN, result?.token ?? "");
             setLoggedIn(true);

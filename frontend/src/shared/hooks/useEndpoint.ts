@@ -1,7 +1,7 @@
 import { useContext } from "react";
+import toast from "react-hot-toast";
 import { handleRequest } from "../handle-request";
 import { ModalContext } from "../layout/Layout";
-import toast from "react-hot-toast";
 
 type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 type ApiErrorsResponse = {
@@ -12,12 +12,11 @@ type ApiErrorsResponse = {
 export default function useEndpoint<T>(
   method: RestMethod,
   endpoint: string,
-  body?: any,
   successMsg?: string
 ) {
   const { show } = useContext(ModalContext);
 
-  const request = async (): Promise<T | undefined> => {
+  const request = async (body?: any): Promise<T | undefined> => {
     try {
       const response = await handleRequest(method, endpoint, body);
       const payload: ApiErrorsResponse = await response.json();
@@ -25,11 +24,10 @@ export default function useEndpoint<T>(
       if (!response.ok) {
         if (payload.message) {
           toast.error(payload.message);
-          throw new Error(payload.message);
+          return undefined;
         }
         if (payload.error) {
-          show(payload.error);
-          throw new Error(payload.error);
+          throw new Error(JSON.stringify(payload.error, null, 2));
         }
         throw new Error("Unexpected error response");
       }
