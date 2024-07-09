@@ -21,7 +21,13 @@ export interface ServiceRequests extends Keys {
   [Services.RegisterUser]: {
     response: { token: string };
     method: "POST";
-    payload: { email: string; password: string, fullName: string };
+    payload: { email: string; password: string; fullName: string };
+    params: undefined;
+  };
+  [Services.CheckValidEmail]: {
+    response: { valid: boolean };
+    method: "GET";
+    payload: { email: string };
     params: undefined;
   }
 }
@@ -32,4 +38,5 @@ export const serviceConfigs: {
 } = {
   [Services.LoginUser]: { method: "POST", path: "/auth/login" },
   [Services.RegisterUser]: { method: "POST", path: "/auth/register" },
+  [Services.CheckValidEmail]: { method: "GET", path: "/auth/valid-email"}
 };

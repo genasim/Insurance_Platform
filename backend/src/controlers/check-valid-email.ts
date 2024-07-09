@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from "express";
 import usersModel from "../models/users.model";
 
 const checkValidEmail: RequestHandler = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const { email } = req.query;
 
   if (!email) {
     return res.status(400).json({ message: "Missing email" });
@@ -11,9 +11,9 @@ const checkValidEmail: RequestHandler = async (req: Request, res: Response) => {
   try {
     const user = await usersModel.countDocuments({ email });
     if (user === 0) {
-      res.status(200).json({ message: "Email is valid" });
+      res.status(200).json({ valid: true });
     } else {
-      res.status(400).json({ message: "Email is invalid" });
+      res.status(200).json({ valid: false });
     }
   } catch (error) {
     console.error(error);

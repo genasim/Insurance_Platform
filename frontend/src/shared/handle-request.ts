@@ -20,7 +20,7 @@ export function handleRequest(
       Authorization: `Bearer ${sessionStorage.getItem(AuthStorageKeys.TOKEN)}`,
     },
   };
-  let encodedPath = path.replace(/:([a-zA-Z]+)/g, (_, key) =>
+  let encodedPath = baseUrl + path.replace(/:([a-zA-Z]+)/g, (_, key) =>
     encodeURIComponent(data?.params[key])
   );
 
@@ -37,5 +37,5 @@ export function handleRequest(
       request.body = JSON.stringify(data.payload);
     }
   }
-  return fetch(`${baseUrl}${encodedPath}`, request);
+  return fetch(encodedPath, request);
 }

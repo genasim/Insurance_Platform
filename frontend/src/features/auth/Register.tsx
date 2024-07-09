@@ -3,27 +3,22 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserDto } from "../../models/User";
 import { AuthStorageKeys } from "../../shared/enums/AuthStorageKeys";
-import useService from "../../shared/hooks/useEndpoint";
+import useService from "../../shared/hooks/useService";
 import { LoggedInContext } from "../../shared/layout/Layout";
 import UserForm from "./UserForm";
+import Services from "../../shared/enums/Services";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(LoggedInContext);
-  // const registerUserClient = useService<{ token: string }>(
-  //   "POST",
-  //   "auth/register",
-  //   "You have successfully created an account with us"
-  // );
+  const registerUser = useService(Services.RegisterUser);
 
   const handleUserRegister = async (user: UserDto) => {
     try {
-      // const result = await registerUserClient({ ...user });
-      // if (result) {
-      //   sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
-      //   setLoggedIn(true);
-      //   navigate("/");
-      // }
+      const result = await registerUser(user);
+      sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
+      setLoggedIn(true);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
