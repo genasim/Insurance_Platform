@@ -2,7 +2,8 @@ import React, {ChangeEvent, FormEvent, useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
 import { LoggedInContext } from '../../shared/layout/Layout';
-import useService, { Services } from '../../shared/hooks/useEndpoint';
+import useService from '../../shared/hooks/useService';
+import Services from '../../shared/enums/Services';
 
 
 interface LoginState {
