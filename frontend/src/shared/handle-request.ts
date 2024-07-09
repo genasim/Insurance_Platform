@@ -1,24 +1,41 @@
 import { AuthStorageKeys } from "./enums/AuthStorageKeys";
 
-const baseUrl = "http://localhost:5000/api/";
+const baseUrl = "http://localhost:5000/api";
 
-export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
+export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 export function handleRequest(
-  method: RestMethod,
+  method: HttpMethod,
   path: string,
-  body: any = null
+  data?: {
+    params?: any;
+    payload?: any;
+  }
 ): Promise<Response> {
   const request: any = {
-    method: method.toUpperCase(),
+    method,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem(AuthStorageKeys.TOKEN)}`,
     },
   };
-  if (body) {
-    request.body = JSON.stringify(body);
+  let encodedPath = path.replace(/:([a-zA-Z]+)/g, (_, key) =>
+    encodeURIComponent(data?.params[key])
+  );
+
+  if (data?.payload) {
+    if (method === "GET" || method === "DELETE") {
+      const url = new URL(encodedPath);
+      Object.entries(data.payload).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          url.searchParams.append(key, value.toString());
+        }
+      });
+      encodedPath = url.toString();
+    } else {
+      request.body = JSON.stringify(data.payload);
+    }
   }
-  return fetch(`${baseUrl}${path}`, request);
+  return fetch(`${baseUrl}${encodedPath}`, request);
 }

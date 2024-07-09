@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
 import { LoggedInContext } from '../../shared/layout/Layout';
-import useEndpoint from '../../shared/hooks/useEndpoint';
+import useService, { Services } from '../../shared/hooks/useEndpoint';
 
 
 interface LoginState {
@@ -20,7 +20,7 @@ const Login: React.FC = () => {
     const { setLoggedIn } = useContext(LoggedInContext);
 
     const navigate = useNavigate();
-    const loginUser = useEndpoint<{token: string}>("POST", "auth/login", "Welcome back!");
+    const loginUser = useService(Services.LoginUser, "Welcome back!");
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
@@ -33,12 +33,8 @@ const Login: React.FC = () => {
         }
 
         try {
-            const result = await loginUser({
-                email: state.email,
-                password: state.password
-            })
-            setState({...state, error: undefined});
-            sessionStorage.setItem(AuthStorageKeys.TOKEN, result?.token ?? "");
+            const result = await loginUser({ email: state.email, password: state.password });
+            sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
             setLoggedIn(true);
             navigate("/");            
         } catch (error) {
