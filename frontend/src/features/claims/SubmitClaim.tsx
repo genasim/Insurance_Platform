@@ -4,11 +4,16 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { ClaimDTO_ } from "../../models/Claim";
 import { ClaimDocumentDTO } from "../../models/ClaimDocument";
 import { Policy_ } from "../../models/Policy";
-import createClaim from "../../shared/services/create-claim";
 import SubmitForm from "./SubmitForm";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
 
 const SubmitClaim: FC = () => {
   const [error, setError] = useState<Error>();
+  const createClaim = useService(
+    Services.CreateClaim,
+    "You have successfully submited your claim"
+  );
 
   const policy = useLoaderData() as Policy_;
   const navigate = useNavigate();
@@ -18,7 +23,7 @@ const SubmitClaim: FC = () => {
     docsData: ClaimDocumentDTO[]
   ) => {
     try {
-      await createClaim(claimData, docsData);
+      await createClaim({ claimDTO: claimData, documents: docsData });
       navigate("..");
     } catch (error) {
       setError(error as Error);

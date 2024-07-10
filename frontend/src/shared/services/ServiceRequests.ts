@@ -1,4 +1,5 @@
-import { Claim_ } from "../../models/Claim";
+import { Claim_, ClaimDTO_ } from "../../models/Claim";
+import { ClaimDocumentDTO_ } from "../../models/ClaimDocument";
 import Services from "../enums/Services";
 import { HttpMethod } from "../handle-request";
 
@@ -46,6 +47,12 @@ export interface ServiceRequests extends Keys {
     payload: PaginationParams;
     params: undefined;
   };
+  [Services.CreateClaim]: {
+    response: Claim_;
+    method: "POST";
+    payload: { claimDTO: ClaimDTO_, documents: ClaimDocumentDTO_[] };
+    params: undefined;
+  };
 }
 
 type RequestMethods = { [K in Services]: ServiceRequests[K]["method"] };
@@ -56,4 +63,5 @@ export const serviceConfigs: {
   [Services.RegisterUser]: { method: "POST", path: "/auth/register" },
   [Services.CheckValidEmail]: { method: "GET", path: "/auth/valid-email" },
   [Services.GetClaimsPaginated]: { method: "GET", path: "/backoffice/claims" },
+  [Services.CreateClaim]: { method: "POST", path: "/clients/claims"}
 };

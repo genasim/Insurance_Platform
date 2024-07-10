@@ -4,19 +4,14 @@ import claimDocumentModel from "../../models/claim-documents.model";
 import claimModel from "../../models/claims.model";
 import userModel from "../../models/users.model";
 import notificationModel from "../../models/notifications.model";
+import Right from "../../types/Right";
 
 const createClaimHandler: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
   const {
-    policyId,
-    policyNumber,
-    eventDate,
-    eventDescription,
-    eventType,
-    claimedAmount,
-    claimedAmountCurrency,
+    claimDTO,
     documents,
   } = req.body;
   const clientId = (req.user as any)._id;
@@ -24,13 +19,7 @@ const createClaimHandler: RequestHandler = async (
   try {
     const claimDto = new claimModel({
       claimantId: clientId,
-      policyId,
-      policyNumber,
-      eventDate,
-      eventDescription,
-      eventType,
-      claimedAmount,
-      claimedAmountCurrency,
+      ...claimDTO,
     });
 
     if (documents) {
@@ -51,7 +40,7 @@ const createClaimHandler: RequestHandler = async (
 
     const claim = await claimDto.save();
     const users = await userModel
-        .find({rights: "EXPERT"}).exec();
+        .find({rights: Right.EXPERT}).exec();
     const userIds: Schema.Types.ObjectId[] = users.map(u => u._id as Schema.Types.ObjectId);
 
     for (const userId of userIds) {
