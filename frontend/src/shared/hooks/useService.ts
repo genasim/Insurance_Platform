@@ -23,22 +23,22 @@ export default function useService<E extends Services>(
   ? RequestParams[E] extends undefined
     ? RequestPayload[E] extends undefined
       ? () => Promise<RequestResponses[E]>
-      : (payload: RequestPayload[E]) => Promise<RequestResponses[E]>
+      : (args: { payload: RequestPayload[E] }) => Promise<RequestResponses[E]>
     : RequestPayload[E] extends undefined
-      ? (params: RequestParams[E]) => Promise<RequestResponses[E]>
-      : (params: RequestParams[E],payload: RequestPayload[E]) => Promise<RequestResponses[E]>
+      ? (args: { params: RequestParams[E] }) => Promise<RequestResponses[E]>
+      : (args: { params: RequestParams[E],payload: RequestPayload[E] }) => Promise<RequestResponses[E]>
   : never {
   const { show } = useContext(ModalContext);
 
-  const request = useCallback(async (
+  const request = useCallback(async (args?: {
     payload?: RequestPayload[E],
-    params?: RequestParams[E]
-  ): Promise<RequestResponses[E] | undefined> => {
+    params?: RequestParams[E],
+  }): Promise<RequestResponses[E] | undefined> => {
     try {
       const config = serviceConfigs[service];
       const method: HttpMethod = config.method;
 
-      const response = await handleRequest(method, config.path, { params, payload });
+      const response = await handleRequest(method, config.path, { params: args?.params, payload: args?.payload });
       const data: ApiErrorsResponse = await response.json();
 
       if (!response.ok) {

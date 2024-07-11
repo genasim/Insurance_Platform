@@ -40,7 +40,7 @@ const UserForm: FC<UserFormProps> = ({ onSubmit, user }) => {
           }
           setPreviousEmail(value);
           try {
-            const result = await checkValidEmail({ email: value });
+            const result = await checkValidEmail({ payload: { email: value } });
             return result.valid;
           } catch (error) {
             return false;

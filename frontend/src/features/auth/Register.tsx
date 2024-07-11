@@ -15,7 +15,7 @@ const Register: React.FC = () => {
 
   const handleUserRegister = async (user: UserDto) => {
     try {
-      const result = await registerUser(user);
+      const result = await registerUser({ payload: user });
       sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
       setLoggedIn(true);
       navigate("/");

@@ -23,7 +23,9 @@ const SubmitClaim: FC = () => {
     docsData: ClaimDocumentDTO[]
   ) => {
     try {
-      await createClaim({ claimDTO: claimData, documents: docsData });
+      await createClaim({
+        payload: { claimDTO: claimData, documents: docsData },
+      });
       navigate("..");
     } catch (error) {
       setError(error as Error);

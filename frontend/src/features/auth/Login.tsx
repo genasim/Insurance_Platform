@@ -34,7 +34,7 @@ const Login: React.FC = () => {
         }
 
         try {
-            const result = await loginUser({ email: state.email, password: state.password });
+            const result = await loginUser({ payload: { email: state.email, password: state.password }});
             sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
             setLoggedIn(true);
             navigate("/");            

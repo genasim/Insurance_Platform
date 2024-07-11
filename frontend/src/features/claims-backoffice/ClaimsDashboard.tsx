@@ -13,7 +13,7 @@ const ClaimsDashboard: FC = () => {
 
     useAsyncEffect(async () => {
       try {
-        const claims = await getClaimsPaginated({ page: 1, size: 20 });
+        const claims = await getClaimsPaginated({ payload: { page: 1, size: 20 }});
         setClaims(claims)        
       } catch (error) {}
     }, [])
