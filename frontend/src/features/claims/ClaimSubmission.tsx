@@ -6,9 +6,9 @@ import { Policy_ } from "../../models/Policy";
 import Title from "../../shared/components/Title";
 import { AuthStorageKeys } from "../../shared/enums/AuthStorageKeys";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
-import getUserClaimsPaginated from "../../shared/services/get-user-claims-paginated";
-import getUserPoliciesPaginated from "../../shared/services/get-user-policies-paginated";
 import moment from "moment";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
 
 enum ClaimTabs {
   PEDNING = "Pending Claims",
@@ -24,15 +24,19 @@ const ClaimSubmission: FC = () => {
   const [policies, setPolicies] = useState<Policy_[]>([]);
   const [claims, setClaims] = useState<Claim_[]>([]);
 
+  const getUserClaimsPaginated = useService(Services.GetUserClaimsPaginated)
+  const getUserPoliciesPaginated = useService(Services.GetUserPoliciesPaginated)
+
   const navigate = useNavigate();
-  useAsyncEffect(async () => {
-    const policies = await getUserPoliciesPaginated(1, 20);
-    setPolicies(policies);
-  }, [userId]);
 
   useAsyncEffect(async () => {
-    const claims = await getUserClaimsPaginated(1, 20);
-    setClaims(claims);
+    try {
+      const policies = await getUserPoliciesPaginated(({ payload: { page: 1, size: 20 } }));
+      const claims = await getUserClaimsPaginated({ payload: { page: 1, size: 20 } });
+      
+      setPolicies(policies);
+      setClaims(claims);
+    } catch (error) {}
   }, [userId]);
 
   return (

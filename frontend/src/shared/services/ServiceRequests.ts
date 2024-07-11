@@ -7,7 +7,7 @@ import { PolicyType } from "../../models/PolicyType";
 import Services from "../enums/Services";
 import { HttpMethod } from "../handle-request";
 
-type PaginationParams = {
+type PaginationInfo = {
   page: number;
   size: number;
 };
@@ -48,7 +48,7 @@ export interface ServiceRequests extends Keys {
   [Services.GetClaimsPaginated]: {
     response: Claim_[];
     method: "GET";
-    payload: PaginationParams;
+    payload: PaginationInfo;
     params: undefined;
   };
   [Services.CreateClaim]: {
@@ -75,6 +75,18 @@ export interface ServiceRequests extends Keys {
     payload: undefined;
     params: { type: PolicyType };
   };
+  [Services.GetUserClaimsPaginated]: {
+    response: Claim_[];
+    method: "GET";
+    payload: PaginationInfo;
+    params: undefined;
+  };
+  [Services.GetUserPoliciesPaginated]: {
+    response: Policy_[];
+    method: "GET";
+    payload: PaginationInfo;
+    params: undefined;
+  };
 }
 
 type RequestMethods = { [K in Services]: ServiceRequests[K]["method"] };
@@ -89,4 +101,6 @@ export const serviceConfigs: {
   [Services.CreatePolicy]: { method: "POST", path: "/clients/policies" },
   [Services.GetPolicyTypeCoefficients]: { method: "GET", path: "/clients/policies/:type/coefficients" },
   [Services.GetPolicyTypePackages]: { method: "GET", path: "/clients/policies/:type/packages" },
+  [Services.GetUserClaimsPaginated]: { method: "GET", path: "/clients/claims" },
+  [Services.GetUserPoliciesPaginated]: { method: "GET", path: "/clients/policies" },
 };

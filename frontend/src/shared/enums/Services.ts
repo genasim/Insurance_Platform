@@ -7,6 +7,8 @@ enum Services {
   CreatePolicy = "create-policy",
   GetPolicyTypeCoefficients = "get-policy-type-coefficients",
   GetPolicyTypePackages = "get-policy-type-packages",
+  GetUserClaimsPaginated = "get-user-claims-paginated",
+  GetUserPoliciesPaginated = "get-user-policies-paginated",
 }
 
 export default Services;
