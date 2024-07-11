@@ -9,8 +9,8 @@ import { PolicyDto, Policy_ } from "../../models/Policy";
 import { PolicyPackage_ } from "../../models/PolicyPackage";
 import { PolicyType } from "../../models/PolicyType";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
-import getPolicyTypeCoefficients from "../../shared/services/get-policy-type-coefficients";
-import getPolicyTypePackages from "../../shared/services/get-policy-type-packages";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
 
 interface PolicyFormProps {
   policy?: Policy_;
@@ -71,16 +71,21 @@ const PolicyForm: FC<PolicyFormProps> = ({ onSubmit, policy }) => {
   const [endPremium, setEndPremium] = useState(0);
   const [endDate, setEndDate] = useState<string>();
 
+  const getPolicyTypeCoefficients = useService(Services.GetPolicyTypeCoefficients)
+  const getPolicyTypePackages = useService(Services.GetPolicyTypePackages)
+
   const type = watch("type");
   const selectedCoefficients = watch("coefficients");
   const beginDate = watch("beginDate");
 
   useAsyncEffect(async () => {
-    const packs = await getPolicyTypePackages(type);
-    const coeffs = await getPolicyTypeCoefficients(type);
-
-    setPackages(packs);
-    setCoefficients(coeffs);
+    try {
+      const packs = await getPolicyTypePackages({ params: { type } });
+      const coeffs = await getPolicyTypeCoefficients({ params: { type } });
+      
+      setPackages(packs);
+      setCoefficients(coeffs);
+    } catch (error) {}
   }, [type]);
 
   const coeffsString = selectedCoefficients.toString();

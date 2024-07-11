@@ -1,5 +1,9 @@
+import { CalculationCoefficient_ } from "../../models/CalculationCoefficient";
 import { Claim_, ClaimDTO_ } from "../../models/Claim";
 import { ClaimDocumentDTO_ } from "../../models/ClaimDocument";
+import { Policy_, PolicyDto } from "../../models/Policy";
+import { PolicyPackage_ } from "../../models/PolicyPackage";
+import { PolicyType } from "../../models/PolicyType";
 import Services from "../enums/Services";
 import { HttpMethod } from "../handle-request";
 
@@ -53,6 +57,24 @@ export interface ServiceRequests extends Keys {
     payload: { claimDTO: ClaimDTO_, documents: ClaimDocumentDTO_[] };
     params: undefined;
   };
+  [Services.CreatePolicy]: {
+    response: Policy_;
+    method: "POST";
+    payload: PolicyDto;
+    params: undefined;
+  };
+  [Services.GetPolicyTypeCoefficients]: {
+    response: CalculationCoefficient_[];
+    method: "GET";
+    payload: undefined;
+    params: { type: PolicyType };
+  };
+  [Services.GetPolicyTypePackages]: {
+    response: PolicyPackage_[];
+    method: "GET";
+    payload: undefined;
+    params: { type: PolicyType };
+  };
 }
 
 type RequestMethods = { [K in Services]: ServiceRequests[K]["method"] };
@@ -63,5 +85,8 @@ export const serviceConfigs: {
   [Services.RegisterUser]: { method: "POST", path: "/auth/register" },
   [Services.CheckValidEmail]: { method: "GET", path: "/auth/valid-email" },
   [Services.GetClaimsPaginated]: { method: "GET", path: "/backoffice/claims" },
-  [Services.CreateClaim]: { method: "POST", path: "/clients/claims"}
+  [Services.CreateClaim]: { method: "POST", path: "/clients/claims" },
+  [Services.CreatePolicy]: { method: "POST", path: "/clients/policies" },
+  [Services.GetPolicyTypeCoefficients]: { method: "GET", path: "/clients/policies/:type/coefficients" },
+  [Services.GetPolicyTypePackages]: { method: "GET", path: "/clients/policies/:type/packages" },
 };
