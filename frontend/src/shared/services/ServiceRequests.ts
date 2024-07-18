@@ -1,6 +1,8 @@
 import { CalculationCoefficient_ } from "../../models/CalculationCoefficient";
 import { Claim_, ClaimDTO_ } from "../../models/Claim";
 import { ClaimDocumentDTO_ } from "../../models/ClaimDocument";
+import { Currency } from "../../models/Currency";
+import { IdType } from "../../models/Identifiable";
 import { Policy_, PolicyDto } from "../../models/Policy";
 import { PolicyPackage_ } from "../../models/PolicyPackage";
 import { PolicyType } from "../../models/PolicyType";
@@ -87,6 +89,12 @@ export interface ServiceRequests extends Keys {
     payload: PaginationInfo;
     params: undefined;
   };
+  [Services.UpdateClaim]: {
+    response: Policy_[];
+    method: "PUT";
+    payload: { claim: Claim_, approvedAmount: number, approvedAmountCurrency: Currency };
+    params: { claimId: IdType };
+  };
 }
 
 type RequestMethods = { [K in Services]: ServiceRequests[K]["method"] };
@@ -103,4 +111,5 @@ export const serviceConfigs: {
   [Services.GetPolicyTypePackages]: { method: "GET", path: "/clients/policies/:type/packages" },
   [Services.GetUserClaimsPaginated]: { method: "GET", path: "/clients/claims" },
   [Services.GetUserPoliciesPaginated]: { method: "GET", path: "/clients/policies" },
+  [Services.UpdateClaim]: { method: "PUT", path: "/backoffice/claims/:claimId" },
 };
