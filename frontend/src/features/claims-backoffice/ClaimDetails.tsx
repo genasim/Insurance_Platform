@@ -8,13 +8,15 @@ import { ClaimStatus } from "../../models/ClaimStatus";
 import { PolicyPackage } from "../../models/PolicyPackage";
 import ClaimInfo from "./components/ClaimInfo";
 import ResolveClaimForm from "./components/ResolveClaimForm";
-import { handleRequest } from "../../shared/BackEndFacade";
 import { ClaimPaymentDTO } from "../../models/ClaimPayment";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
+import { Currency } from "../../models/Currency";
 
 type LoaderData = {
-  claim: Claim_;
-  documents: ClaimDocument_[];
-  policyPackage: PolicyPackage;
+  claim?: Claim_;
+  documents?: ClaimDocument_[];
+  policyPackage?: PolicyPackage;
 };
 
 const ClaimDetails: FC = () => {
@@ -23,19 +25,25 @@ const ClaimDetails: FC = () => {
 
   const { claim, documents, policyPackage } = useLoaderData() as LoaderData;
   const navigate = useNavigate();
+  const updateClaim = useService(Services.UpdateClaim);
 
   const handleUpdate = async (
     status: ClaimStatus,
     claimPayment?: ClaimPaymentDTO
   ) => {
-    claim.status = status;
     try {
-      await handleRequest("PUT", "/api/backoffice/claims", {
-        claim,
-        approvedAmount: claimPayment?.amount,
-        approvedAmountCurrency: claimPayment?.amountCurrency,
-      });
-
+      if (claim) {
+        claim.status = status;
+        await updateClaim({
+          params: { claimId: claim._id },
+          payload: {
+            claim,
+            approvedAmount: claimPayment?.amount ?? 0,
+            approvedAmountCurrency:
+              claimPayment?.amountCurrency ?? Currency.BGN,
+          },
+        });
+      }
       navigate("..");
     } catch (error) {
       console.error(error as Error);
@@ -79,7 +87,7 @@ const ClaimDetails: FC = () => {
           </Button>
           {error && <p className="text-danger">{error.message}</p>}
         </div>
-        {willApprove && (
+        {willApprove && claim && (
           <div className="my-5">
             <ResolveClaimForm
               claim={claim}

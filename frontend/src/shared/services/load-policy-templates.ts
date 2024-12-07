@@ -1,24 +1,21 @@
-import { AuthStorageKeys } from "../enums/AuthStorageKeys";
+import toast from "react-hot-toast";
+import { handleRequest } from "../handle-request";
 
 const loadPolicyTemplates = async () => {
   try {
-    const templates = await fetch(
-      "http://localhost:5000/api/auth/policy-types",
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem(
-            AuthStorageKeys.TOKEN
-          )}`,
-        },
+    const response = await handleRequest("GET", "/auth/policy-types");
+    const templates = await response.json();
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error("Forbidden");
       }
-    );
+      throw new Error("Couldn't load claim info ...");
+    }
     
     return templates;
   } catch (error) {
     console.error(error);
+    toast.error((error as Error).message);
     return [];
   }
 };

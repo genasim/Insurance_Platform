@@ -17,7 +17,7 @@ epxertRouter.delete("/policy-packages/:id", deletePolicyPackageHandler)
 
 epxertRouter.get("/claims/:id", getClaimInfoHandler)
 epxertRouter.get("/claims", getClaimsPaginatedHandler)
-epxertRouter.put("/claims", updateClaimHandler)
+epxertRouter.put("/claims/:claimId", updateClaimHandler)
 
 epxertRouter.get("/policies", getPoliciesPaginated)
 

@@ -11,15 +11,24 @@ const updateClaimHandler: RequestHandler = async (
   res: Response
 ) => {
   const { claim, approvedAmount, approvedAmountCurrency } = req.body;
+  const { claimId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(claimId)) {
+    return res.status(400).json({ message: "Invalid claimId" })
+  }
+  const oldClaim = await claimModel.findById(claimId);
+  if (!oldClaim) {
+    return res.status(404).json({ message: "Could not find claim to update" })
+  }
 
   try {
     await claimModel.validate(claim)    
-    const updated = await claimModel.findByIdAndUpdate(claim._id, claim);
+    const updated = await claimModel.findByIdAndUpdate(claimId, claim);
     const policy = await policyModel.findOne({policyNumber: claim.policyNumber});
 
     if (claim.status === ClaimStatus.APPROVED) {
       const payment = {
-        claimId: claim._id,
+        claimId,
         claimNumber: claim.claimNumber,
         amount: approvedAmount,
         amountCurrency: approvedAmountCurrency,
@@ -29,7 +38,7 @@ const updateClaimHandler: RequestHandler = async (
 
     const notification =  {
       title: `Claim ${claim.claimNumber} ${claim.status}!`,
-      message: `Claim ${claim.claimNumber} ${claim.status}`,
+      message: `Claim ${claim.claimNumber} has been ${claim.status}`,
       recipientId: policy.holderId,
       createdAt: new Date()
     };

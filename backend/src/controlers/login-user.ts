@@ -22,18 +22,18 @@ const loginUserHandler: RequestHandler = async (
 
     const result = await bcrypt.compare(password, user.password);
     if (result) {
-    const token = jwt.sign(
-      { id: user._id, email: user.email, rights: user.rights },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-    res.status(200).json({ token });
+      const token = jwt.sign(
+        { id: user._id, email: user.email, rights: user.rights },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+      res.status(200).json({ token });
     } else {
-    res.status(403).json({ message: "Invalid credentials" });
+      res.status(403).json({ message: "Invalid credentials" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ error: "Server Error" });
   }
 };
 

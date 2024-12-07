@@ -2,20 +2,23 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { PolicyDto } from "../../models/Policy";
 import Title from "../../shared/components/Title";
-import createPolicy from "../../shared/services/create-policy";
 import PolicyForm from "./PolicyForm";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
 
 const PolicySubmission: React.FC = () => {
   const navigate = useNavigate();
+  const createPolicy = useService(
+    Services.CreatePolicy,
+    "You have successfully purchased your new policy!"
+  );
 
   const onPolicySubmit = (policyDto: PolicyDto) => {
-    createPolicy(policyDto)
+    createPolicy({ payload: policyDto })
       .then((policy) => {
         navigate("/");
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => {});
   };
 
   return (

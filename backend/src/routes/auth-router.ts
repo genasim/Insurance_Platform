@@ -8,7 +8,7 @@ const authRouter = Router()
 
 authRouter.post("/register", registerClientHandler)
 authRouter.post("/login", loginUserHandler)
-authRouter.post("/valid-email",checkValidEmail)
+authRouter.get("/valid-email",checkValidEmail)
 authRouter.get("/policy-types", getPolicyTemplatesHandler)
 
 

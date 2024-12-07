@@ -1,25 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import UserForm from "./UserForm";
 import { UserDto } from "../../models/User";
-import registerUserClient from "../../shared/services/register-user-client";
 import { AuthStorageKeys } from "../../shared/enums/AuthStorageKeys";
+import useService from "../../shared/hooks/useService";
+import { LoggedInContext } from "../../shared/layout/Layout";
+import UserForm from "./UserForm";
+import Services from "../../shared/enums/Services";
 
 const Register: React.FC = () => {
-  const [error, setError] = useState<Error>();
   const navigate = useNavigate();
+  const { setLoggedIn } = useContext(LoggedInContext);
+  const registerUser = useService(Services.RegisterUser);
 
-  const handleUserRegister = (user: UserDto) => {
-    registerUserClient(user.email, user.password, user.fullName)
-      .then((token) => {
-        sessionStorage.setItem(AuthStorageKeys.TOKEN, token);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(error);
-      });
+  const handleUserRegister = async (user: UserDto) => {
+    try {
+      const result = await registerUser({ payload: user });
+      sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
+      setLoggedIn(true);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -28,7 +30,6 @@ const Register: React.FC = () => {
         <div className="col-md-4 bg-light-subtle rounded border border-2">
           <h4 className="h4 text-center my-4">Register an account with us!</h4>
           <UserForm onSubmit={handleUserRegister} />
-          {error && <p className="text-danger">{error.message}</p>}
         </div>
       </div>
     </div>

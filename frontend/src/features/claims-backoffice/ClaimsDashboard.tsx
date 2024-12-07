@@ -4,23 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { Claim_ } from "../../models/Claim";
 import Title from "../../shared/components/Title";
 import useAsyncEffect from "../../shared/hooks/useAsyncEffect";
-import getClaimsPaginated from "../../shared/services/get-claims-paginated";
+import useService from "../../shared/hooks/useService";
+import Services from "../../shared/enums/Services";
 
 const ClaimsDashboard: FC = () => {
     const [claims, setClaims] = useState<Claim_[]>([])
+    const getClaimsPaginated = useService(Services.GetClaimsPaginated)
 
     useAsyncEffect(async () => {
-        const claims = await getClaimsPaginated(1,20);
+      try {
+        const claims = await getClaimsPaginated({ payload: { page: 1, size: 20 }});
         setClaims(claims)        
-    },[])
+      } catch (error) {}
+    }, [])
 
     const navigate = useNavigate()
 
     return ( 
         <Container>
             <Title title="Pending claims for processing" />
-            
-          <>
             <table className="table">
               <thead>
                 <tr>
@@ -53,8 +55,6 @@ const ClaimsDashboard: FC = () => {
                 ))}
               </tbody>
             </table>
-          </>
-        
         </Container>
      );
 }

@@ -5,7 +5,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { User, UserDto } from "../../models/User";
-import checkValidEmail from "../../shared/services/check-valid-email";
+import Services from "../../shared/enums/Services";
+import useService from "../../shared/hooks/useService";
 
 interface UserFormProps {
   user?: User;
@@ -21,12 +22,13 @@ interface FormData {
 
 const UserForm: FC<UserFormProps> = ({ onSubmit, user }) => {
   const [previousEmail, setPreviousEmail] = useState<string>(user?.email ?? "");
+  const checkValidEmail = useService(Services.CheckValidEmail);
 
   const formSchema = yup.object({
     email: yup
       .string()
       .required("Required field")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, {
+      .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, {
         message: "Invalid email signiture",
       })
       .test(
@@ -37,8 +39,12 @@ const UserForm: FC<UserFormProps> = ({ onSubmit, user }) => {
             return true;
           }
           setPreviousEmail(value);
-          const isValid = await checkValidEmail(value);
-          return isValid;
+          try {
+            const result = await checkValidEmail({ payload: { email: value } });
+            return result.valid;
+          } catch (error) {
+            return false;
+          }
         }
       ),
     fullName: yup.string().required("Required field"),

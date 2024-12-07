@@ -1,8 +1,9 @@
 import React, {ChangeEvent, FormEvent, useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {AuthStorageKeys} from "../../shared/enums/AuthStorageKeys";
-import loginUser from '../../shared/services/login-user';
-import LoggedInContext from '../../shared/hooks/useLoggedIn';
+import { LoggedInContext } from '../../shared/layout/Layout';
+import useService from '../../shared/hooks/useService';
+import Services from '../../shared/enums/Services';
 
 
 interface LoginState {
@@ -20,8 +21,9 @@ const Login: React.FC = () => {
     const { setLoggedIn } = useContext(LoggedInContext);
 
     const navigate = useNavigate();
+    const loginUser = useService(Services.LoginUser, "Welcome back!");
 
-    const handleLogin = (event: FormEvent) => {
+    const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
         if (!state.email || !state.password) {
             setState({
@@ -31,14 +33,14 @@ const Login: React.FC = () => {
             return;
         }
 
-        loginUser(state.email, state.password).then(token => {
-            setState({...state, error: undefined});
-            sessionStorage.setItem(AuthStorageKeys.TOKEN, token);
+        try {
+            const result = await loginUser({ payload: { email: state.email, password: state.password }});
+            sessionStorage.setItem(AuthStorageKeys.TOKEN, result.token);
             setLoggedIn(true);
-            navigate("/");
-        }).catch(err => {
-            setState({...state, error: err.message});
-        });
+            navigate("/");            
+        } catch (error) {
+            setState({...state, error: (error as Error).message});
+        }
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {

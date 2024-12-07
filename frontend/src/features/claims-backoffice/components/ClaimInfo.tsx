@@ -7,9 +7,9 @@ import { PolicyPackage } from "../../../models/PolicyPackage";
 import DocumentPreviewer from "./DocumentPreviewer";
 
 interface ClaimInfoProps {
-  claim: Claim_;
-  docs: ClaimDocument_[];
-  policyPackage: PolicyPackage;
+  claim?: Claim_;
+  docs?: ClaimDocument_[];
+  policyPackage?: PolicyPackage;
 }
 
 const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
@@ -27,7 +27,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
             <InputGroup.Text>
               <i className="bi bi-file-earmark-text-fill"></i>
             </InputGroup.Text>
-            <Form.Control disabled value={claim.policyNumber} />
+            <Form.Control disabled value={claim?.policyNumber} />
           </InputGroup>
         </Form.Group>
         <Form.Group as={Col} md="6" className="mb-4">
@@ -36,7 +36,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
             <InputGroup.Text>
               <i className="bi bi-calendar3"></i>
             </InputGroup.Text>
-            <Form.Control disabled value={moment(claim.submissionDate).format("MM-DD-YYYY")} />
+            <Form.Control disabled value={moment(claim?.submissionDate).format("MM-DD-YYYY")} />
           </InputGroup>
         </Form.Group>
       </Row>
@@ -44,24 +44,24 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
         <Form.Group as={Col} md="4">
           <Form.Label>Claimed amount</Form.Label>
           <InputGroup className="mb-4" as={Col} md="6">
-            <InputGroup.Text>{claim.claimedAmountCurrency}</InputGroup.Text>
-            <Form.Control disabled value={claim.claimedAmount} />
+            <InputGroup.Text>{claim?.claimedAmountCurrency}</InputGroup.Text>
+            <Form.Control disabled value={claim?.claimedAmount} />
           </InputGroup>
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
           <Form.Label>Event Type</Form.Label>
-          <Form.Control disabled value={claim.eventType} />
+          <Form.Control disabled value={claim?.eventType} />
         </Form.Group>
         <Form.Group as={Col} md="4" className="mb-4">
           <Form.Label>Event Date</Form.Label>
-          <Form.Control disabled value={moment(claim.eventDate).format("MM-DD-YYYY")} />
+          <Form.Control disabled value={moment(claim?.eventDate).format("MM-DD-YYYY")} />
         </Form.Group>
       </Row>
       <Form.Group className="mb-4">
         <Form.Label>Additional description:</Form.Label>
         <Form.Control
           disabled
-          value={claim.eventDescription}
+          value={claim?.eventDescription}
           as="textarea"
           rows={3}
         />
@@ -74,8 +74,8 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
             <Form.Group className="mb-4">
               <Form.Label>Policy Type</Form.Label>
               <InputGroup>
-                <InputGroup.Text>{policyPackage.name}</InputGroup.Text>
-                <Form.Control value={policyPackage.policyType} disabled />
+                <InputGroup.Text>{policyPackage?.name}</InputGroup.Text>
+                <Form.Control value={policyPackage?.policyType} disabled />
               </InputGroup>
             </Form.Group>
           </Row>
@@ -84,17 +84,17 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
               <Form.Label>Base Premium</Form.Label>
               <InputGroup>
                 <InputGroup.Text>
-                  {policyPackage.basePremiumCurrency}
+                  {policyPackage?.basePremiumCurrency}
                 </InputGroup.Text>
-                <Form.Control value={policyPackage.basePremium} disabled />
+                <Form.Control value={policyPackage?.basePremium} disabled />
               </InputGroup>
             </Form.Group>
 
             <Form.Group className="mb-4" as={Col} md="6">
               <Form.Label>Duration</Form.Label>
               <InputGroup>
-                <InputGroup.Text>{policyPackage.durationUnit}</InputGroup.Text>
-                <Form.Control value={policyPackage.duration} disabled />
+                <InputGroup.Text>{policyPackage?.durationUnit}</InputGroup.Text>
+                <Form.Control value={policyPackage?.duration} disabled />
               </InputGroup>
             </Form.Group>
           </Row>
@@ -102,7 +102,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
         <Col>
           <Form.Label>Coverage:</Form.Label>
           <ListGroup>
-            {policyPackage.coverage.map((scenario, idx) => (
+            {policyPackage?.coverage.map((scenario, idx) => (
               <ListGroup.Item
                 key={scenario}
                 className={`${idx % 2 === 1 ? "bg-body-tertiary" : ""}`}
@@ -114,7 +114,7 @@ const ClaimInfo: FunctionComponent<ClaimInfoProps> = ({
         </Col>
       </Row>
       <hr className="my-4" />
-      {docs.length !== 0 ? (
+      {docs && docs.length !== 0 ? (
         <>
           <h4>Attached files:</h4>
           {docs.map((doc) => (
